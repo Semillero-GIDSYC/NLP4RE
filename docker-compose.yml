@@ -1,0 +1,13 @@
+services:
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: pgvector_db
+    env_file:
+      ./.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+
+volumes:
+  pgvector_data:
