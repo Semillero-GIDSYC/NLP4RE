@@ -1,3 +1,8 @@
 numpy
 faiss-cpu
 sentence_transformers
+pydantic_settings
+langchain
+langchain_anthropic
+langchain_openai
+python-dotenv
