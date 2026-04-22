@@ -1,0 +1,52 @@
+[
+  {
+    "typeC": "VERIFIABILITY",
+    "description": "A requirement is verifiable if there exists a finite and cost-effective process to check whether the system meets the requirement. Avoid subjective terms like 'fast', 'easy', 'secure', 'sufficient'.",
+    "criterion": {
+      "0": "The requirement uses subjective or unmeasurable terms with no metric whatsoever. There is no way to test it.",
+      "1": "The requirement attempts to include a metric but it is incomplete, imprecise or lacks context such as load conditions or scope.",
+      "2": "The requirement includes a concrete, measurable metric with clear conditions that can be tested objectively."
+    },
+    "source": "ISO/IEC/IEEE 29148:2018, Section 5.2.8"
+  },
+  {
+    "typeC": "ATOMICITY",
+    "description": "A requirement is atomic if it expresses a single idea or function. It should not contain conjunctions that join two or more independent requirements.",
+    "criterion": {
+      "0": "The requirement expresses two or more independent ideas joined by conjunctions like 'and', 'or', 'also'.",
+      "1": "The requirement is mostly atomic but contains a secondary idea that could be separated.",
+      "2": "The requirement expresses exactly one idea and can stand alone without being split further."
+    },
+    "source": "ISO/IEC/IEEE 29148:2018, Section 5.2.8"
+  },
+  {
+    "typeC": "AMBIGUITY",
+    "description": "A requirement is unambiguous if it has one and only one interpretation. Every stakeholder reading it should understand the same thing.",
+    "criterion": {
+      "0": "The requirement uses terms that can be interpreted in multiple ways with no further clarification.",
+      "1": "The requirement is mostly clear but contains at least one term that could lead to different interpretations depending on context.",
+      "2": "The requirement has exactly one possible interpretation. All terms are precise and context is clearly defined."
+    },
+    "source": "ISO/IEC/IEEE 29148:2018, Section 5.2.8"
+  },
+  {
+    "typeC": "COMPLETENESS",
+    "description": "A requirement is complete if it contains all necessary information to implement and verify it: the condition under which it applies, the action the system must take, and the expected result.",
+    "criterion": {
+      "0": "The requirement is missing two or more of the following: condition, action, expected result.",
+      "1": "The requirement includes some necessary information but is missing one key element such as the triggering condition or the expected outcome.",
+      "2": "The requirement clearly states the condition, the action the system must take, and the expected result."
+    },
+    "source": "ISO/IEC/IEEE 29148:2018, Section 5.2.8"
+  },
+  {
+    "typeC": "TRACEABLE",
+    "description": "A requirement is traceable if it can be linked back to its origin such as a stakeholder need, use case or business rule, and forward to its implementation artifacts.",
+    "criterion": {
+      "0": "The requirement has no reference to any origin, stakeholder, use case or business rule.",
+      "1": "The requirement has a partial reference to its origin but it is unclear or incomplete.",
+      "2": "The requirement clearly references its origin and can be linked to a stakeholder need, use case or business rule."
+    },
+    "source": "ISO/IEC/IEEE 29148:2018, Section 5.2.8"
+  }
+]

@@ -1,0 +1,8 @@
+from enum import Enum
+
+class TypeC(Enum):
+    ATOMICITY     = "ATOMICITY"
+    COMPLETENESS  = "COMPLETENESS"
+    AMBIGUITY     = "AMBIGUITY"
+    VERIFIABILITY = "VERIFIABILITY"
+    TRACEABLE     = "TRACEABLE"
