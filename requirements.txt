@@ -6,3 +6,4 @@ langchain
 langchain_anthropic
 langchain_openai
 python-dotenv
+ipykernel
