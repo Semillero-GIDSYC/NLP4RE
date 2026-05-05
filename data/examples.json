@@ -1,0 +1,123 @@
+[
+  {
+    "text": "The system must be fast",
+    "tags": {
+      "VERIFIABILITY": 0,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 0,
+      "COMPLETENESS": 0,
+      "TRACEABLE": 0
+    },
+    "explanations": {
+      "VERIFIABILITY": "The term 'fast' is subjective and has no measurable metric.",
+      "AMBIGUITY": "'Fast' can mean different things to different stakeholders.",
+      "COMPLETENESS": "Missing condition, and expected result. Only states a vague action.",
+      "TRACEABLE": "No reference to any stakeholder, use case or business rule."
+    }
+  },
+  {
+    "text": "The system must respond to search queries in less than 1.5 seconds for 95% of requests under a load of 100 concurrent users",
+    "tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 0
+    },
+    "explanations": {
+      "TRACEABLE": "No reference to any stakeholder, use case or business rule."
+    }
+  },
+  {
+    "text": "The system must allow users to register and delete accounts",
+    "tags": {
+      "VERIFIABILITY": 1,
+      "ATOMICITY": 0,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 0
+    },
+    "explanations": {
+      "VERIFIABILITY": "Registration and deletion are testable but no specific conditions are defined.",
+      "ATOMICITY": "Contains two independent requirements joined by 'and': register and delete.",
+      "AMBIGUITY": "'Users' is not defined. Could refer to any role in the system.",
+      "COMPLETENESS": "Missing the triggering condition and expected result for each action.",
+      "TRACEABLE": "No reference to any stakeholder, use case or business rule."
+    }
+  },
+  {
+    "text": "The system must encrypt user passwords",
+    "tags": {
+      "VERIFIABILITY": 1,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 0
+    },
+    "explanations": {
+      "VERIFIABILITY": "Encryption is testable but no algorithm or standard is specified.",
+      "AMBIGUITY": "'Encrypt' could mean different algorithms with different security levels.",
+      "COMPLETENESS": "Missing which encryption standard to use and under what conditions.",
+      "TRACEABLE": "No reference to any stakeholder, use case or business rule."
+    }
+  },
+  {
+    "text": "The system must encrypt user passwords using bcrypt with a minimum work factor of 12 before storing them in the database",
+    "tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 0
+    },
+    "explanations": {
+      "TRACEABLE": "No reference to any stakeholder, use case or business rule."
+    }
+  },
+  {
+    "text": "The system must be easy to use and also secure",
+    "tags": {
+      "VERIFIABILITY": 0,
+      "ATOMICITY": 0,
+      "AMBIGUITY": 0,
+      "COMPLETENESS": 0,
+      "TRACEABLE": 0
+    },
+    "explanations": {
+      "VERIFIABILITY": "Neither 'easy to use' nor 'secure' have measurable metrics.",
+      "ATOMICITY": "Contains two independent requirements joined by 'and also'.",
+      "AMBIGUITY": "Both 'easy to use' and 'secure' are subjective and open to interpretation.",
+      "COMPLETENESS": "Missing condition, action detail and expected result for both ideas.",
+      "TRACEABLE": "No reference to any stakeholder, use case or business rule."
+    }
+  },
+  {
+    "text": "When a registered user submits a payment, the system must generate a unique order number and send a confirmation email to the registered address within 30 seconds [UC-05, Stakeholder: customer]",
+    "tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 1,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 2
+    },
+    "explanations": {
+      "ATOMICITY": "Contains two actions: generating an order number and sending a confirmation email. Could be split into two requirements."
+    }
+  },
+  {
+    "text": "The system must handle errors",
+    "tags": {
+      "VERIFIABILITY": 0,
+      "ATOMICITY": 1,
+      "AMBIGUITY": 0,
+      "COMPLETENESS": 0,
+      "TRACEABLE": 0
+    },
+    "explanations": {
+      "VERIFIABILITY": "No metric or condition defined to verify error handling.",
+      "AMBIGUITY": "'Handle errors' is vague. Could mean logging, displaying messages, retrying or ignoring.",
+      "COMPLETENESS": "Missing which errors, under what conditions and what the expected behavior is.",
+      "TRACEABLE": "No reference to any stakeholder, use case or business rule."
+    }
+  }
+]
