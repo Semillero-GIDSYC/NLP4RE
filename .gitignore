@@ -1,5 +1,12 @@
-/.env
-**__pycache__
-/docs
 /env
+/venv
+
+/.env
 /.venv
+
+/docs
+/data
+
+**.pyc
+**__pycache__
+**/__pycache__
