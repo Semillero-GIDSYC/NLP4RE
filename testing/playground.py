@@ -1,7 +1,7 @@
 from data.loaders.rule_loader import load_rules
 from data.loaders.example_loader import load_examples
-from embedder.impl.sentence_transform_embedder_impl import SentenceTransformerEmbedderImpl
-from store.vector_store_factory import VectorStoreFactory
+from testing.embedder.impl.sentence_transform_embedder_impl import SentenceTransformerEmbedderImpl
+from testing.store.vector_store_factory import VectorStoreFactory
 
 # 1. Cargar datos
 rules = load_rules()
@@ -47,8 +47,8 @@ print(f"\nTotal guardado: {len(store.listV())} items")
 requisito_prueba = "The system must be easy to use"
 print(f"\nBuscando similares a: '{requisito_prueba}'")
 
-from models.Example import Example
-from models.Types import TypeC
+from testing.models.Example import Example
+from testing.models.Types import TypeC
 
 ejemplo_prueba = Example(
     text=requisito_prueba,

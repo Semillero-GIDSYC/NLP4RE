@@ -1,5 +1,5 @@
 from typing import Any, cast
-from store.vector_store import VectorStore
+from testing.store.vector_store import VectorStore
 import faiss
 import numpy as np
 

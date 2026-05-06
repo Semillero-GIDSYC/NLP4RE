@@ -4,9 +4,6 @@
 /.env
 /.venv
 
-/docs
-/data
-
 **.pyc
 **__pycache__
 **/__pycache__

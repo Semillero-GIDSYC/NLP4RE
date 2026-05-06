@@ -1,6 +1,6 @@
 import json
-from models.Rule import Rule
-from models.Types import TypeC
+from testing.models.Rule import Rule
+from testing.models.Types import TypeC
 
 def load_rules(path: str = "data/raw/rules.json") -> list[Rule]:
     with open(path, "r") as file:

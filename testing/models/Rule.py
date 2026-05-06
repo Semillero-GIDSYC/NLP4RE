@@ -1,4 +1,4 @@
-from models.Types import TypeC
+from testing.models.Types import TypeC
 from dataclasses import dataclass
 
 @dataclass

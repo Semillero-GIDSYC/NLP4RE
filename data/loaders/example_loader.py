@@ -1,6 +1,6 @@
 import json
-from models.Example import Example
-from models.Types import TypeC
+from testing.models.Example import Example
+from testing.models.Types import TypeC
 
 def load_examples(path: str = "data/raw/examples.json") -> list[Example]:
     with open(path, "r") as file:

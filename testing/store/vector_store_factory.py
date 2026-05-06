@@ -1,5 +1,5 @@
-from store.vector_store import VectorStore
-from store.impl.faiss_vector_store_impl import FaissVectorStoreImpl
+from testing.store.vector_store import VectorStore
+from testing.store.impl.faiss_vector_store_impl import FaissVectorStoreImpl
 
 
 class VectorStoreFactory:

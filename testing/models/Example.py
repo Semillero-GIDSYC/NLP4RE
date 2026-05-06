@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from models.Types import TypeC
+from testing.models.Types import TypeC
 
 @dataclass
 class Example():

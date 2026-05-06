@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import numpy as np
-from models.Rule import Rule
-from models.Example import Example
+from testing.models.Rule import Rule
+from testing.models.Example import Example
 
 class Embedder(ABC):
 

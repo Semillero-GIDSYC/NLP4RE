@@ -1,8 +1,8 @@
 from sentence_transformers import SentenceTransformer
-from models.Rule import Rule
-from models.Example import Example
+from testing.models.Rule import Rule
+from testing.models.Example import Example
 import numpy as np
-from embedder.embedder import Embedder
+from testing.embedder.embedder import Embedder
 
 
 class SentenceTransformerEmbedderImpl(Embedder):
