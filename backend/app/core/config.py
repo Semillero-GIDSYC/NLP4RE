@@ -1,8 +1,11 @@
 import os
 from pathlib import Path
 from functools import lru_cache
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+ENV_PATH = BASE_DIR / ".env"
 
 
 class Settings(BaseSettings):
@@ -49,10 +52,12 @@ class Settings(BaseSettings):
             f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         )
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = True
+    model_config = SettingsConfigDict(
+        env_file=str(ENV_PATH) if ENV_PATH.exists() else ".env",
+        env_file_encoding="utf-8",
+        case_sensitive = True,
+        extra="ignore"
+    )
 
 
 @lru_cache()
