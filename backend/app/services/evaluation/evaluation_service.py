@@ -27,6 +27,15 @@ def _get_llm():
             temperature=settings.LLM_TEMPERATURE,
             openai_api_key=settings.OPENAI_API_KEY,
         )
+    elif settings.LLM_PROVIDER == "local":
+        from langchain_openai import ChatOpenAI
+
+        return ChatOpenAI(
+            model=settings.LOCAL_MODEL,
+            temperature=settings.LLM_TEMPERATURE,
+            openai_api_base=settings.LOCAL_MODELS_API,
+            openai_api_key="lm-studio",  # LM Studio doesn't strictly need a real key but expects something
+        )
     else:
         from langchain_google_genai import ChatGoogleGenerativeAI
 

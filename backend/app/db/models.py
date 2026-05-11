@@ -32,7 +32,7 @@ class Requirement(Base):
     text = Column(Text, nullable=False)
     source = Column(String(50), nullable=False, default="manual")
     source_name = Column(String(500), nullable=True)
-    embedding = Column(Vector(768), nullable=True)
+    embedding = Column(Vector, nullable=True)
     metadata_ = Column("metadata", JSON, nullable=True, default=dict)
     created_at = Column(
         DateTime(timezone=True),
@@ -67,7 +67,7 @@ class Document(Base):
     source = Column(String(500), nullable=False)
     page = Column(Integer, nullable=True)
     chunk_index = Column(Integer, nullable=True)
-    embedding = Column(Vector(768), nullable=True)
+    embedding = Column(Vector, nullable=True)
     metadata_ = Column("metadata", JSON, nullable=True, default=dict)
     created_at = Column(
         DateTime(timezone=True),

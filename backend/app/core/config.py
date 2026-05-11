@@ -21,8 +21,7 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = "secretpassword"
     POSTGRES_DB: str = "requirements_db"
 
-    LLM_PROVIDER: str = "gemini"
-
+    LLM_PROVIDER: str = "local" # Defaulting to local now since that's what user is using
     GOOGLE_API_KEY: str = ""
     GEMINI_MODEL: str = "models/gemini-2.5-flash"
     GEMINI_EMBEDDING_MODEL: str = "models/gemini-embedding-001"
@@ -30,6 +29,10 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str = ""
     OPENAI_MODEL: str = "gpt-4o-mini"
     OPENAI_EMBEDDING_MODEL: str = "text-embedding-3-small"
+
+    LOCAL_MODELS_API: str = "http://localhost:1234/v1/"
+    LOCAL_MODEL: str = "google/gemma-3-4b:2"
+    LOCAL_EMBEDDER_MODEL: str = "text-embedding-embeddinggemma-300m"
 
     LLM_TEMPERATURE: float = 0.1
     RETRIEVER_K: int = 3

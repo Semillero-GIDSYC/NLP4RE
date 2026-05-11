@@ -6,7 +6,7 @@ from app.schemas.schemas import (
     RequirementResponse,
     RequirementListResponse,
 )
-from app.services.retriever.retriever_service import retrieve_context, get_vector_store
+from app.services.retriever.retriever_service import retrieve_context
 from app.services.evaluation.evaluation_service import evaluate_requirement
 from app.services.feedback.feedback_service import generate_feedback
 

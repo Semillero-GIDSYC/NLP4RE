@@ -2,6 +2,8 @@ services:
   app:
     build: ./backend
     container_name: nlp4re_api
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     env_file:
       - ./.env
     ports:
