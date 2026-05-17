@@ -1,0 +1,17 @@
+# Dominios posibles:
+- common
+- carpooling
+- booking_system
+- healthcare
+- academic
+- e-commerce
+- social_network
+- banking
+- logistics
+- document_management
+- government
+- hr
+- crm
+- erp
+- iot
+- cybersecurity
