@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import get_settings
 from app.db.session import init_db
 
-from app.api.routes import upload, scrape, analyze, export
+from app.api.routes import analyze
 
 settings = get_settings()
 
@@ -50,10 +50,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(upload.router)
-app.include_router(scrape.router)
 app.include_router(analyze.router)
-app.include_router(export.router)
 
 
 @app.get("/", tags=["Health"])
@@ -66,13 +63,9 @@ async def root():
         "docs": "/docs",
         "llm_provider": settings.LLM_PROVIDER,
         "endpoints": {
-            "upload_pdf": "POST /upload/pdf",
-            "scrape": "POST /scrape",
             "analyze": "POST /analyze",
             "requirements": "GET /requirements",
-            "export_dataset": "GET /export/dataset",
-            "export_chunks": "GET /export/chunks",
-            "scrape_sources": "GET /scrape/sources",
+            "documents": "GET /documents",
         },
     }
 

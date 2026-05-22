@@ -5,6 +5,8 @@ from app.schemas.schemas import (
     AnalyzeResponse,
     RequirementResponse,
     RequirementListResponse,
+    DocumentResponse,
+    DocumentListResponse,
 )
 from app.services.retriever.retriever_service import retrieve_context
 from app.services.evaluation.evaluation_service import evaluate_requirement
@@ -110,3 +112,59 @@ async def list_requirements(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+
+
+@router.get(
+    "/documents",
+    response_model=DocumentListResponse,
+    summary="Listar documentos (chunks) almacenados",
+    description="Retorna los chunks de documentos almacenados en la base de datos, con paginación.",
+)
+async def list_documents(
+    page: int = Query(default=1, ge=1, description="Número de página"),
+    page_size: int = Query(default=20, ge=1, le=100, description="Documentos por página"),
+):
+    """Lista paginada de chunks de documentos del vector store."""
+    try:
+        from app.db.session import SessionLocal
+        from app.db.models import Document as DBDocument
+        from sqlalchemy import func
+
+        db = SessionLocal()
+        try:
+            # Total de documentos
+            total = db.query(func.count(DBDocument.id)).scalar() or 0
+
+            # Paginación
+            offset = (page - 1) * page_size
+            documents = (
+                db.query(DBDocument)
+                .order_by(DBDocument.created_at.desc())
+                .offset(offset)
+                .limit(page_size)
+                .all()
+            )
+
+            return DocumentListResponse(
+                total=total,
+                page=page,
+                page_size=page_size,
+                documents=[
+                    DocumentResponse(
+                        id=d.id,
+                        content=d.content,
+                        source=d.source,
+                        page=d.page,
+                        chunk_index=d.chunk_index,
+                        metadata=d.metadata_,
+                        created_at=d.created_at,
+                    )
+                    for d in documents
+                ],
+            )
+        finally:
+            db.close()
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+

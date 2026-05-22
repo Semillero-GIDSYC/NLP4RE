@@ -37,6 +37,31 @@ class RequirementListResponse(BaseModel):
     requirements: list[RequirementResponse]
 
 
+class DocumentResponse(BaseModel):
+    """Response de un chunk de documento almacenado (sin embedding)."""
+
+    id: UUID
+    content: str
+    source: str
+    page: Optional[int]
+    chunk_index: Optional[int]
+    metadata_: Optional[dict] = Field(alias="metadata")
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+
+class DocumentListResponse(BaseModel):
+    """Response paginada de documentos."""
+
+    total: int
+    page: int
+    page_size: int
+    documents: list[DocumentResponse]
+
+
 class EvaluationScore(BaseModel):
     """Puntuación de una dimensión de evaluación."""
 
