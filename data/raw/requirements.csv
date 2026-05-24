@@ -172,3 +172,215 @@ El sistema debe permitir asignación de rutas de correspondencia y mensajería.,
 El sistema debe permitir generación de planillas de envío.,document_management,professor_example,es,VERIFIABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETENESS:1;TRACEABLE:1,8,ok
 El sistema debe enviar notificaciones al correo del usuario que tramita un documento.,document_management,professor_example,es,VERIFIABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETENESS:1;TRACEABLE:1,6,defect
 El sistema debe permitir personalización de rótulos de adhesivos de correspondencia.,document_management,professor_example,es,VERIFIABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETENESS:1;TRACEABLE:1,6,defect
+The audit report shall include the total number of recycled parts used in the estimate.,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The audit report shall include the number of available recycled parts from the original search results.,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The audit report shall include the percentage of available recycled parts used in the estimate,logistics,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+The audit report shall include the total score of the audit which sums the indivual line items.,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The audit report shall be displayed to the user.,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The audit report shall be available to other adjusters at later points in time.,logistics,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+The user shall select to view the preferred repair facility ratings.,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The current repair facility ratings shall be displayed to the user.,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The system will display a blank set of ratings if there are not ratings yet defined.,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:2;TRACEABLE:1,9,ok
+The user shall enter new ratings based on the audit report,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The ratings shall be from a scale of 1-10,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The ratings shall include categories for attempted use of recycled parts and actual use of recycled parts,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The user shall select to save the preferred repair facility ratings.,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The preferred repair facility ratings shall be saved by the system.,logistics,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product shall record meeting entries.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product will notify employees of meeting invitations.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall have the ability to send meeting reminders to employees.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall assign the organizers contact information to each meeting they create.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:2;TRACEABLE:1,9,ok
+The product will record meeting acknowledgements.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall store new conference rooms.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product shall update existing conference rooms.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product will be able to delete conference rooms.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product shall be able to store new room equipment.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product will update existing room equipment.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product shall be able to delete room equipment.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product shall allow an organizer to invite other employees to meetings.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+Each time a conference room is reserved  the conference room schedule shall be updated to reflect the time and date of the reservation.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:2;TRACEABLE:1,9,ok
+The product shall record the transportation status of equipment reserved.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall display a map of the company building showing conference room locations.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product shall record updated meeting agendas.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product shall send a meeting confirmation to the meeting organizer.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall display room equipment according to search parameters.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall display conference rooms according to search parameters.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall record different meeting types.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall record all the equipment that has been reserved.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product shall notify building personnel of equipment transport requests.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product will allow priviledged users to view meeting schedules in multiple reporting views.,booking_system,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+The product shall be able to send meeting notifications via different kinds of end-user specified methods.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall have a customizable Look and Feel.,booking_system,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The product shall have an intuitive user interface.,booking_system,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The product will display an available status for unreserved conference rooms.,booking_system,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:2;TRACEABLE:1,9,ok
+The System shall allow generation of Inventory Quantity Adjustment documents on demand.,erp,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The System shall allow on demand generation of all Inventory Quantity Adjustment documents since certain point of time.,erp,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+The IQA subsystem shall take into account current inventory status and adjust inventory of substitutionary ingredients accordingly.,erp,kaggle,en,VERIFICABILITY:1;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,5,defect
+The System shall allow entering  storing and modifying product formulas.,erp,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,7,ok
+Product formulas shall allow use of semi-products  which have own formulas.,erp,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+Product formula ingredients shall allow defining substitutionary ingredients.,erp,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+Product formula substitutionary ingredients shall be entered automatically by the PFE subsystem.,erp,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+Formula substitutionary ingredients shall be kept in persisted order,erp,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+Product shall allow entering  storing and modifying product menus used by POS terminals.,erp,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,7,ok
+The system shall have a MDI form that allows for the viewing of the graph and the data table.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,7,ok
+The system shall display Events in a vertical table by time.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The system shall display the Events in a graph by time.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The Disputes System must be accessible by both internal and external users.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,6,defect
+The Disputes System must prevent users from accessing any dispute cases that do not belong to their cardholder base.,banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+The Disputes System will facilitate direct data entry of a dispute case via a user interface that supports real time responses to the users.,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:0;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,5,defect
+The Disputes System must provide different levels of access with regard to disputes case initiation and follow-up actions.,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,6,defect
+The Disputes System shall provide view access capability for authorized users of the application.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The Disputes System shall provide update access capability for authorized users of the application.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The Disputes System must allow the users to select disputable transactions (based on the age of the transaction) from a user interface and initiate a dispute (ticket retrieval request or chargeback notification) on the selected transaction.,banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:0;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,6,defect
+The Disputes System must provide the user the ability to initiate a single dispute case on multiple transactions that belong to a single merchant.,banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+"The Disputes System will provide the user the ability to create or initiate a ticket retrieval request.   As part of ticket retrieval creation process the system must prompt the user to enter all the required information to create the ticket retrieval request. 
+ The ticket retrieval request is a document that is sent to merchant inquiring the validity of a transaction.",banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:0;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,6,defect
+The Disputes System must allow the user to create three unique types of ticket retrieval requests.  The three types of ticket retrieval requests are (1) Request for original receipt (2) Request for a copy of the receipt or (3) Request for a portfolio. A portfolio consists of documentation that would provide proof of a purchase such as the documentation that is received from a car rental agency that is more than a sales receipt.,banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The Disputes System must prevent external users from requesting original receipts. Requests for original receipts are restricted to internal users.,banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+"The Disputes System shall allow the user to create or initiate a chargeback request.  The system must prompt the user to enter the required information to initiate a chargeback request. 
+The chargeback request results in a printed chargeback notification that is sent to merchant indicating that their account will be charged back if no proof is provided that the disputed transaction is valid.",banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:0;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,6,defect
+The Disputes System must provide a confirmation to the user upon the creation of a chargeback request. The confirmation must contain the following information; the dispute case number  the type of chargeback requested (pending or immediate)  and the date that the merchant response is due.,banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The Disputes System shall prevent the creation of duplicate dispute requests 100% of the time.,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,5,defect
+The Disputes System shall accurately provide a list of possible reason codes for a given transaction.  The list of possible reason codes must be derived based on the type of transaction and the industry that the merchant belongs to  according to the business rules defined for the Disputes System.,banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The Disputes System must provide the ability to view existing dispute cases.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,5,defect
+The Disputes System must provide Search functionality.  The search method must include the ability to search by (1) the dispute case number  (2) the merchant account number  (3) the cardmember account number and (4) the issuer number.  In addition to the above criteria  the search functionality must further allow the user to limit the results of the search by a date range  the type of dispute (ticket retrieval request or chargeback notification)  the case status (open  closed or all) and the dispute reason code.,banking,kaggle,en,VERIFICABILITY:2;ATOMICITY:0;AMBIGUITY:2;COMPLETNESS:2;TRACEABLE:1,7,ok
+A list of all disputes cases that meet the entered search criteria must be provided to the user.  The list of cases must differentiate the type and/or status of the case by color -coding the line item in the list.  For example all open cases will be yellow and all closed cases will be gray.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:2;TRACEABLE:1,7,ok
+The Disputes System shall provide the users the ability to view the history of all activities that have occurred on the dispute case.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The Dispute System shall provide the users with the ability to follow up on a dispute case via follow-up actions.  The list of available follow up actions for a given dispute case must be filtered by the status of the case and the access level of the user.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+The Disputes System shall record the name of the user and the date for any activity that creates or modifies the disputes case in the system.  A detailed history of the actions taken on the case  including the date and the user that performed the action must be maintained for auditing purposes.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,7,ok
+For any systematic (non-user initiated) action that occurs on a case such as the disputes aging process  a case activity will be generated.  Upon the next logon the user that initiated the dispute case must be notified that a systematic action has occurred on the dispute case.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+All letter requests must be formatted according to guidelines specified by the Print Letter Utility system.,common,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,4,defect
+Any disputes cases that have been closed for over 6 months must be purged from the online disputes database.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The user shall search for the preferred repair facility using vehicle  vehicle location  and radius in miles,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The vehicle data shall include vehicle year  make  and model,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The vehicle location shall include street address  city  state  and zipcode,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The system shall resolve the zipcode for the street address  city  and state if zipcode is unknown.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The search radius shall be between 1 and 30 miles,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:0,6,defect
+The system shall locate the preferred repair facility with the highest ratings for the input criteria,insurance,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+The adjuster shall enter the preferred repair facility on the estimate assignment.,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,6,defect
+The adjuster shall be able to override the preferred repair facitlity on the estimate assignment.,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The preferred repair facility shall be returned to the user.,insurance,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+The system shall return a list of repair facilities within the radius if the preferred repair facility cannot be determined.,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The estimator shall search for available recycled parts using damaged vehicle parts information.,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The estimator shall search for available recycled parts using a list of preferred parts suppliers.,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The system shall search for available recycled parts for the supplied vehicle parts and suppliers.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,6,defect
+The estimator shall search by zipcode with a radius of 30 miles if no parts are found for the preferred parts suppliers,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The system shall retain the available recycled parts and suppliers returned from the search.,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+The available recycled parts information and their suppliers shall be returned to the user.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,6,defect
+The estimator shall apply selected recycled parts to the collision estimate.,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The estimator shall not apply recycled parts to the collision estimate if no available parts are returned.,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The adjuster shall review the collision estimate.,insurance,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The adjuster shall request a recycled parts audit of the collision estimate.,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The recycled parts search results provided to the estimator shall be retrieved by the system.,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,5,defect
+The system shall generate an audit report based on the available recycled parts and the collision estimate.,insurance,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+PME Subsystem shall allow building product menus based on the list of products kept in the accounting system.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:1,5,defect
+PME Subsystem shall allow keeping submenus within menus and products within submenus in a managed and persisted order.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The RMS System shall have Windows XP look and feel and use GUI futures making its use intuitive.,common,kaggle,en,VERIFICABILITY:0;ATOMICITY:0;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,2,defect
+The System shall generate Inventory Quantity Adjustment document based on product daily sales data and product formulas.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The System shall generate Inventory Quantity Adjustment document automatically when daily Product Sales data is available.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+ The website will allow customers to search for movies by title  actor  or director.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+ viewing a movie details  the website will display the movies description  actor  and director entered in by the administrator.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,7,ok
+ Website shall request  and authorize credit card payment before allowing a user to stream a movie.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:0;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,7,ok
+ shall be able to stream purchased movie via Windows Media Player  for up to 2 days aftere purchase date.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,7,ok
+Website shall allow customers to view reviews of selected movies by other customers.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+Website shall allow customers to add their own movie review for a selected movie.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+Website shall allow the Izogn administrator to approve a review posted by a customer.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+System will allow customers to pay for a streaming movie with a pre-paid card.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+ Website shall allow customers to purchase pre-paid cards of $5  $10  or $20 value either by credit card or mail-in payment option.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+ System shall automatically update the main page of the website every Friday  and show the 4 latest movies that have been added to the website.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+System shall allow users to update their billing and contact information via the  My Account  section of the website.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,7,ok
+ Pre-paid cards shall be distributed via email  or via a printed paper card.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:2,7,ok
+Only registered customers can purchase streaming movies.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+ Movies can only be streamed if the customer has purchased a movie  and is within the 2-day time period to stream the movie.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+Website must be able to support free trial periods with various parameters set by the Izogn Manager.,streaming,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:;TRACEABLE:1,3,defect
+ All streaming movie sales will be logged in the database  and accessible by the administrator.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:1,6,defect
+ All registered customer information shall be stored and maintained in the database  even after the customer cancels their account.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+ Daily usage statistics should be logged  and accessible by the administrator.,common,kaggle,en,VERIFICABILITY:0;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:1,3,defect
+The owner shall have free access to all of the streaming movies.,streaming,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The vendor will verify the invalid lead.,common,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+Vendor will submit a credit validation record to be applied to the enterprise billing system.,banking,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,4,defect
+If a lead is scored to the high range the system will supply the lead data and score to the enterprise system.,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,4,defect
+The leads washing functionality will validate all leads received by the web service for valid data,crm,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The leads washing functionality will insert all leads captured by the web service.,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,4,defect
+If the leads score falls within the high average score then it will be process by the ARA functionality.,crm,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:1,4,defect
+If the leads score falls within the medium average then it will be set for manual verification by an Enrollment Coordinator through the eleads system.,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,4,defect
+If the leads score falls within the low average then it will be returned to the supplying vendor,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,4,defect
+The leads washing functionality will compile both contact and academic scoring information for a total score.,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:1;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The leads washing functionality will use the parameters supplied by corporate and schools to score part of the lead.,crm,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The leads washing functionality will return the lead data supplied to the vendor along with the reason of rejection.,crm,kaggle,en,VERIFICABILITY:2;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,7,ok
+The leads washing functionality will have an interface in which lead data parameters can be maintained.,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,4,defect
+The leads washing functionality will verify the users authentication and rights to make parameter updates.,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:1,4,defect
+The leads washing functionality will store any potential lead duplicates returned by the enterprise system.,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:1,5,defect
+Prior to submitting the lead to the enterprise system the leads washing functionality will assign the lead to an admissions rep.,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:2,6,defect
+The leads washing functionality shall receive a period list of available reps from the enterprise system.,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:2,6,defect
+The product shall maintain a list of players.,games,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:0,3,defect
+The product shall allow a user to identify himself or herself as a player.,games,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:0,3,defect
+ Once a game has been initiated  the product shall make the players assigned to the game unavailable for selection from the list of players.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:1,8,ok
+The product shall allow a user to remove himself or herself from the list of players at any time.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall make inactive players unavailable for selection from the list of players.,games,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,5,defect
+The product shall remove players who have been inactive for 24 hours from the list of players.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The product shall allow a player to initiate a game by selecting another available player from the list of players.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+ Once a game is initiated  the product shall display a defensive grid to each player,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+ Once a game is initiated  the product shall display an offensive grid to each player.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The product shall prevent a player from viewing the offensive or defensive grids of the other player.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+ Once a game is initiated  the product shall allow each player to position their 5 ships on their respective defensive grids.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The product shall allow a player to position ships horizontally on their grid.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+The product shall allow the player to position ships vertically on their grid.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+The product shall allow the player to position ships diagonally on their grid,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The product shall prevent the player from overlapping ships on their grid.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+ When both players have positioned their 5 ships on their defensive grids  the product shall define the status of each player for the first turn.,games,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,4,defect
+ For each turn  the product shall identify one player as offensive status and one player as defensive status.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+ The product shall maintain the status of each player for a turn  either offensive or defensive.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+ At the start of each turn  the product shall notify each player of his or her status.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+ For each turn  the product shall allow the offensive player to define a shot.,games,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:1;TRACEABLE:1,5,defect
+ For each shot  the product shall examine the defensive grid of the defensive player to determine whether the shot was a hit or miss.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+ For each shot  the product shall notify the players whether the shot was a hit or miss.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+ For each shot  the product shall mark the shot as a hit or miss on the defensive grid of the defensive player.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+ For each shot  the product shall mark the shot as a hit or miss on the offensive grid of the offensive player.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+When the hit results in sinking a ship  the product shall notify the players that the ship was sunk.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+When the hit results in sinking a ship  the product shall mark the ship as sunk on the defensive grid of the defensive player.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+When the hit results in sinking a ship  the product shall indicate the type of ship sunk on the defensive grid of the defensive player.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:2,7,ok
+When the hit results in sinking a ship  the product shall mark the ship as sunk on the offensive grid of the offensive player.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+If the shot was marked as a hit  the product shall allow the offensive player to define a shot.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+If the shot was marked as a miss  the product shall change the status of the offensive player to defensive,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+If the shot was marked as a miss  the product shall change the status of the defensive player to offensive,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+The product shall continue to assign turns until the game is ended.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The product shall end a game when a hit by the offensive player results in sinking the last of the defensive player s ships  which had not been previously marked as sunk.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+The product shall allow a player to end a game at any time during the game.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+When a game is ended  the product shall notify the players that the game is ended.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:2,7,ok
+The notification of the game ending will include the reason the game is ended (i.e.  a player has won the game or a player has ended the game).,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+When a game is ended  the product shall allow each player to identify himself or herself as an available player in the list of players.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+When a game is ended  the product shall allow each player to remove himself or herself from the list of players.,games,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+The system shall allow a real estate agent to query MLS information,e-commerce,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,4,defect
+The user shall be able to get driving directions to a selected property,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The user shall be able to download appointments and contact information for clients,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:1;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:1,4,defect
+The system shall display clear property images in the search results,e-commerce,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The system shall be able to call the seller or buyer to schedule an appointment,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:1;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The realtor shall be notified of new client appointments after automatic synchronization with office system,crm,kaggle,en,VERIFICABILITY:1;ATOMICITY:1;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The realtor shall be able to retrieve a map showing property locations for a specified area,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The system shall notify the realtor when a seller or buyer responds to an appointment request,crm,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The product shall allow the user to save the property search results.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+A cohort shall be associated to one Program of Study offered by the department.,academic,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+Program Administrators and Nursing Staff Members shall be able to add a listing of students to a cohort.,academic,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+Program Administrators and Nursing Staff Members shall be able to add a single student to a cohort,academic,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+Students added to a cohort shall be eligible for the cohort s Program of Study.,academic,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:2,6,defect
+Program Administrators and Nursing Staff Members shall be able to specify the preferred sequence of classes for a given cohort.,academic,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+ For each class within a sequence for a cohort  Program Administrators and Nursing Staff Members shall be able to specify which quarter that class will be offered.,academic,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
+Program Administrators and Nursing Staff Members shall be able to add new classes to a sequence of classes,academic,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+The system shall display data from the Sync Matrix 1.0 and Exercise Management Tool 1.0 applications,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:1;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The system shall link Events back to either the Sync Matrix 1.0 or the Exercise Managment Tool 1.0 applications for modifications.,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:1;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,3,defect
+The system shall allow modification of the display.,common,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:0,2,defect
+The system shall offer a display of all the Events in the exercise.,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,4,defect
+The system shall allow a user to define the time segments,common,kaggle,en,VERIFICABILITY:0;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:0,2,defect
+The system shall display the local and exercise time in separate clocks,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The system shall offer the ability to pause and resume the refresh of data.,common,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,7,ok
+The system shall provide charts for the Activity or Event actual versus assumed time.,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+The system will use the stored e-mail addresses as a primary means of communicating information to affected parties.,common,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+ The system will notify affected parties for routine communication purposes  including but not limited to informing students of upcoming offered classes (timeline) and what their schedule will be/shall be.,academic,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:1,6,defect
+ The system will notify affected parties when changes occur affecting clinicals  including but not limited to clinical section capacity changes  and clinical section cancellations.,academic,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:0;COMPLETNESS:0;TRACEABLE:1,4,defect
+ The system will notify affected parties when changes occur affecting classes  including but not limited to class cancellations  class section detail changes  and changes to class offerings for a given quarter.,academic,kaggle,en,VERIFICABILITY:1;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:0;TRACEABLE:1,5,defect
+All users should be able to go back to the product category page via the back button in the top corner.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+A user can select the desired product from the results and proceed to the product details.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+Once the icon is selected two open text field will be available to the user to search for the product name - by product ID/SKU or by keyword.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+All Users will be able to view the next product by swiping left to right .,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:1;COMPLETNESS:1;TRACEABLE:2,8,ok
+All users should be able to search by keyword or product ID.,e-commerce,kaggle,en,VERIFICABILITY:2;ATOMICITY:2;AMBIGUITY:2;COMPLETNESS:1;TRACEABLE:2,9,ok
