@@ -19,7 +19,7 @@ def _get_llm():
     """
     settings = get_settings()
 
-    if settings.LLM_PROVIDER == "openai":
+    if settings.GENERATION_LLM_PROVIDER == "openai":
         from langchain_openai import ChatOpenAI
 
         return ChatOpenAI(
@@ -27,7 +27,7 @@ def _get_llm():
             temperature=settings.LLM_TEMPERATURE,
             openai_api_key=settings.OPENAI_API_KEY,
         )
-    elif settings.LLM_PROVIDER == "local":
+    elif settings.GENERATION_LLM_PROVIDER == "local":
         from langchain_openai import ChatOpenAI
 
         return ChatOpenAI(

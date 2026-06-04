@@ -21,7 +21,8 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = "secretpassword"
     POSTGRES_DB: str = "requirements_db"
 
-    LLM_PROVIDER: str = "local" # Defaulting to local now since that's what user is using
+    LLM_PROVIDER: str = "local" # For embeddings
+    GENERATION_LLM_PROVIDER: str = "gemini" # For generation tasks
     GOOGLE_API_KEY: str = ""
     GEMINI_MODEL: str = "models/gemini-2.5-flash"
     GEMINI_EMBEDDING_MODEL: str = "models/gemini-embedding-001"
