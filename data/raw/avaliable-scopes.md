@@ -19,3 +19,4 @@
 - insurance
 - streaming
 - games
+- agriculture
