@@ -83,10 +83,10 @@ def _build_evaluation_prompt(examples_str: str) -> ChatPromptTemplate:
     ejemplos recuperados de la DB y contexto normativo.
     """
     # Definición estática de las reglas basadas en la ISO 29148
-    rules_str = """1. VERIFIABILITY (Verificabilidad): Mide si existe un proceso finito y costo-efectivo para comprobar que el sistema cumple el requisito. Evitar términos subjetivos como 'rápido', 'fácil', 'seguro'.
-   - Nivel 0: El requisito usa términos subjetivos o no medibles sin ninguna métrica. No se puede probar.
+    rules_str = """1. VERIFIABILITY (Verificabilidad): Mide si existe un proceso finito y costo-efectivo para comprobar que el sistema cumple el requisito. Evitar términos subjetivos.
+   - Nivel 0: El requisito usa términos subjetivos o no medibles (ej. 'rápido', 'fácil', 'seguro', 'estadísticas de uso' sin definir métricas). No se puede probar objetivamente.
    - Nivel 1: El requisito intenta incluir una métrica pero es incompleta, imprecisa o carece de contexto.
-   - Nivel 2: El requisito incluye una métrica concreta, medible y objetiva bajo condiciones de prueba claras.
+   - Nivel 2: El requisito incluye una métrica concreta, medible y objetiva bajo condiciones de prueba claras (ej. valores numéricos específicos, porcentajes o estados booleanos claros).
 
 2. ATOMICITY (Atomicidad): Mide si el requisito expresa una única idea o función. No debe contener conjunciones que unan dos o más requisitos independientes.
    - Nivel 0: Expresa dos o más ideas independientes unidas por conjunciones como 'y', 'o', 'además'.
@@ -100,13 +100,13 @@ def _build_evaluation_prompt(examples_str: str) -> ChatPromptTemplate:
 
 4. COMPLETENESS (Completitud): Mide si contiene toda la información necesaria para implementarlo y verificarlo (condición bajo la que aplica, acción del sistema y resultado esperado).
    - Nivel 0: Faltan dos o más elementos clave (condición, acción o resultado esperado).
-   - Nivel 1: Incluye parte de la información pero carece de un elemento clave (por ejemplo, la condición de activación).
-   - Nivel 2: Declara claramente la condición, la acción del sistema y el resultado esperado.
+   - Nivel 1: Mencionó la condición y la acción, pero no define un resultado o efecto esperado explícito. O le falta la condición de activación.
+   - Nivel 2: Declara claramente y sin omisiones: la condición de activación (cuándo), la acción del sistema (qué) y el resultado o salida esperada (efecto visible).
 
-5. TRACEABLE (Trazabilidad): Mide si el requisito se puede vincular a su origen (necesidad de un stakeholder, caso de uso, rol, regla de negocio).
-   - Nivel 0: No hace referencia a ningún origen, stakeholder, rol, caso de uso (UC) o regla de negocio.
-   - Nivel 1: Referencia parcial o incompleta a su origen.
-   - Nivel 2: Referencia de manera clara y explícita su origen (por ejemplo: "El administrador...", "Basado en el caso de uso UC-04...")."""
+5. TRACEABLE (Trazabilidad): Mide si el requisito se puede vincular a su origen.
+   - Nivel 0: No hace referencia a ningún actor, stakeholder, rol, caso de uso o regla de negocio.
+   - Nivel 1: Solo menciona a un actor genérico (ej. "El administrador...", "The user...", "todos los actores") o implica un flujo general, sin vincularse a un código o identificador formal de caso de uso o requisito origen.
+   - Nivel 2: Referencia de manera clara, explícita y formal su origen o documento fuente mediante un identificador o código formal (ej. "según el caso de uso UC-04", "requisito de negocio BR-12")."""
 
     template = f"""Eres un experto en Ingeniería de Requisitos.
 Se te proporcionará contexto normativo basado en la ISO 29148.
@@ -134,7 +134,7 @@ INSTRUCCIONES DE PUNTUACIÓN GENERALES:
    - ¡CUIDADO! No asignes 0 para significar "cero ambigüedades". 0 significa "Altamente Ambiguo" (Malo). Para indicar "Sin ambigüedad" debes asignar 2.
 3. Para la dimensión "TRACEABLE":
    - Mide si hay referencia explícita al origen.
-   - REGLA ESTRICTA: Si el requerimiento no menciona explícitamente a un actor, stakeholder, rol, caso de uso (UC) o regla de negocio de origen, el puntaje de TRACEABLE debe ser 0. No alucines trazabilidad implícita basada únicamente en que el requerimiento parece correcto o alineado con la seguridad. Debe haber mención textual y explícita del actor o stakeholder.
+   - REGLA ESTRICTA: Si el requerimiento no menciona un identificador o código formal (como "UC-04" o "BR-12"), pero sí menciona un actor genérico o rol (como "El administrador"), el puntaje de TRACEABLE debe ser 1 (No 2). Si no menciona absolutamente ningún actor ni origen, debe ser 0.
 
 INSTRUCCIONES DE SALIDA:
 Analiza el requerimiento y devuelve EXACTAMENTE un JSON válido con la siguiente estructura (conservando la clave "AMBIGUITY" para compatibilidad con la base de datos):
@@ -183,8 +183,8 @@ def evaluate_requirement(
     """
     from app.services.retriever.retriever_service import retrieve_examples
 
-    # 1. Recuperar 15 ejemplos dinámicos de requerimientos
-    examples_list = retrieve_examples(requirement_text, k=15)
+    # 1. Recuperar 8 ejemplos dinámicos de requerimientos
+    examples_list = retrieve_examples(requirement_text, k=8)
     examples_str = _format_db_examples(examples_list)
 
     llm = _get_llm()
