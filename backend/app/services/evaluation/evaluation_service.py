@@ -46,64 +46,76 @@ def _get_llm():
         )
 
 
-def _load_rules() -> str:
-    """Carga y formatea las reglas de evaluación desde rules.json."""
-    settings = get_settings()
-    rules_path = Path(settings.DOCS_DIR) / "rules.json"
-
-    if not rules_path.exists():
-        return "No se encontraron reglas de evaluación."
-
-    with open(rules_path, "r", encoding="utf-8") as f:
-        rules_data = json.load(f)
-
-    rules_str = ""
-    for r in rules_data:
-        rules_str += f"- {r['typeC']}: {r['description']}\n"
-        for level, desc in r["criterion"].items():
-            rules_str += f"  * Nivel {level}: {desc}\n"
-
-    return rules_str
-
-
-def _load_examples() -> str:
-    """Carga y formatea los ejemplos de evaluación desde examples.json."""
-    settings = get_settings()
-    examples_path = Path(settings.DOCS_DIR) / "examples.json"
-
-    if not examples_path.exists():
-        return "No se encontraron ejemplos."
-
-    with open(examples_path, "r", encoding="utf-8") as f:
-        examples_data = json.load(f)
+def _format_db_examples(examples: list[dict]) -> str:
+    """Formatea los requerimientos de ejemplo recuperados de la DB."""
+    if not examples:
+        return "No se encontraron ejemplos de requerimientos en la base de datos."
 
     examples_str = ""
-    for idx, ex in enumerate(examples_data):
-        examples_str += f"Ejemplo {idx + 1}:\nRequerimiento: {ex['text']}\nEvaluación:\n"
-        for tag, score in ex["tags"].items():
-            explanation = ex["explanations"].get(tag, "OK")
-            examples_str += f" - {tag}: {score} ({explanation})\n"
+    for idx, ex in enumerate(examples):
+        text = ex["text"]
+        meta = ex["metadata"] or {}
+        tag_str = meta.get("tags", "")
+
+        # Parse tags like "VERIFIABILITY:1;ATOMICITY:0;AMBIGUITY:1;COMPLETENESS:1;TRACEABLE:1"
+        tags = {}
+        if isinstance(tag_str, str):
+            for pair in tag_str.split(';'):
+                if ':' in pair:
+                    k, v = pair.split(':')
+                    try:
+                        tags[k.strip().upper()] = int(v.strip())
+                    except ValueError:
+                        pass
+
+        examples_str += f"Ejemplo {idx + 1}:\nRequerimiento: {text}\nEvaluación:\n"
+        for dim in ["VERIFIABILITY", "ATOMICITY", "AMBIGUITY", "COMPLETENESS", "TRACEABLE"]:
+            score = tags.get(dim, 0)
+            examples_str += f" - {dim}: {score}\n"
         examples_str += "\n"
 
     return examples_str
 
 
-def _build_evaluation_prompt() -> ChatPromptTemplate:
+def _build_evaluation_prompt(examples_str: str) -> ChatPromptTemplate:
     """
-    Construye el prompt de evaluación con reglas, ejemplos y contexto.
-    Usa el mismo enfoque probado en rag.ipynb pero con output JSON estructurado.
+    Construye el prompt de evaluación con reglas del sistema (ISO 29148),
+    ejemplos recuperados de la DB y contexto normativo.
     """
-    rules_str = _load_rules()
-    examples_str = _load_examples()
+    # Definición estática de las reglas basadas en la ISO 29148
+    rules_str = """1. VERIFIABILITY (Verificabilidad): Mide si existe un proceso finito y costo-efectivo para comprobar que el sistema cumple el requisito. Evitar términos subjetivos como 'rápido', 'fácil', 'seguro'.
+   - Nivel 0: El requisito usa términos subjetivos o no medibles sin ninguna métrica. No se puede probar.
+   - Nivel 1: El requisito intenta incluir una métrica pero es incompleta, imprecisa o carece de contexto.
+   - Nivel 2: El requisito incluye una métrica concreta, medible y objetiva bajo condiciones de prueba claras.
+
+2. ATOMICITY (Atomicidad): Mide si el requisito expresa una única idea o función. No debe contener conjunciones que unan dos o más requisitos independientes.
+   - Nivel 0: Expresa dos o más ideas independientes unidas por conjunciones como 'y', 'o', 'además'.
+   - Nivel 1: Es mayormente atómico pero contiene una idea secundaria que podría separarse.
+   - Nivel 2: Expresa exactamente una única idea y no puede dividirse más.
+
+3. CLARITY / UNAMBIGUITY (Ambigüedad/Claridad): Mide si el requisito tiene una sola interpretación posible para todos los interesados.
+   - Nivel 0: Usa términos sumamente ambiguos o vagos con múltiples interpretaciones. (Altamente Ambiguo - Calidad Mala).
+   - Nivel 1: Es mayormente claro pero tiene al menos un término que podría malinterpretarse.
+   - Nivel 2: Tiene una única interpretación posible. Todos los términos son precisos y el contexto está definido. (Libre de Ambigüedades - Calidad Óptima).
+
+4. COMPLETENESS (Completitud): Mide si contiene toda la información necesaria para implementarlo y verificarlo (condición bajo la que aplica, acción del sistema y resultado esperado).
+   - Nivel 0: Faltan dos o más elementos clave (condición, acción o resultado esperado).
+   - Nivel 1: Incluye parte de la información pero carece de un elemento clave (por ejemplo, la condición de activación).
+   - Nivel 2: Declara claramente la condición, la acción del sistema y el resultado esperado.
+
+5. TRACEABLE (Trazabilidad): Mide si el requisito se puede vincular a su origen (necesidad de un stakeholder, caso de uso, rol, regla de negocio).
+   - Nivel 0: No hace referencia a ningún origen, stakeholder, rol, caso de uso (UC) o regla de negocio.
+   - Nivel 1: Referencia parcial o incompleta a su origen.
+   - Nivel 2: Referencia de manera clara y explícita su origen (por ejemplo: "El administrador...", "Basado en el caso de uso UC-04...")."""
 
     template = f"""Eres un experto en Ingeniería de Requisitos.
 Se te proporcionará contexto normativo basado en la ISO 29148.
-Tu tarea es evaluar un requerimiento según las reglas y ejemplos proporcionados.
+Tu tarea es evaluar un requerimiento según las reglas y ejemplos de referencia proporcionados.
 
-Reglas de evaluación:
+Reglas de evaluación (ISO 29148):
 {rules_str}
 
-Ejemplos de referencia:
+Ejemplos de referencia recuperados dinámicamente de la base de datos (con sus puntajes reales del dataset):
 {examples_str}
 
 Contexto normativo recuperado de la ISO:
@@ -112,14 +124,26 @@ Contexto normativo recuperado de la ISO:
 Requerimiento a evaluar:
 {{requirement}}
 
-INSTRUCCIONES:
-Analiza el requerimiento y devuelve EXACTAMENTE un JSON válido con la siguiente estructura:
+INSTRUCCIONES DE PUNTUACIÓN GENERALES:
+1. Para todas las dimensiones, incluyendo "AMBIGUITY" (Claridad) y "TRACEABLE" (Trazabilidad):
+   - Un puntaje de 0 es el PEOR caso (defecto completo: altamente ambiguo / nula trazabilidad / no verificable / no atómico).
+   - Un puntaje de 1 es el caso PARCIAL o intermedio.
+   - Un puntaje de 2 es el MEJOR caso (calidad óptima: nula ambigüedad o total claridad / excelente trazabilidad / totalmente verificable / totalmente atómico).
+2. Para la dimensión "AMBIGUITY" (Claridad / No ambigüedad):
+   - Mide la CLARIDAD del requerimiento. Un requerimiento sin ambigüedad debe evaluarse con puntaje 2 (Excelente calidad).
+   - ¡CUIDADO! No asignes 0 para significar "cero ambigüedades". 0 significa "Altamente Ambiguo" (Malo). Para indicar "Sin ambigüedad" debes asignar 2.
+3. Para la dimensión "TRACEABLE":
+   - Mide si hay referencia explícita al origen.
+   - REGLA ESTRICTA: Si el requerimiento no menciona explícitamente a un actor, stakeholder, rol, caso de uso (UC) o regla de negocio de origen, el puntaje de TRACEABLE debe ser 0. No alucines trazabilidad implícita basada únicamente en que el requerimiento parece correcto o alineado con la seguridad. Debe haber mención textual y explícita del actor o stakeholder.
+
+INSTRUCCIONES DE SALIDA:
+Analiza el requerimiento y devuelve EXACTAMENTE un JSON válido con la siguiente estructura (conservando la clave "AMBIGUITY" para compatibilidad con la base de datos):
 {{{{
-  "VERIFIABILITY": {{{{"score": <0|1|2>, "explanation": "<explicación concisa>"}}}},
-  "ATOMICITY": {{{{"score": <0|1|2>, "explanation": "<explicación concisa>"}}}},
-  "AMBIGUITY": {{{{"score": <0|1|2>, "explanation": "<explicación concisa>"}}}},
-  "COMPLETENESS": {{{{"score": <0|1|2>, "explanation": "<explicación concisa>"}}}},
-  "TRACEABLE": {{{{"score": <0|1|2>, "explanation": "<explicación concisa>"}}}}
+  "VERIFIABILITY": {{{{"score": <0|1|2>, "explanation": "<explicación concisa en español>"}}}},
+  "ATOMICITY": {{{{"score": <0|1|2>, "explanation": "<explicación concisa en español>"}}}},
+  "AMBIGUITY": {{{{"score": <0|1|2>, "explanation": "<explicación concisa en español de la claridad o falta de ambigüedad del requisito>"}}}},
+  "COMPLETENESS": {{{{"score": <0|1|2>, "explanation": "<explicación concisa en español>"}}}},
+  "TRACEABLE": {{{{"score": <0|1|2>, "explanation": "<explicación concisa en español>"}}}}
 }}}}
 
 IMPORTANTE:
@@ -157,9 +181,14 @@ def evaluate_requirement(
     Returns:
         Diccionario con evaluación estructurada por dimensión.
     """
+    from app.services.retriever.retriever_service import retrieve_examples
+
+    # 1. Recuperar 15 ejemplos dinámicos de requerimientos
+    examples_list = retrieve_examples(requirement_text, k=15)
+    examples_str = _format_db_examples(examples_list)
 
     llm = _get_llm()
-    prompt = _build_evaluation_prompt()
+    prompt = _build_evaluation_prompt(examples_str)
     context_str = _format_context(context_docs)
 
     # Ejecutar cadena LLM

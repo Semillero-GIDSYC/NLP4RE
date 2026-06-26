@@ -77,3 +77,51 @@ def retrieve_context(query: str, k: Optional[int] = None) -> list[Document]:
         return docs
     finally:
         db.close()
+
+
+def retrieve_examples(query: str, k: int = 15) -> list[dict]:
+    """
+    Recupera los requerimientos de ejemplo más similares de la tabla 'requirements'
+    usando similitud del coseno sobre sus embeddings.
+    """
+    embeddings_model = get_embeddings()
+    query_embedding = embeddings_model.embed_query(query)
+    
+    db = SessionLocal()
+    try:
+        # Buscar en base a similitud del coseno en pgvector
+        results = (
+            db.query(DBRequirement)
+            .order_by(DBRequirement.embedding.cosine_distance(query_embedding))
+            .limit(k)
+            .all()
+        )
+        
+        examples = []
+        for r in results:
+            # Evitar usar el mismo requerimiento de entrada como ejemplo si coincide exactamente
+            if r.text.strip().lower() == query.strip().lower():
+                continue
+            examples.append({
+                "text": r.text,
+                "metadata": r.metadata_ or {}
+            })
+            
+        # Si excluimos el actual y nos quedamos con menos de k, podemos tomar un elemento extra
+        if len(examples) < k:
+            extra_results = (
+                db.query(DBRequirement)
+                .order_by(DBRequirement.embedding.cosine_distance(query_embedding))
+                .offset(len(results))
+                .limit(k - len(examples))
+                .all()
+            )
+            for r in extra_results:
+                examples.append({
+                    "text": r.text,
+                    "metadata": r.metadata_ or {}
+                })
+                
+        return examples[:k]
+    finally:
+        db.close()

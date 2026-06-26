@@ -36,7 +36,7 @@ class Settings(BaseSettings):
     LOCAL_EMBEDDER_MODEL: str = "text-embedding-embeddinggemma-300m"
 
     LLM_TEMPERATURE: float = 0.1
-    RETRIEVER_K: int = 3
+    RETRIEVER_K: int = 5
 
     DOCS_DIR: str = Field(default="/app/docs")
 

@@ -33,7 +33,7 @@ async def analyze_requirement(request: AnalyzeRequest):
     3. Generar feedback y versión mejorada con LLM.
     """
     try:
-        context_docs = retrieve_context(request.text)
+        context_docs = retrieve_context(request.text, k=3)
         context_texts = [doc.page_content for doc in context_docs]
 
         evaluation = evaluate_requirement(

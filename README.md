@@ -51,14 +51,11 @@ docker compose up --build
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
-| `POST` | `/analyze` | Evaluar un requisito |
-| `POST` | `/upload/pdf` | Subir PDF y extraer requisitos |
-| `POST` | `/scrape` | Scrapear requisitos de una URL |
-| `GET` | `/requirements` | Listar requisitos almacenados |
-| `GET` | `/export/dataset` | Exportar requisitos como JSON |
-| `GET` | `/export/chunks` | Exportar chunks de pgvector |
-| `GET` | `/scrape/sources` | Fuentes sugeridas para scraping |
-| `GET` | `/health` | Estado del sistema |
+| `GET` | `/` | Health check y bienvenida |
+| `GET` | `/health` | Estado detallado del sistema |
+| `POST` | `/analyze` | Evaluar un requisito (pipeline RAG + LLM) |
+| `GET` | `/requirements` | Listar requisitos almacenados en base de datos |
+| `GET` | `/documents` | Listar chunks de documentos de referencia (ISO 29148) |
 
 ## Ejemplo rápido
 
@@ -85,15 +82,41 @@ Respuesta (resumida):
 }
 ```
 
-## Configuración LLM
+## Modelos y Configuración LLM
 
-El sistema soporta **Gemini** y **OpenAI**. Cambia el proveedor en `.env`:
+El sistema cuenta con soporte multi-proveedor y permite configurar diferentes modelos para las tareas de **Embeddings** y **Generación/Evaluación** en el archivo `.env`:
 
+### 1. Modelos en Uso
+*   **Modelo de Generación / Evaluación**: `models/gemini-2.5-flash` (por defecto en la nube, usando `GOOGLE_API_KEY`) o localmente `google/gemma-3-4b:2` mediante LM Studio.
+*   **Modelo de Embeddings**: `models/gemini-embedding-001` (por defecto para Gemini) o localmente `text-embedding-embeddinggemma-300m` mediante LM Studio.
+*   **Modelo de Juez Evaluador**: `models/gemini-2.5-flash` en el notebook de pruebas [LLM-as-a-judge.ipynb](./client/LLM-as-a-judge.ipynb) para calcular métricas como *Context Relevance*, *Faithfulness* y *Answer Relevance*.
+
+### 2. Configuración de Variables de Entorno (`.env`)
 ```env
-LLM_PROVIDER=gemini         # o openai
-GOOGLE_API_KEY=tu-key       # para Gemini
-OPENAI_API_KEY=tu-key       # para OpenAI
+# Proveedor principal de embeddings (gemini, openai, local)
+LLM_PROVIDER=gemini
+
+# Proveedor principal de generación y evaluación
+GENERATION_LLM_PROVIDER=gemini
+
+# Claves de API
+GOOGLE_API_KEY=tu-key-gemini
+OPENAI_API_KEY=tu-key-openai
+
+# Configuración del recuperador (Retriever)
+# Se recuperan 5 chunks de la norma ISO 29148 para proveer mayor contexto normativo al LLM.
+RETRIEVER_K=5
 ```
+
+---
+
+##  Estado Actual del Proyecto y Próximos Pasos
+
+1. **Fase de Evaluación (Activa)**: Actualmente el proyecto se encuentra en la fase de evaluación del pipeline RAG y del retriever. Se utiliza el enfoque de **LLM-as-a-judge** en [LLM-as-a-judge.ipynb](./client/LLM-as-a-judge.ipynb) para iterar y medir de forma automatizada la calidad del sistema frente al dataset base.
+2. **Control de Rate Limits**: El notebook de evaluación incorpora mecanismos de retraso base (`time.sleep`) y reintentos automáticos con respaldo exponencial ante errores HTTP `429 (Resource Exhausted)` de las APIs de la nube.
+3. **Módulo de Usuarios (Pendiente)**: Tras estabilizar la fase de evaluación, se implementará el backend de usuarios, autenticación y base de datos para guardar sesiones, historiales de análisis de requisitos y trazabilidad de consultas.
+
+---
 
 ## Estructura del proyecto
 
@@ -103,20 +126,19 @@ backend/
 │   ├── main.py
 │   ├── api/routes/
 │   ├── services/
-│   │   ├── ingestion/
-│   │   ├── cleaning/
 │   │   ├── retriever/
 │   │   ├── evaluation/
 │   │   └── feedback/
 │   ├── schemas/
 │   ├── db/
 │   └── core/
+├── nlp4re/
 docs/
-├── rules.json
-├── examples.json
-└── iso_29148.pdf
+├── estado-del-arte/
+├── seguimiento/
+└── informe-final/
 ```
 
 ## Stack
 
-Python · FastAPI · LangChain · PostgreSQL · pgvector · Google Gemini / OpenAI · Docker
+Python · FastAPI · LangChain · PostgreSQL · pgvector · Google Gemini / OpenAI · Docker · FAISS (Local Test)

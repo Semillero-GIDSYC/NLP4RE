@@ -17,6 +17,9 @@ services:
     environment:
       - POSTGRES_HOST=pgvector
       - DOCS_DIR=/app/docs
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     restart: unless-stopped
 
   pgvector:
