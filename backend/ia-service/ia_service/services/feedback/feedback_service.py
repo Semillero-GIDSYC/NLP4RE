@@ -3,7 +3,7 @@ import json
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
-from app.core.config import get_settings
+from ia_service.core.config import get_settings
 
 
 def _get_llm():

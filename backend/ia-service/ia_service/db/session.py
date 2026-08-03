@@ -2,8 +2,8 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, Session
 from typing import Generator
 
-from app.core.config import get_settings
-from app.db.models import Base
+from ia_service.core.config import get_settings
+from ia_service.db.models import Base
 
 settings = get_settings()
 

@@ -6,7 +6,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.documents import Document
 
-from app.core.config import get_settings
+from ia_service.core.config import get_settings
 
 
 
@@ -182,7 +182,7 @@ def evaluate_requirement(
     Returns:
         Diccionario con evaluación estructurada por dimensión.
     """
-    from app.services.retriever.retriever_service import retrieve_examples
+    from ia_service.services.retriever.retriever_service import retrieve_examples
 
     # 1. Recuperar 4 ejemplos dinámicos de requerimientos
     examples_list = retrieve_examples(requirement_text, k=4)

@@ -5,10 +5,10 @@ from langchain_core.documents import Document
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from sqlalchemy.orm import Session
 
-from app.core.config import get_settings
-from app.db.session import SessionLocal
-from app.db.models import Document as DBDocument
-from app.db.models import Requirement as DBRequirement
+from ia_service.core.config import get_settings
+from ia_service.db.session import SessionLocal
+from ia_service.db.models import Document as DBDocument
+from ia_service.db.models import Requirement as DBRequirement
 
 def get_embeddings():
     """

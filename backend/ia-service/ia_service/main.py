@@ -3,10 +3,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.core.config import get_settings
-from app.db.session import init_db
+from ia_service.core.config import get_settings
+from ia_service.db.session import init_db
 
-from app.api.routes import analyze
+from ia_service.api.routes import analyze
 
 settings = get_settings()
 
@@ -80,7 +80,7 @@ async def health_check():
     }
 
     try:
-        from app.db.session import engine
+        from ia_service.db.session import engine
         from sqlalchemy import text
 
         with engine.connect() as conn:
