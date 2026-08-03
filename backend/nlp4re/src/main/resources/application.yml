@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: nlp4re
+
+# Database configuration (using environment variables)
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:requirements_db}
+    username: ${POSTGRES_USER:admin}
+    password: ${POSTGRES_PASSWORD:secretpassword}
+    driver-class-name: org.postgresql.Driver
+
+# JPA Config - Validate schema is disabled to let Flyway migrate first
+  jpa: 
+    hibernate.ddl-auto: none
+    show-sql: true
+
+# Flyway Config
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+# Swagger/OpenAPI Config
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# App Specific Config
+jwt: 
+  secret: ${JWT_SECRET:9a4f2c8d3b7a1e5f8c6b4d2e0a7f5c3b1d9e7f5a3c1b9d7e5f3a1c9b7d5e3f1a}
+  expiration: ${JWT_EXPIRATION:86400000}
