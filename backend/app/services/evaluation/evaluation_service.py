@@ -135,6 +135,7 @@ INSTRUCCIONES DE PUNTUACIÓN GENERALES:
 3. Para la dimensión "TRACEABLE":
    - Mide si hay referencia explícita al origen.
    - REGLA ESTRICTA: Si el requerimiento no menciona un identificador o código formal (como "UC-04" o "BR-12"), pero sí menciona un actor genérico o rol (como "El administrador"), el puntaje de TRACEABLE debe ser 1 (No 2). Si no menciona absolutamente ningún actor ni origen, debe ser 0.
+4. REGLA DE FIDELIDAD (FAITHFULNESS): En cada "explanation", debes justificar tu puntuación utilizando de forma directa la información provista en el "Contexto normativo recuperado de la ISO". Si el contexto recuperado no contiene información pertinente sobre el tema del requisito, indícalo explícitamente en la explicación en lugar de inventar justificaciones o asumir normas externas.
 
 INSTRUCCIONES DE SALIDA:
 Analiza el requerimiento y devuelve EXACTAMENTE un JSON válido con la siguiente estructura (conservando la clave "AMBIGUITY" para compatibilidad con la base de datos):
@@ -183,8 +184,8 @@ def evaluate_requirement(
     """
     from app.services.retriever.retriever_service import retrieve_examples
 
-    # 1. Recuperar 8 ejemplos dinámicos de requerimientos
-    examples_list = retrieve_examples(requirement_text, k=8)
+    # 1. Recuperar 4 ejemplos dinámicos de requerimientos
+    examples_list = retrieve_examples(requirement_text, k=4)
     examples_str = _format_db_examples(examples_list)
 
     llm = _get_llm()

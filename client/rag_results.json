@@ -1,0 +1,1052 @@
+[
+  {
+    "id": 120,
+    "requirement": "Permite importar y exportar TRD.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 1,
+        "explanation": "El requisito carece de métricas, formatos específicos (como XML o CSV) o condiciones de prueba para verificar el éxito de la importación y exportación. El contexto normativo de la ISO recuperado no contiene información pertinente sobre este tema."
+      },
+      "ATOMICITY": {
+        "score": 0,
+        "explanation": "El requisito no es atómico ya que describe dos operaciones independientes ('importar' y 'exportar') unidas por la conjunción 'y'. El contexto normativo de la ISO recuperado no contiene información pertinente sobre este tema."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "El uso del acrónimo 'TRD' (Tabla de Retención Documental) y el verbo pasivo 'Permite' introducen imprecisión sobre qué componente o quién realiza la acción. El contexto normativo de la ISO recuperado no contiene información pertinente sobre este tema."
+      },
+      "COMPLETENESS": {
+        "score": 0,
+        "explanation": "El requisito carece de un sujeto explícito (acción del sistema), de condiciones de activación y del resultado esperado tras la importación/exportación. El contexto normativo de la ISO recuperado no contiene información pertinente sobre este tema."
+      },
+      "TRACEABLE": {
+        "score": 0,
+        "explanation": "No se hace referencia a ningún actor, rol, caso de uso, regla de negocio ni identificador formal que permita trazar su origen. El contexto normativo de la ISO recuperado no contiene información pertinente sobre este tema."
+      }
+    },
+    "rag_context": "or performance of the system. Derive requirements from relevant external regulations. Examples of\nrequirements include multilingual support, labour policies and protection of personnel information.\nSpecify derived requirements for health and safety criteria, including those basic to the design of the\n\ne) Accessibility to components within systems and to parts within components.\n9.5.9.3 Reliability requirements\nSpecify the system reliability requirements in quantitative terms, including the conditions under which\nthe reliability requirements are to be met. This may also include the reliability apportionment model to\n65\n\npractices.\ne) Portability - specify attributes of software that relate to the ease of porting the software to other\nhost machines and/or operating systems, including:\n1) percentage of elements with host-dependent code;\n2) percentage of code that is host dependent;\n3) use of a proven portable language;\n4) use of a particular compiler or language subset; and\n5) use of a particular operating system.",
+    "rag_feedback": "[REQ-TRD-01] El sistema debe permitir al Administrador de Archivo importar la Tabla de Retención Documental (TRD) en formato XML, validando su estructura contra el esquema XSD institucional y mostrando un mensaje de confirmación tras la carga exitosa. [REQ-TRD-02] El sistema debe permitir al Administrador de Archivo exportar la Tabla de Retención Documental (TRD) activa a un archivo descargable en formato CSV."
+  },
+  {
+    "id": 329,
+    "requirement": "The product shall maintain the status of each player for a turn either offensive or defensive.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito es completamente verificable de forma objetiva mediante pruebas de caja negra o de estado que validen si el sistema registra el estado (ofensivo o defensivo) de un jugador. Se hace constar que el contexto normativo de la ISO recuperado (enfocado en entornos de soporte y modos de operación) no contiene información pertinente sobre este requisito."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea indivisible: mantener el estado de un jugador durante un turno. Se hace constar que el contexto normativo de la ISO recuperado (enfocado en entornos de soporte y modos de operación) no contiene información pertinente sobre este requisito."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "El requisito es mayormente claro, pero el verbo 'maintain' (mantener) y el concepto de 'turn' (turno) podrían tener ligeras variaciones de interpretación sobre cómo y dónde se almacena o visualiza dicha información. Se hace constar que el contexto normativo de la ISO recuperado (enfocado en entornos de soporte y modos de operación) no contiene información pertinente sobre este requisito."
+      },
+      "COMPLETENESS": {
+        "score": 1,
+        "explanation": "El requisito define la acción y los estados posibles, pero no especifica la condición de activación (cuándo se asigna, cambia o inicializa el estado de un jugador). Se hace constar que el contexto normativo de la ISO recuperado (enfocado en entornos de soporte y modos de operación) no contiene información pertinente sobre este requisito."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito no incluye un identificador formal o código de trazabilidad (como UC-01 o BR-02), pero hace referencia a un actor o rol genérico dentro del dominio ('player'). Se hace constar que el contexto normativo de la ISO recuperado (enfocado en entornos de soporte y modos de operación) no contiene información pertinente sobre este requisito."
+      }
+    },
+    "rag_context": "significantly influence and be influenced by, the new or modified system.\nA.2.4.7 Support environment\nDescribe the support concepts and support environment for the current system, including the support\nagency or agencies, facilities, equipment, support software, repair or replacement criteria, maintenance\n\nincluded in an appendix would be a data dictionary. An example of material to be included by reference\nmight be a detailed manual of operational policies and procedures for the current system.\nA.2.4.5 Modes of operation for the current system or situation\nDescribe the various modes of operation for the current system or situation (e.g., operational, degraded,\n\nsignificantly influence and be influenced by the new or modified system.\nA.2.6.7 Support environment\nDescribe the support concepts and support environment for the proposed system, including the support\nagency or agencies, facilities, equipment, support software, repair or replacement criteria, maintenance\nAle.v2e.l7s anOdp ceyrcaletsi,o annadl sstcoerangaer, idoisstribution, and supply methods.",
+    "rag_feedback": "[REQ-GAME-001] At the start of each turn, the system shall record and store the status of each player as either 'offensive' or 'defensive' for the duration of that turn."
+  },
+  {
+    "id": 39,
+    "requirement": "El administrador puede registrar un nuevo servicio indicando nombre duración precio y categoría",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El contexto normativo de la ISO recuperado no contiene información pertinente sobre verificabilidad. Evaluando según las reglas, el requisito es verificable (nivel 2) mediante una prueba booleana que confirme si un servicio se registra con los campos especificados (nombre, duración, precio, categoría)."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El contexto normativo de la ISO recuperado no contiene información pertinente sobre atomicidad. Evaluando según las reglas, el requisito es atómico (nivel 2) ya que describe una única función (registrar un servicio) con sus atributos asociados."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "El contexto normativo de la ISO recuperado no contiene información pertinente sobre ambigüedad. Evaluando según las reglas, el requisito es mayormente claro pero tiene términos como 'duración' y 'precio' que carecen de unidades o formatos específicos, lo que podría malinterpretarse (nivel 1)."
+      },
+      "COMPLETENESS": {
+        "score": 1,
+        "explanation": "El contexto normativo de la ISO recuperado no contiene información pertinente sobre completitud. Evaluando según las reglas, el requisito tiene nivel 1 porque define el actor y la acción, pero no especifica el resultado esperado o el efecto visible en el sistema tras el registro."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El contexto normativo de la ISO recuperado no contiene información pertinente sobre trazabilidad. Evaluando según las reglas, el requisito tiene nivel 1 porque menciona a un actor genérico ('El administrador') pero carece de un identificador o código formal de origen."
+      }
+    },
+    "rag_context": "or performance of the system. Derive requirements from relevant external regulations. Examples of\nrequirements include multilingual support, labour policies and protection of personnel information.\nSpecify derived requirements for health and safety criteria, including those basic to the design of the\n\na given approach was analyzed and evaluated, or why a particular approach or solution was rejected.\nTAh.2is.1 in0f oArpmpaetniodni wceosuld probably be lost if not recorded.\nTo facilitate ease of use and maintenance of the OpsCon document, some information may be placed\nin appendices to the document. Charts and classified data are typical examples. Each appendix should\n\nto human involvement with the system, production of an estimate of what has not been specified,\nclarification of the constraints, opportunities and degree of flexibility required of the system, and\nsetting of priorities for the requirements. However, there is nothing in this document that would\npreclude producing an information item combining the System OpsCon and the SyRS.",
+    "rag_feedback": "[REQ-001] El Administrador del Sistema debe poder registrar un nuevo servicio ingresando su nombre, duración (en minutos), precio (en USD con hasta dos decimales) y seleccionando una categoría de una lista predefinida. Tras la acción, el sistema debe validar los datos, almacenar el servicio y mostrar un mensaje de confirmación de registro exitoso."
+  },
+  {
+    "id": 294,
+    "requirement": "Daily usage statistics should be logged and accessible by the administrator.",
+    "true_tags": {
+      "VERIFIABILITY": 0,
+      "ATOMICITY": 1,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 0,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 0,
+        "explanation": "El término 'daily usage statistics' es subjetivo y no define métricas medibles u objetivas para su comprobación. Cabe destacar que el contexto normativo de la ISO recuperado no contiene información pertinente sobre la verificabilidad."
+      },
+      "ATOMICITY": {
+        "score": 0,
+        "explanation": "Expresa dos funciones independientes unidas por la conjunción 'and': el registro de estadísticas ('logged') y la provisión de acceso ('accessible'). Cabe destacar que el contexto normativo de la ISO recuperado no contiene información pertinente sobre la atomicidad."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "El requisito es comprensible en su intención, pero contiene términos ambiguos como 'usage statistics' (no define qué datos registrar) y 'accessible' (no define el medio de acceso). Cabe destacar que el contexto normativo de la ISO recuperado no contiene información pertinente sobre la ambigüedad."
+      },
+      "COMPLETENESS": {
+        "score": 1,
+        "explanation": "Menciona la acción del sistema pero carece de una condición de activación clara y de un resultado o efecto final esperado explícito. Cabe destacar que el contexto normativo de la ISO recuperado no contiene información pertinente sobre la completitud."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "Se hace referencia a un actor genérico ('administrator'), pero no se vincula a ningún identificador o código formal de origen como un caso de uso o regla de negocio. Cabe destacar que el contexto normativo de la ISO recuperado no contiene información pertinente sobre la trazabilidad."
+      }
+    },
+    "rag_context": "prioritize the features of the proposed system.\n— Essential features. Features that shall be provided by the new or modified system. The impacts that\nwould result if the features were not implemented should be explained for each essential feature.\n— Desirable features. Features that should be provided by the new or modified system. Desirable\n\nor situation, to the description of the proposed system. If there is no current system on which to base\nchanges, this section should so indicate and provide justification for the features of the new system.\nA.2.5.2 Justification for changes\nThis section should:\na) briefly summarize new or modified aspects of the user needs, missions, objectives, environments,\n\nreviews may be applicable throughout the development and maintenance of the requirements, including\ntechnical reviews, inspections and walk-throughs. Effective early requirements review and validation\ncan be achieved using low fidelity prototypes to obtain feedback from potential users of the system.\nNOTE 1 Additional guidance on reviews can be found in IEEE Std 1028-2008.",
+    "rag_feedback": "[REQ-01] El Sistema registrará automáticamente cada día a las 23:59 UTC las estadísticas de uso diario, que consistirán en el número de usuarios activos, el número de sesiones iniciadas y el volumen de datos transferidos. [REQ-02] El Sistema permitirá al Administrador visualizar y descargar en formato CSV las estadísticas de uso diario registradas a través del panel de administración."
+  },
+  {
+    "id": 654,
+    "requirement": "El sistema debe permitir que todos los actores (Agricultor, Técnico, Asociación y Admin) consulten su información de perfil personal, visualizando su rol asignado, permisos habilitados y el registro histórico de sus últimas conexiones a la plataforma.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El contexto normativo recuperado de la ISO no contiene información pertinente sobre la verificabilidad. Evaluando con las reglas proporcionadas, el puntaje es 2 porque el requisito es completamente medible y verificable mediante una prueba objetiva que confirme la visualización de los campos de perfil especificados."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El contexto normativo recuperado de la ISO no contiene información pertinente sobre la atomicidad. Evaluando con las reglas proporcionadas, el puntaje es 2 porque expresa una única función principal (consultar la información de perfil) detallando sus campos, sin asociar otras acciones independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El contexto normativo recuperado de la ISO no contiene información pertinente sobre la ambigüedad o claridad. Evaluando con las reglas proporcionadas, el puntaje es 2 porque el requerimiento es claro, define con precisión a los actores involucrados y los datos a mostrar, permitiendo una única interpretación."
+      },
+      "COMPLETENESS": {
+        "score": 1,
+        "explanation": "El contexto normativo recuperado de la ISO no contiene información pertinente sobre la completitud. Evaluando con las reglas proporcionadas, el puntaje es 1 porque define la acción y el resultado esperado (visualizar los datos), pero no especifica la condición de activación o el evento desencadenante."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El contexto normativo recuperado de la ISO no contiene información pertinente sobre la trazabilidad. Evaluando con las reglas proporcionadas, el puntaje es 1 porque, aunque identifica roles específicos de actores (Agricultor, Técnico, Asociación, Admin), no hace referencia a un código o identificador formal de origen (como UC-04 o BR-12)."
+      }
+    },
+    "rag_context": "lead to requirements upon the system. These can greatly affect system feasibility and cost, and\nrestrict design choices.\n— Operational deployment – When will the system be used? Will it be deployed during the initial,\nmiddle or wrap up phases of a need?\n— Performance – What are the critical system parameters to accomplish the mission?\n\nreviews may be applicable throughout the development and maintenance of the requirements, including\ntechnical reviews, inspections and walk-throughs. Effective early requirements review and validation\ncan be achieved using low fidelity prototypes to obtain feedback from potential users of the system.\nNOTE 1 Additional guidance on reviews can be found in IEEE Std 1028-2008.\n\nsignificantly influence and be influenced by the new or modified system.\nA.2.6.7 Support environment\nDescribe the support concepts and support environment for the proposed system, including the support\nagency or agencies, facilities, equipment, support software, repair or replacement criteria, maintenance\nAle.v2e.l7s anOdp ceyrcaletsi,o annadl sstcoerangaer, idoisstribution, and supply methods.",
+    "rag_feedback": "[REQ-102] Cuando un usuario autenticado (Agricultor, Técnico, Asociación o Administrador) seleccione la opción 'Mi Perfil' en el menú de navegación, el sistema debe mostrar su información de perfil personal, visualizando su rol asignado, permisos habilitados y el registro histórico de sus últimas conexiones a la plataforma."
+  },
+  {
+    "id": 436,
+    "requirement": "The user shall be able to create a menu entry by providing a dish name, description, and price.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 0
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito es completamente verificable mediante una prueba objetiva (crear la entrada con los tres campos y verificar su existencia). Se indica que el contexto normativo de la ISO recuperado no contiene información pertinente sobre la verificabilidad."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única función: la creación de una entrada de menú con sus datos. Se indica que el contexto normativo de la ISO recuperado no contiene información pertinente sobre la atomicidad."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y tiene una única interpretación posible, con términos precisos. Se indica que el contexto normativo de la ISO recuperado no contiene información pertinente sobre la ambigüedad."
+      },
+      "COMPLETENESS": {
+        "score": 1,
+        "explanation": "El requisito define la acción y los datos de entrada, pero no especifica el resultado esperado o la respuesta del sistema tras la creación. Se indica que el contexto normativo de la ISO recuperado no contiene información pertinente sobre la completitud."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "Se menciona a un actor genérico ('The user'), lo que se relaciona con las 'clases de usuario' del Contexto 3 de la ISO, y se alude a la 'trazabilidad' del Contexto 2, pero carece de un identificador o código formal de origen (como UC-XX)."
+      }
+    },
+    "rag_context": "concentrated on the methods supported by the system to be developed or changed with the items\nsuch as product and services, geographies and locales, distribution channels, business alliance and\npartnership, and finance and revenue model.\nNOTE Detailed discussions and definitions of the business model elements can be found in Business\nMotivation Model (BMM) Specification by OMG.\n\ntargets;\nv) Transition of operational processes and data from existing automated and manual systems,\nmigration approach and schedule, software installation and acceptance of the product; and\nvi) Requirement attributes, such as rationale; priority; traceability to software system elements;\ntest cases, and information items; methods of verification; inclusion in approved baselines; and\n\nseparate section. Each of these should provide a description of the user class, including responsibilities,\neducation, background, skill level, activities and modes of interaction with the current system.\nA.2.4.6.3 Interactions among user classes\nDescribe interactions among the various user classes involved with the current system, in particular,",
+    "rag_feedback": "[REQ-001] The Restaurant Administrator shall be able to create a menu entry by providing a dish name, description, and price, and the system shall save the entry and display a confirmation message."
+  },
+  {
+    "id": 65,
+    "requirement": "Debe permitir estructuras de metadatos normalizados como Dublin Core.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 1,
+        "explanation": "Aunque menciona un estándar específico (Dublin Core), la expresión 'como' es imprecisa para una prueba objetiva. El Contexto 1 de la ISO requiere definir la relación de entradas y salidas o fórmulas de conversión, lo cual no se detalla para verificar la conformidad de la estructura."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea enfocada en permitir estructuras de metadatos normalizados. Se indica explícitamente que el contexto normativo recuperado de la ISO no contiene información pertinente sobre la atomicidad de los requisitos."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "La frase 'como Dublin Core' es ambigua porque deja abierto a interpretación qué otros esquemas de metadatos son aceptables. Se indica explícitamente que el contexto normativo recuperado de la ISO no contiene información pertinente sobre la ambigüedad o claridad."
+      },
+      "COMPLETENESS": {
+        "score": 1,
+        "explanation": "Falta la condición de activación, el sujeto de la acción y el resultado esperado. Según el Contexto 1 de la ISO, se deben especificar las verificaciones de validez en las entradas ('validity checks on the inputs'), lo cual no está definido para la estructura de metadatos."
+      },
+      "TRACEABLE": {
+        "score": 0,
+        "explanation": "No se menciona ningún actor, rol, ni se referencia un identificador formal de caso de uso o regla de negocio. Se indica explícitamente que el contexto normativo recuperado de la ISO no contiene información pertinente sobre la trazabilidad."
+      }
+    },
+    "rag_context": "a) validity checks on the inputs;\nb) exact sequence of operations;\nc) responses to abnormal situations, including:\n1) overflow;\n2) communication facilities;\n3) hardware faults and failures; and\n4) error handling and recovery;\nd) effect of parameters;\ne) relationship of outputs to inputs, including:\n1) input/output sequences; and\n2) formulas for input to output conversion.\n\nreviews may be applicable throughout the development and maintenance of the requirements, including\ntechnical reviews, inspections and walk-throughs. Effective early requirements review and validation\ncan be achieved using low fidelity prototypes to obtain feedback from potential users of the system.\nNOTE 1 Additional guidance on reviews can be found in IEEE Std 1028-2008.\n\nor performance of the system. Derive requirements from relevant external regulations. Examples of\nrequirements include multilingual support, labour policies and protection of personnel information.\nSpecify derived requirements for health and safety criteria, including those basic to the design of the",
+    "rag_feedback": "[REQ-001] El Sistema de Gestión Documental debe permitir al Administrador de Contenido registrar documentos utilizando la estructura de metadatos normalizada Dublin Core (ISO 15836), validando que el archivo de metadatos cumpla con el esquema XML oficial del estándar antes de confirmar su almacenamiento."
+  },
+  {
+    "id": 617,
+    "requirement": "El sistema debe permitir al técnico agrónomo consultar la lista de cultivos registrados por los productores asignados a su zona.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito es verificable mediante una prueba objetiva de tipo booleano para comprobar si el sistema muestra la lista correcta. Cabe destacar que el contexto normativo de la ISO provisto no contiene información pertinente sobre la verificabilidad de requisitos."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "Expresa una única función clara y no contiene conjunciones que unan requisitos independientes. Cabe destacar que el contexto normativo de la ISO provisto no contiene información pertinente sobre la atomicidad de requisitos."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro, preciso y tiene una única interpretación posible. Cabe destacar que el contexto normativo de la ISO provisto no contiene información pertinente sobre la ambigüedad o claridad de requisitos."
+      },
+      "COMPLETENESS": {
+        "score": 1,
+        "explanation": "Define la acción y el resultado esperado, pero carece de una condición de activación explícita. Cabe destacar que el contexto normativo de la ISO provisto no contiene información pertinente sobre la completitud de requisitos."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "Menciona actores específicos ('técnico agrónomo' y 'productores') pero no hace referencia a un identificador o código formal de origen. Cabe destacar que el contexto normativo de la ISO provisto no contiene información pertinente sobre la trazabilidad."
+      }
+    },
+    "rag_context": "a given approach was analyzed and evaluated, or why a particular approach or solution was rejected.\nTAh.2is.1 in0f oArpmpaetniodni wceosuld probably be lost if not recorded.\nTo facilitate ease of use and maintenance of the OpsCon document, some information may be placed\nin appendices to the document. Charts and classified data are typical examples. Each appendix should\n\nbe referenced in the main body of the document where that information would normally have been\npAr.2ov.1id1e dG.l Aopsspaenrydices may be bound as separate documents for easier handling.\nA glossary should be maintained and updated during the processes of concept analysis and development\nof the OpsCon document. Include an alphabetical listing of all acronyms and abbreviations, along with\n\nsignificantly influence and be influenced by the new or modified system.\nA.2.6.7 Support environment\nDescribe the support concepts and support environment for the proposed system, including the support\nagency or agencies, facilities, equipment, support software, repair or replacement criteria, maintenance\nAle.v2e.l7s anOdp ceyrcaletsi,o annadl sstcoerangaer, idoisstribution, and supply methods.",
+    "rag_feedback": "[REQ-042] Tras autenticarse en el sistema y seleccionar la sección de monitoreo, el sistema debe permitir al técnico agrónomo visualizar la lista de cultivos (incluyendo tipo de cultivo, hectáreas y productor) registrados por los productores asignados a su zona geográfica."
+  },
+  {
+    "id": 78,
+    "requirement": "Debe permitir restringir la capacidad de modificar los valores de los metadatos.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 1,
+        "explanation": "El requisito indica la posibilidad de restringir modificaciones, pero no especifica cómo se verificará que esta restricción está implementada y funcionando correctamente. Falta una métrica o criterio claro para la verificación."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: controlar el acceso a la modificación de metadatos."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "El término 'restricir' es vago. No se especifica qué tipo de restricciones, quién las aplica o cómo se implementan. Podría interpretarse de diversas maneras."
+      },
+      "COMPLETENESS": {
+        "score": 1,
+        "explanation": "Falta definir la condición que desencadena la restricción (ej., usuario, rol), la acción específica a realizar (ej., bloquear modificación, notificar) y el resultado esperado (ej., metadatos inalterables)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito no hace referencia a ningún caso de uso o identificador formal. Se refiere al concepto general de 'restricción' sin vincularlo a un elemento específico del sistema."
+      }
+    },
+    "rag_context": "information items contents beyond those required for conformance to this document.\nNOTE 2 An organization or project may encounter a situation where there is the desire to modify the\ninformation item contents. Modification is performed by deleting the information item contents (making the\n\nlimitations placed on the operations of the proposed system. Examples of operational constraints\ninclude the following:\n— a constraint on the hours of operations of the system, perhaps limited by access to secure terminals;\n— a limiting constraint on the number of personnel available to operate the system;\n— a limiting constraint on the computer hardware (e.g., shall operate on computer X); and\n\n9.6.7 Limitations\nProvide a general description of any other items that will limit the supplier's options, including:\na) regulatory requirements and policies;\nb) hardware limitations (e.g., signal timing requirements);\nc) interfaces to other applications;\nd) parallel operation;\ne) audit functions;\nf) control functions;\ng) higher-order language requirements;",
+    "rag_feedback": "La modificación de los valores de los metadatos está restringida a usuarios con el rol 'Administrador de Metadatos'. El sistema bloquea automáticamente cualquier intento de modificación directa por parte de usuarios sin este rol. Se registra cada intento fallido en un registro de auditoría que incluye la fecha, hora, usuario y valor original del metadato. La verificación de esta restricción se realiza mediante el análisis de los registros de auditoría para asegurar que no existen modificaciones no autorizadas."
+  },
+  {
+    "id": 652,
+    "requirement": "El sistema debe permitir al Administrador configurar y parametrizar las reglas de negocio y lógica agronómica que determinan qué recomendaciones automáticas se sugieren basándose en el análisis del tipo de suelo y la etapa fenológica del cultivo.",
+    "true_tags": {
+      "VERIFIABILITY": 1,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 0,
+      "COMPLETENESS": 0,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito define claramente la acción del sistema (configurar y parametrizar reglas) y el resultado esperado (sugerencias automáticas basadas en análisis). Se pueden establecer criterios objetivos para evaluar si las recomendaciones son correctas."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: la configuración de reglas de negocio. No contiene conjunciones que unan ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define explícitamente los elementos involucrados (administrador, reglas de negocio, lógica agronómica, análisis del suelo, etapa fenológica) y el resultado deseado."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define la condición de activación (administrador configurando), la acción del sistema (configurar y parametrizar reglas) y el resultado esperado (sugerencias automáticas)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito menciona al 'Administrador', que es un rol genérico. Aunque se refiere a una funcionalidad específica, no hace referencia directa a un caso de uso o identificador formal como lo indica el contexto normativo."
+      }
+    },
+    "rag_context": "and their needs. It analyzes and transforms these needs into a common set of stakeholder require-\nments that express the intended interaction the system will have with its operational environment\nand that are the reference against which each resulting operational capability is validated. The stake-\n\na system might include automation of certain tasks or countering of certain threat situations. The goals\nfor the current system should also be defined, together with the strategies, solutions, tactics, methods\nand techniques used to accomplish them. The modes of operation, classes of users and interfaces to\n\nutilize the system as a means to contribute to the business. The description includes, at the organization\nlevel, the organizational environment, goals and objectives, the business model, and the information\nenvironment, and, at the business operation level, the business operation model, business operation",
+    "rag_feedback": "El sistema debe permitir al Administrador configurar y parametrizar reglas de negocio y lógica agronómica para generar recomendaciones automáticas. Estas reglas deben basarse en el análisis del tipo de suelo (definido como [Especificar tipos de suelo soportados, ej., arcilloso, arenoso, etc.]) y la etapa fenológica del cultivo (definida por [Especificar las etapas fenológicas soportadas, ej., germinación, floración, fructificación]). Las reglas pueden ser definidas utilizando [Especificar el tipo de reglas permitidas, ej., condiciones lógicas, tablas de decisión]. El sistema debe proporcionar métricas para evaluar la precisión (porcentaje de recomendaciones correctas), cobertura (porcentaje de casos donde se ofrece una recomendación) y relevancia (grado en que la recomendación es útil para el usuario). Este requisito está vinculado al caso de uso REQ-001: Gestionar Recomendaciones Agronómicas."
+  },
+  {
+    "id": 622,
+    "requirement": "El sistema debe proporcionar al Agricultor un módulo de registro técnico avanzado para sus cultivos, permitiendo la captura obligatoria de la especie vegetal, la variedad específica, la fecha exacta de siembra y la densidad poblacional por hectárea, almacenando estos datos en una estructura relacional que permita el cálculo automatizado de rendimientos y proyecciones de cosecha.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 0,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito define métricas claras (especie, variedad, fecha, densidad) y un resultado esperado (cálculo automatizado de rendimientos). Esto permite la creación de pruebas objetivas para verificar el cumplimiento."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito describe una única función: registrar datos técnicos del cultivo. No contiene conjunciones que unan ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "Los términos 'módulo de registro técnico avanzado', 'estructura relacional' y 'cálculo automatizado de rendimientos' son precisos y no presentan ambigüedad. El contexto normativo ISO 29148 promueve la claridad en las descripciones del sistema."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente la condición (captura de datos), la acción (almacenamiento y cálculo) y el resultado esperado (rendimientos y proyecciones)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requerimiento menciona al 'Agricultor' como actor principal, pero no proporciona un identificador formal. Se necesita vincularlo a un caso de uso o requisito específico para lograr trazabilidad completa."
+      }
+    },
+    "rag_context": "description of the proposed system, including the following, as appropriate:\na) the operational environment and its characteristics;\nb) major system elements and the interconnections among these elements;\nc) interfaces to external systems or procedures;\nd) capabilities or functions of the proposed system;\ne) charts and accompanying descriptions depicting inputs, outputs, data flow, and manual and\n\nand usability;\nj) provisions for safety, security, privacy, integrity and continuity of operations in emergencies; and\nk) logistics requirements to support system.\nSince the purpose of this section is to describe the current system and how it operates, it is appropriate\nto use any tools and/or techniques that serve this purpose. It is important that the description of\n\na system might include automation of certain tasks or countering of certain threat situations. The goals\nfor the current system should also be defined, together with the strategies, solutions, tactics, methods\nand techniques used to accomplish them. The modes of operation, classes of users and interfaces to",
+    "rag_feedback": "El sistema proporcionará al Agricultor (Actor ID: AGT-001) el módulo de registro técnico avanzado para sus cultivos, permitiendo la captura obligatoria de la especie vegetal (tipo: texto libre), la variedad específica (tipo: selección desplegable con lista predefinida de variedades), la fecha exacta de siembra (formato YYYY-MM-DD), y la densidad poblacional por hectárea (unidades: plantas/hectárea, rango: 10-500).  Estos datos se almacenarán en una estructura relacional optimizada para consultas. El sistema realizará automáticamente el cálculo de rendimientos utilizando un algoritmo basado en factores ambientales y datos históricos, con un margen de error no superior al 5%. Los resultados del cálculo de rendimientos y las proyecciones de cosecha se presentarán al Agricultor en formato tabular."
+  },
+  {
+    "id": 97,
+    "requirement": "El nivel confidencial debe permitir elegir usuarios con acceso y tipo de acceso.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 1,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente la elección de usuarios y tipos de acceso para el nivel confidencial, lo que permite definir criterios de prueba objetivos."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito se centra en una única función: seleccionar usuarios y tipos de acceso. No contiene elementos que puedan dividirse en requisitos separados."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define explícitamente los elementos a elegir (usuarios) y el criterio para la selección (tipo de acceso), eliminando cualquier ambigüedad."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la acción del sistema (elegir usuarios y tipo de acceso) y su efecto esperado (acceso al nivel confidencial). La condición de activación (necesidad de elegir un usuario y tipo de acceso) está implícitamente presente."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito menciona 'usuarios' pero no hace referencia a ningún caso de uso o identificador formal. Por lo tanto, la trazabilidad es parcial."
+      }
+    },
+    "rag_context": "Define the system security requirements related to both the facility that houses the system and\noperational security requirements of the system itself. One example of security requirements might\nbe to specify the security and privacy requirements, including access limitations to the system, such as\n\nmaintenance, training, emergency, alternate-site, peacetime, wartime, ground-based, flight, active and\nidle modes). All of the modes that apply to all classes of users should be included. Important modes to\ninclude are degraded, backup and emergency modes, if such exist. This is especially true if these modes\n\n9.5.14 Information management requirements\nDefine the requirements for the system's management of information that it receives, generates or\nexports. Examples include types and amounts of information the system is required to receive and\nstore, any proprietary or other protections levied on the information the system deals with, and what",
+    "rag_feedback": "El sistema debe permitir asignar usuarios con un tipo específico de acceso al nivel confidencial. El 'tipo de acceso' se define como [insertar lista o modelo de datos del tipo de acceso: ej., Lectura, Escritura, Ejecución]. Los usuarios elegibles para acceder al nivel confidencial son aquellos que pertenecen a los roles predefinidos [insertar lista de roles] o forman parte del grupo [insertar nombre del grupo].  La asignación se valida mediante la verificación de que el usuario seleccionado y el tipo de acceso especificado cumplen con las políticas de seguridad definidas. Este requisito es traceable al caso de uso 'Acceso al Informe Financiero Confidencial' (ID: UC-005)."
+  },
+  {
+    "id": 547,
+    "requirement": "El sistema debe permitir a productores, operarios y auxiliares configurar sus preferencias de notificación, tales como: tipo de alertas a recibir, canal de notificación (app, correo, etc.), nivel de prioridad.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito define claramente las opciones de configuración y los resultados esperados (tipo de alertas, canal, prioridad). Se pueden establecer pruebas para verificar que el sistema permite la configuración especificada y que las notificaciones se envían según las preferencias del usuario."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única función: permitir a los usuarios configurar sus preferencias de notificación. No contiene conjunciones ni elementos independientes."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "Aunque el requisito es relativamente claro, podría mejorarse especificando los tipos concretos de alertas que se pueden recibir (ej., 'alertas críticas', 'alertas de mantenimiento'). La falta de ejemplos específicos introduce cierta ambigüedad."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la acción del sistema (configurar preferencias) y el resultado esperado (notificaciones personalizadas). También implica una condición de activación: el usuario debe tener permisos para configurar las preferencias."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito menciona roles específicos ('productores, operarios y auxiliares'), pero no hace referencia a un caso de uso o identificador formal. Por lo tanto, la trazabilidad es limitada."
+      }
+    },
+    "rag_context": "Identify priorities among the desired changes and new features. Each change should be classified as\nessential, desirable or optional. Desirable and optional changes should be prioritized within their\nclasses. If there is no existing system on which to base changes, this section should classify and\nprioritize the features of the proposed system.\n\nprioritize the features of the proposed system.\n— Essential features. Features that shall be provided by the new or modified system. The impacts that\nwould result if the features were not implemented should be explained for each essential feature.\n— Desirable features. Features that should be provided by the new or modified system. Desirable\n\nDescribe major system capabilities, conditions and constraints.\n9.5.4.3 User characteristics\nIdentify each type of user/operator/maintainer of the system (by function, location, type of device), the\nnumber in each group, the nature of their use of the system and their characteristics and capabilities.\nNOTE Where appropriate, the user characteristics of the SyRS and SRS are consistent.",
+    "rag_feedback": "El sistema debe permitir que productores, operarios y auxiliares configuren sus preferencias de notificación para recibir alertas personalizadas. Las preferencias configurables incluyen: tipo de alerta (alertas críticas, alertas de mantenimiento, alertas de rendimiento, alertas de seguridad), canal de notificación (app móvil, correo electrónico, SMS), y nivel de prioridad (alto, medio, bajo).  El sistema debe permitir que cada usuario configure al menos una alerta crítica para recibirla por correo electrónico con prioridad alta. Este requisito está vinculado al caso de uso ID-GN-001: Gestión de Notificaciones Personalizadas."
+  },
+  {
+    "id": 84,
+    "requirement": "El sistema debe validar y controlar la entrada de los metadatos mínimos obligatorios.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito define claramente la acción del sistema (validar y controlar la entrada) y el resultado esperado (metadatos mínimos obligatorios). Se puede verificar mediante pruebas que aseguren que solo se permiten los datos definidos como obligatorios."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única función: validar y controlar la entrada de metadatos. No contiene conjunciones ni ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define explícitamente qué se debe validar (metadatos mínimos obligatorios) y cómo (validar y controlar la entrada)."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la condición de activación (entrada de metadatos), la acción del sistema (validar y controlar) y el resultado esperado (metadatos mínimos obligatorios son aceptados)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito no hace referencia a ningún identificador formal. Se refiere al concepto general de 'metadatos mínimos obligatorios', lo que limita su trazabilidad directa a un caso de uso o requisito específico. Sin embargo, se alinea con el contexto normativo ISO 29148 sobre la gestión de información."
+      }
+    },
+    "rag_context": "the key stakeholders to determine that the system requirements are complete, correct and consistent\nreflecting the intent of the stakeholder requirements. Checklists are often developed to aid the reviews\nto help ensure that all applicable categories of requirements have been considered and documented.\n\n9.5.14 Information management requirements\nDefine the requirements for the system's management of information that it receives, generates or\nexports. Examples include types and amounts of information the system is required to receive and\nstore, any proprietary or other protections levied on the information the system deals with, and what\n\nProvide the verification approaches and methods planned to qualify the system or system element.\nThe information elements for verification are recommended to be given in a parallel manner with the\ninformation elements in 9.5.5 to 9.5.17.\n9.5.19 Assumptions and dependencies\nList any assumptions and dependencies applicable to the system requirements that should be taken",
+    "rag_feedback": "El sistema debe validar y controlar la entrada de metadatos obligatorios definidos en el Documento Específico de Metadatos v1.2 (ver Anexo A). La validación incluirá, como mínimo, la verificación del tipo de dato, rango de valores permitidos, longitud máxima y formato según lo especificado en el Documento Específico de Metadatos.  En caso de no cumplir con los criterios de validación, la entrada será rechazada y se generará un registro de error detallado que incluirá el nombre del campo inválido, el valor proporcionado y la razón del rechazo. La verificación se realizará mediante pruebas unitarias y de integración."
+  },
+  {
+    "id": 208,
+    "requirement": "The product shall notify building personnel of equipment transport requests.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente la acción del sistema (notificar) y el resultado esperado (informar a personal de edificio sobre solicitudes de transporte). Se puede verificar midiendo si se envía la notificación correcta al personal apropiado."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: notificar al personal del edificio. No contiene conjunciones que unan ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define claramente quién recibe la notificación (personal de edificio) y por qué (solicitudes de transporte)."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define la condición de activación (solicitud de transporte), la acción del sistema (notificación) y el resultado esperado (informar al personal de edificio)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requerimiento menciona 'personal de edificio', que es un rol genérico. No hay referencia a un caso de uso o identificador formal. Se necesita más información para asegurar la trazabilidad."
+      }
+    },
+    "rag_context": "specific version. Typically, a version number most recent version or any currently maintain version can be\nspecified for software.\nFor each interface, specify:\na) discussion of the purpose of the interfacing software as related to this software product;\nb) definition of the interface in terms of message content and format. It is not necessary to detail any\n\nto the project.\n— Owner. The person or element of the organization that maintains the requirement, who has the\nright to say something about this requirement, approves changes to the requirement, and reports\nthe status of the requirement.\n— Stakeholder Priority. The priority of each requirement should be identified. This may be established\n\nrequirements for systems and software products (including services) throughout the life cycle;\n— provides guidelines for applying the requirements and requirements-related processes described\nin ISO/IEC/IEEE 15288 and ISO/IEC/IEEE 12207;\n— specifies the required information items produced through the implementation of the requirements\nprocesses;",
+    "rag_feedback": "El sistema notificará al Equipo de Supervisión de Mantenimiento y al Equipo de Seguridad sobre las solicitudes de transporte de equipos. La notificación se enviará mediante un mensaje push a la aplicación móvil asignada a cada equipo, incluyendo detalles como el nombre del equipo transportado, su ubicación de origen, su destino final y el nombre del solicitante. El sistema garantizará que la notificación se envíe dentro de los 5 minutos posteriores a la recepción de la solicitud."
+  },
+  {
+    "id": 420,
+    "requirement": "The user shall be able to search by price and destination, entering integers for their desired values, and be informed if they enter an invalid input.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 1,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 0
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "The requirement specifies measurable criteria (integers for desired values) and a validation step (informed if invalid input)."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "The requirement focuses on a single action: searching by price and destination with input validation."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "The requirement clearly defines the expected input type (integers) and the outcome of invalid input."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "The requirement describes the condition (searching by price and destination), the action (entering integers), and the result (informed if invalid)."
+      },
+      "TRACEABLE": {
+        "score": 0,
+        "explanation": "The requirement does not reference any specific case use or requirement ID. It only mentions 'the user', which is a generic actor."
+      }
+    },
+    "rag_context": "to meet identified user needs. User requirements can include requirements for use-related quality\n(including usability) that specify the intended outcomes and associated quality criteria, user-system\ninteraction requirements that specify the required interaction to achieve the intended outcomes, and\n\nDefine all inputs into and outputs from the software system. The description should complement the\ninterface descriptions in 9.6.4.1 through 9.6.4.5, and should not repeat information there.\nEach interface defined should include the following content:\na) name of item;\nb) description of purpose;\nc) source of input or destination of output;\nd) valid range, accuracy and/or tolerance;\n\n— laws of a particular country;\n— available duration or budget;\n— pre-existing technology platform;\n— maintenance constraints; or\n— user or operator capabilities and limitations.\nRequirements may be ranked or weighted to indicate priority, timing or relative importance.\nRequirements in scenario form depict the system’s action from a user’s perspective.",
+    "rag_feedback": "El usuario podrá realizar una búsqueda de vuelos introduciendo un precio (un entero positivo en euros) y un destino (una cadena alfanumérica de hasta 20 caracteres). El sistema informará al usuario si la entrada del precio es menor o igual a cero, o si el destino contiene caracteres no alfanuméricos. La búsqueda se realizará utilizando los valores introducidos y se mostrarán los resultados correspondientes."
+  },
+  {
+    "id": 239,
+    "requirement": "The Disputes System shall prevent the creation of duplicate dispute requests 100% of the time.",
+    "true_tags": {
+      "VERIFIABILITY": 1,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 0,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito establece una condición de cumplimiento (prevenir la creación de duplicados) y un porcentaje específico (100%), lo que permite definir pruebas claras para verificar su cumplimiento."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única función: prevenir la creación de duplicados. No contiene conjunciones ni ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define explícitamente el resultado esperado (prevenir duplicados) sin términos vagos o ambiguos."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la acción del sistema (prevenir la creación de duplicados) y el resultado esperado (100% de prevención). La condición de activación (creación de solicitudes de disputa) está implícitamente definida."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito no menciona ningún identificador formal. Se refiere al 'Disputas System', que es un rol genérico. Para una trazabilidad completa se necesitaría vincularlo a un caso de uso específico."
+      }
+    },
+    "rag_context": "prioritize the features of the proposed system.\n— Essential features. Features that shall be provided by the new or modified system. The impacts that\nwould result if the features were not implemented should be explained for each essential feature.\n— Desirable features. Features that should be provided by the new or modified system. Desirable\n\nthe requirements for the solution of interest can still be ‘complete’.\n— Consistent. The set of requirements contains individual requirements that are unique, do not\nconflict with or overlap with other requirements in the set, and the units and measurement systems\nare homogeneous. The terminology used within the set of requirements is consistent, i.e. the same\n\nsystem requirements, because conflicts will occur. Requirements support a usable design when the\nrequirements set is complete, consistent and accurate.\n6.4.3.5 Manage system[/software] requirements\nThis activity consists of the following tasks.\nISO/IEC/IEEE 15288:2015 6.4.3.3\nObtain explicit agreement on the system[/software] requirements.\nISO/IEC/IEEE 12207:2017 6.4.3.3\n[ , d) 1)]\n[ , d) 1)]",
+    "rag_feedback": "El Sistema de Disputas shall prevenir la creación de solicitudes de disputa duplicadas. La definición de ‘solicitud de disputa’ se basa en la presencia de un identificador único de usuario y la ausencia de solicitudes con exactamente los mismos datos (incluyendo campos obligatorios) que ya existen en el sistema. Se medirá el cumplimiento mediante el seguimiento del porcentaje de intentos fallidos para crear una solicitud de disputa duplicada, objetivo de reducción al 99.9% en el plazo de 6 meses después de la implementación."
+  },
+  {
+    "id": 265,
+    "requirement": "The available recycled parts information and their suppliers shall be returned to the user.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 0,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 1,
+        "explanation": "El requisito describe una acción ('shall be returned') pero no especifica criterios medibles para determinar si la acción se ha completado. Falta definir métricas de éxito."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: devolver información sobre piezas recicladas y sus proveedores al usuario."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "El término 'usuario' es ambiguo. No se especifica qué tipo de usuario (ej., administrador, estimator) o cómo se identifica este usuario. Se necesita más contexto para evitar interpretaciones erróneas."
+      },
+      "COMPLETENESS": {
+        "score": 1,
+        "explanation": "Falta especificar la condición de activación (qué desencadena la devolución), la acción del sistema (cómo se realiza la devolución) y el resultado esperado (la confirmación de recepción por parte del usuario)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito no hace referencia a ningún identificador formal. Se refiere al 'usuario', que es un rol genérico. Por lo tanto, la trazabilidad es limitada."
+      }
+    },
+    "rag_context": "the configuration baselines, the information items are provided to the designated authorities and\nresponsibilities for information management. As the requirements are changed and new baselines are\ncreated, the revised information items are provided for information management.\nThe requirements information shall be managed in accordance with the organization's information\nmanagement process.\n\n— the required information items stated in this document are produced; and\n— it is demonstrated that the information items produced during the requirements engineering\nactivities conform to the content requirements defined in this document.\nThe requirements for information items in this document are contained in Clause 7. The requirements\n\nuser can claim conformance to the information items and information item content in this document. The reason\nis that this document adds additional information items.\nNOTE 2 In this document, for simplicity of reference, each information item is described as if it were published\nas a separate document. However, information items can be considered as conforming if they are unpublished",
+    "rag_feedback": "REQ-001: El sistema debe proporcionar a los administradores del sistema responsables de la gestión de inventario de piezas recicladas, información sobre las piezas recicladas disponibles y sus proveedores. La información se devolverá a través de una interfaz web en un plazo máximo de 24 horas después de que el administrador solicite dicha información.  El administrador recibirá una notificación por correo electrónico confirmando la recepción de la información. Esta funcionalidad está directamente relacionada con REQ-002 (Gestión del Inventario)."
+  },
+  {
+    "id": 710,
+    "requirement": "El sistema debe calcular y mostrar indicadores visuales de tendencia (aumento o disminución) que comparen el uso de recursos del mes actual frente al mes inmediatamente anterior.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito define claramente la comparación (uso de recursos mes actual vs. anterior) y utiliza un indicador visual de tendencia, lo que permite una verificación objetiva a través de métricas de cambio."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: calcular y mostrar tendencias en el uso de recursos. No contiene conjunciones ni ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define explícitamente la comparación a realizar (tendencia) y el tipo de indicador visual (visuales de tendencia)."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente la acción (calcular y mostrar indicadores), la condición (comparar con el mes anterior) y el resultado esperado (indicadores visuales de tendencia que muestren aumento o disminución)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito menciona 'uso de recursos', pero no hace referencia a un caso de uso específico ni a un identificador formal. Podría estar vinculado a un caso de uso genérico como 'Monitoreo de Recursos'."
+      }
+    },
+    "rag_context": "c) interfaces to external systems or procedures;\nd) capabilities, functions/services and features of the current system;\ne) charts and accompanying descriptions depicting inputs, outputs, data flows, control flows and\nmanual and automated processes sufficient to understand the current system or situation from the\nuser’s point of view;\nf) cost of system operations;\ng) operational risk factors;\n\nreach consensus on system requirements, putting significant risk on subsequent activities in the\nlife cycle.\nOther useful requirements measures include:\n— requirements trends;\n— requirements change rate and backlog;\n— traceability measures (e.g., percentage of parents without children, average number of child\nrequirements per parent – an indicator of design complexity);\n\ne) charts and accompanying descriptions depicting inputs, outputs, data flow, and manual and\nautomated processes sufficient to understand the proposed system or situation from the user’s\npoint of view;\nf) cost of systems operations;\ng) operational risk factors;\nh) performance characteristics, such as speed, throughput, volume, frequency;",
+    "rag_feedback": "El sistema calculará y mostrará indicadores visuales de tendencia que representen el cambio en el uso de recursos del mes actual frente al mes inmediatamente anterior. Los recursos a comparar serán CPU, Memoria RAM y Disco Duro, medidos en porcentaje. El indicador visual será un gráfico de líneas con la escala de valores normalizados entre 0% y 100%, donde una línea ascendente indica un aumento y una línea descendente indica una disminución del uso de recursos.  Este requisito está vinculado al caso de uso 'Análisis de Uso de Recursos Mensual' (ID: UR-001)."
+  },
+  {
+    "id": 408,
+    "requirement": "Users shall be able to check for new software releases and download them manually through the mobile phone.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 1,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 0
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito describe acciones claras y medibles (checkear releases y descargar manualmente). Se puede verificar si el usuario realiza estas acciones y el sistema responde correctamente."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única función: la capacidad de checkear y descargar actualizaciones."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define claramente las acciones que el usuario puede realizar y el medio (mobile phone) para llevarlas a cabo."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define la condición de activación (necesidad de checkear releases), la acción del sistema (checkear y descargar manualmente) y el resultado esperado (descarga de las actualizaciones)."
+      },
+      "TRACEABLE": {
+        "score": 0,
+        "explanation": "El requerimiento no hace referencia a ningún identificador formal ni caso de uso. Solo menciona 'users' lo cual es un término genérico."
+      }
+    },
+    "rag_context": "and verification of the software increment or release in process.\nThe requirements should:\na) be stated in conformance with all the characteristics described in 5.2 of this document;\nb) be cross-referenced to earlier versions or related documents;\nc) be uniquely identifiable;\nd) describe every input (stimulus) into the software system, every output (response) from the\n\nspecific version. Typically, a version number most recent version or any currently maintain version can be\nspecified for software.\nFor each interface, specify:\na) discussion of the purpose of the interfacing software as related to this software product;\nb) definition of the interface in terms of message content and format. It is not necessary to detail any\n\nsoftware requirements definition, they include tools and repositories that can be used to elicit system\nrequirements from stakeholders and to capture, manage and transform this information.\nISO/IEC/IEEE 15288:2015 6.4.3.3\nObtain or acquire access to the enabling systems or services to be used.\nISO/IEC/IEEE 12207:2017 6.4.3.3\n[ , a) 4)]\n[ , a) 4)]",
+    "rag_feedback": "Los usuarios podrán verificar la disponibilidad de nuevas actualizaciones de la aplicación móvil (versión X.Y.Z) y descargarlas manualmente a través de sus dispositivos iOS o Android con versión 10.0 o superior. La verificación se realizará mediante una notificación push al usuario cuando esté disponible una nueva versión.  La descarga manual permitirá instalar directamente la actualización desde el dispositivo, siguiendo las instrucciones proporcionadas en la aplicación. El requisito está identificado como REQ-MOBILE-001."
+  },
+  {
+    "id": 54,
+    "requirement": "Debe permitir que los usuarios administradores o quienes tengan asignados los permisos correspondientes puedan crear nuevos niveles dentro de la estructura de clasificación.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito define claramente la acción (crear niveles) y el actor (administradores/usuarios con permisos). Se puede verificar si se cumplen los criterios definidos para la creación de niveles."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: permitir la creación de nuevos niveles. No contiene conjunciones que unan ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define explícitamente quién puede realizar la acción (administradores/usuarios con permisos) y qué acción se debe realizar (crear nuevos niveles). No hay términos ambiguos ni vagos."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la condición de activación (usuarios administradores o con permisos), la acción del sistema (crear nuevos niveles) y el resultado esperado (nuevos niveles creados en la estructura de clasificación)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito menciona 'administradores' y 'usuarios con permisos', que son roles genéricos. No se hace referencia a un identificador formal de caso de uso o requisito. Se alinea con el Contexto 2 que sugiere describir los user classes."
+      }
+    },
+    "rag_context": "should be identified as a separate user class.\nEach user class for the proposed system, including operators, maintainers and trainers, should be\ndescribed in a separate section. Each section should provide a description of the user class, including\nresponsibilities, education, background, skill level, activities and envisioned modes of interaction with\nthe proposed system.\n\nDescribe the organizational structures of the various user groups and user classes that are to be\ninvolved with the proposed system. Organizational charts are useful graphic tools for this purpose.\nA.2.6.6.3 Profiles of user classes\nProvide a profile of each user class for the proposed system. If some users play several roles, each role\nshould be identified as a separate user class.\n\nnormal, degraded or emergency.\n— User class - some systems provide different sets of functions to different classes of users. For\nexample, an elevator control system presents different capabilities to passengers, maintenance\nworkers and firefighters.",
+    "rag_feedback": "Los administradores del sistema y los usuarios que posean el permiso 'CrearNivelesClasificacion' podrán crear nuevos niveles dentro de la estructura de clasificación. La creación de niveles debe estar restringida a aquellos usuarios con este permiso específico, según lo definido en el Procedimiento de Gestión de Permisos [Referencia al documento]. Este requisito se rastrea como Caso de Uso UC-005 y tiene el ID REQ-123."
+  },
+  {
+    "id": 209,
+    "requirement": "The product will allow priviledged users to view meeting schedules in multiple reporting views.",
+    "true_tags": {
+      "VERIFIABILITY": 1,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente que los usuarios privilegiados pueden ver los horarios de las reuniones en múltiples vistas de informes. Esto permite la creación de pruebas específicas para verificar el correcto funcionamiento de estas vistas y su capacidad para mostrar datos de reuniones."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única función: permitir a los usuarios privilegiados ver horarios de reuniones en diferentes vistas. No contiene conjunciones ni ideas secundarias que lo dividan."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define explícitamente la acción (ver horarios) y el actor (usuarios privilegiados) y el resultado (múltiples vistas de informes). No hay términos ambiguos ni interpretaciones alternativas."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la condición (usuarios privilegiados), la acción (ver horarios en múltiples vistas) y el resultado esperado (diferentes vistas de informes). No faltan elementos clave para su implementación y verificación."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito menciona 'usuarios privilegiados', que es un rol genérico. Aunque no se proporciona un identificador formal, la referencia a un rol es menos precisa que una referencia directa a un caso de uso o requerimiento específico.  Se necesita más contexto para vincularlo a un origen formal."
+      }
+    },
+    "rag_context": "9.6.5 Product functions\nProvide a summary of the major functions that the software will perform. For example, an SRS for an\naccounting program may use this part to address customer account maintenance, customer statement\nand invoice preparation without mentioning the vast amount of detail that each of those functions\nrequires.\n69\n\nincluding them. By describing changes and features considered but not included in the proposed\nsystem, the authors document the results of their analysis activities. This information can be useful to\nother personnel involved with the system, whether it be users, acquirers or suppliers should they want\n\nDescribe the organizational structures of the various user groups and user classes that are to be\ninvolved with the proposed system. Organizational charts are useful graphic tools for this purpose.\nA.2.6.6.3 Profiles of user classes\nProvide a profile of each user class for the proposed system. If some users play several roles, each role\nshould be identified as a separate user class.",
+    "rag_feedback": "El sistema permitirá a los usuarios con el rol 'Administrador de Reuniones' visualizar los horarios de las reuniones en al menos tres tipos de vistas de informes: tabla, gráfico de Gantt y calendario. Cada vista debe mostrar información actualizada en tiempo real y responder en un máximo de 2 segundos para consultas comunes."
+  },
+  {
+    "id": 680,
+    "requirement": "El sistema debe permitir al productor dividir su finca en lotes o parcelas específicas, registrando para cada una el tipo de cultivo, la extensión en hectáreas y las coordenadas geográficas iniciales para una gestión diferenciada.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente las acciones del sistema (dividir la finca) y los resultados esperados (registro de lotes con información detallada). La métrica de 'gestión diferenciada' implica una verificación basada en datos."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: permitir al productor dividir su finca. No hay conjunciones que unan ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "Aunque el requisito es relativamente claro, la frase 'gestión diferenciada' podría requerir mayor definición en términos de criterios específicos para la diferenciación. Se podría mejorar con métricas más concretas."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la condición (dividir la finca), la acción del sistema (registro de lotes) y el resultado esperado (información detallada por lote)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito menciona al 'productor' como actor, pero no hace referencia a un caso de uso o identificador formal. Se necesita una vinculación más explícita para cumplir con los requisitos de trazabilidad."
+      }
+    },
+    "rag_context": "and usability;\nj) provisions for safety, security, privacy, integrity and continuity of operations in emergencies; and\nk) logistics requirements to support system.\nSince the purpose of this section is to describe the current system and how it operates, it is appropriate\nto use any tools and/or techniques that serve this purpose. It is important that the description of\n\ninvolve different geographical sites and equipment that have significant impacts on the operational\naspects of the system.\nThis section can be further divided into lower-level sections, one for each mode described. System\nprocesses, procedures and capabilities or functions should be related to each mode, as appropriate,\nperhaps using a cross-reference matrix.\n\n9.5.3 System scope\nDefine the scope of the system under consideration by:\na) identifying the system to be produced by name;\nb) referring to and stating the results of the earlier finalized needs analysis, in the form of a brief but\nclear expression of the user's problem(s). It explains what the system will and will not do to satisfy\nthose needs;",
+    "rag_feedback": "El sistema debe permitir que el productor divida su finca en lotes o parcelas específicas. Para cada lote, se registrarán los siguientes datos: Tipo de Cultivo (seleccionado de una lista predefinida), Extensión en Hectáreas (calculada a partir de datos topográficos y/o mediciones GPS con precisión de +/- 0.1 hectáreas), Coordenadas Geográficas (Latitud/Longitud en formato WGS84) y Rendimiento Promedio Esperado por Hectárea (definido por el productor, pero sujeto a validación basada en datos históricos del cultivo). Esta información se utilizará para la Gestión Diferenciada, definida como la capacidad de aplicar estrategias de riego y fertilización personalizadas basadas en el tipo de cultivo y rendimiento esperado, según lo registrado."
+  },
+  {
+    "id": 587,
+    "requirement": "El sistema debe mostrar la temperatura actual de la zona del cultivo obtenida desde un servicio externo de datos meteorológicos.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente la fuente de datos (servicio externo) y el resultado esperado (temperatura actual). Esto permite definir pruebas para verificar que los datos recibidos son correctos y que se muestran correctamente."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito describe una única función: mostrar la temperatura. No contiene conjunciones ni ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define la fuente de datos y el resultado esperado sin ambigüedades."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la condición (datos obtenidos de un servicio externo), la acción del sistema (mostrar la temperatura) y el resultado esperado (temperatura actual)."
+      },
+      "TRACEABLE": {
+        "score": 2,
+        "explanation": "Aunque no especifica un identificador formal, se refiere a un 'servicio externo de datos meteorológicos', lo cual es una referencia clara que puede vincularse a un caso de uso o requerimiento específico."
+      }
+    },
+    "rag_context": "environment of the current system should be described.\nThe information in this section should be organized as appropriate to the system or situation, as long\nas a clear description of the existing system is achieved. If parts of the descriptions are voluminous,\nthey can be included in an appendix or incorporated by reference. An example of material that might be\n\nand usability;\nj) provisions for safety, security, privacy, integrity and continuity of operations in emergencies; and\nk) logistics requirements to support system.\nSince the purpose of this section is to describe the current system and how it operates, it is appropriate\nto use any tools and/or techniques that serve this purpose. It is important that the description of\n\ndescription of the proposed system, including the following, as appropriate:\na) the operational environment and its characteristics;\nb) major system elements and the interconnections among these elements;\nc) interfaces to external systems or procedures;\nd) capabilities or functions of the proposed system;\ne) charts and accompanying descriptions depicting inputs, outputs, data flow, and manual and",
+    "rag_feedback": "El sistema debe mostrar la temperatura actual de la zona del cultivo obtenida a través del Servicio Meteorológico Nacional (SMN) utilizando su API. La temperatura se mostrará en grados Celsius, con una precisión de al menos una décima de grado. En caso de fallo en la comunicación con el SMN, el sistema mostrará un mensaje de error 'Datos meteorológicos no disponibles' y utilizará un valor predeterminado de 20°C como respaldo. Se validará que la temperatura recibida se encuentra entre -50°C y +50°C."
+  },
+  {
+    "id": 181,
+    "requirement": "The system will display a blank set of ratings if there are not ratings yet defined.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente la acción del sistema (mostrar un set de calificaciones vacías) y el resultado esperado (un set vacío de calificaciones). Esto permite una verificación objetiva."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: mostrar un set de calificaciones vacío cuando no existen calificaciones definidas. No contiene conjunciones ni ideas secundarias."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define explícitamente la condición (ausencia de calificaciones) y el resultado (un set vacío). No hay términos ambiguos o vagos."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito declara claramente la condición de activación (no existen calificaciones definidas), la acción del sistema (mostrar un set vacío) y el resultado esperado (un set vacío de calificaciones)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito no hace referencia a ningún identificador formal o caso de uso. Se centra en una funcionalidad general, lo que dificulta su trazabilidad directa a un origen específico."
+      }
+    },
+    "rag_context": "requirements cannot be considered complete until all the TBx designated requirements have been resolved.\nNOTE 3 Adapted and open source software frequently have existing functions that are not utilized in the\nsystem of interest. For integrated systems, systems of systems and systems containing COTS components,\nthe requirements for the solution of interest can still be ‘complete’.\n\n— Complete. The set of requirements stands alone such that it sufficiently describes the necessary\ncapabilities, characteristics, constraints or quality factors to meet entity needs without needing\nfurther information. In addition, the set does not contain any To Be Defined (TBD), To Be Specified\n(TBS), or To Be Resolved (TBR) clauses. Resolution of the TBx designations may be iterative and\n\nDefine usability and quality in use requirements and objectives for the system that can include\nmeasurable effectiveness, efficiency, satisfaction criteria and avoidance of harm that could arise from\nuse in specific contexts of use.",
+    "rag_feedback": "El sistema mostrará un conjunto vacío de ratings en la pantalla si no existen ratings definidos previamente. Este conjunto vacío consistirá en una tabla vacía con las columnas estándar para ratings (ej., Nombre del Usuario, Valor, Fecha). Si se agregan calificaciones, el sistema mostrará esas calificaciones en lugar del conjunto vacío."
+  },
+  {
+    "id": 131,
+    "requirement": "Permite restringir resultados de búsqueda por intervalos de tiempo.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente la acción (restringir resultados) y el resultado esperado (por intervalos de tiempo). Se puede verificar mediante pruebas que aseguren que los resultados de búsqueda cumplen con los criterios de tiempo definidos."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: restringir los resultados de búsqueda por intervalos de tiempo. No contiene conjunciones ni ideas secundarias."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "Aunque el término 'intervalos de tiempo' es relativamente claro, no especifica la granularidad o las unidades de tiempo permitidas (ej., horas, días, semanas). Esto podría generar ambigüedad en su implementación."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la condición (resultados de búsqueda), la acción (restringir) y el resultado esperado (por intervalos de tiempo)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito no hace referencia a ningún caso de uso o identificador formal. Se refiere al concepto general de 'resultados de búsqueda', lo que limita su trazabilidad directa."
+      }
+    },
+    "rag_context": "limitations placed on the operations of the proposed system. Examples of operational constraints\ninclude the following:\n— a constraint on the hours of operations of the system, perhaps limited by access to secure terminals;\n— a limiting constraint on the number of personnel available to operate the system;\n— a limiting constraint on the computer hardware (e.g., shall operate on computer X); and\n\n9.3.12 Business operational constraints\nDescribe conditions to be imposed in conducting the business process. The conditions may be on a\nperformance constraint (e.g., the process shall be finished within a day after the triggering event\noccurs), or may be from a management requisite such as 'every occurrence of the process shall be\nmonitored and recorded'.\n9.3.13 Business operational modes\n\n— a limiting constraint on the computer hardware (e.g., shall operate on computer X); and\n— a limiting constraint on the operational facilities, such as office space.\nA.2.6.4 Description of the proposed system\nThis section contains the major portion of the description of the proposed system. It provides a\ndescription of the proposed system, including the following, as appropriate:",
+    "rag_feedback": "El sistema permitirá restringir los resultados de búsqueda por intervalos de tiempo definidos en unidades de días, semanas o meses. Los usuarios podrán especificar un rango de fechas de inicio y fin (ej., 'entre el 01/01/2023 y el 31/12/2023') para filtrar los resultados. La verificación se realizará mediante pruebas que aseguren que los resultados devueltos cumplen con las fechas especificadas en el rango de búsqueda."
+  },
+  {
+    "id": 227,
+    "requirement": "The Disputes System must prevent users from accessing any dispute cases that do not belong to their cardholder base.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 2,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 2
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito define claramente la condición (acceso a casos basados en la base de datos del titular) y el resultado esperado (prevención del acceso no autorizado). Es posible establecer pruebas para verificar que los usuarios solo pueden acceder a los casos correspondientes a su base de datos."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única función: restringir el acceso a casos. No contiene conjunciones ni ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "Los términos 'usuarios' y 'cardholder base' están definidos en el contexto normativo (ISO 29148) como usuarios que interactúan con el sistema, incluyendo operadores y personal de soporte. El requisito es claro sobre la restricción de acceso basada en esta base de datos."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente la condición (acceso basado en la cardholder base), la acción del sistema (restricción de acceso) y el resultado esperado (prevención del acceso no autorizado). La definición de 'usuario' y 'cardholder base' proporciona contexto adicional."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito menciona 'usuarios', que es un rol genérico. Aunque el contexto normativo define 'usuario' como alguien que interactúa con el sistema (incluyendo operadores y personal de soporte), no hay una referencia formal a un caso de uso o identificador específico."
+      }
+    },
+    "rag_context": "with the system. Different user classes may have distinct operational scenarios for their interactions\nwith the system. In this context, a user is anyone who will interact with the proposed system,\nincluding operational users, data entry personnel, system operators, operational support personnel,\n\nthe proposed system.\nA.2.6.6.4 Interactions among user classes\nDescribe interactions among the various user classes that may be involved with the proposed system. In\nparticular, interaction among user groups, operators and maintainers should be described. Interactions\nthat will occur among the users of the proposed system and between users and non-users, both within\n\ninteractions with the system. In this context, a user is anyone who interacts with the existing system,\nincluding operational users, data entry personnel, system operators, operational support personnel,\nsoftware maintainers and trainers.",
+    "rag_feedback": "El Disputes System shall prevent users from accessing any dispute cases that belong to their cardholder base. Specifically, a ‘cardholder base’ is defined as the unique set of accounts associated with a registered cardholder. Users are categorized as either ‘Operator of Support’ or ‘End User’. Operators of Support will be able to access all dispute cases. End Users will only be able to access dispute cases that belong to their assigned cardholder base, verified through user authentication and authorization based on the linked account details."
+  },
+  {
+    "id": 72,
+    "requirement": "Debe permitir la validación de elementos de metadatos mediante algoritmos de verificación.",
+    "true_tags": {
+      "VERIFIABILITY": 2,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 2,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito especifica el uso de 'algoritmos de verificación', lo que permite definir criterios de prueba y métodos de verificación."
+      },
+      "ATOMICITY": {
+        "score": 1,
+        "explanation": "Aunque se centra en la validación de metadatos, podría beneficiarse de una mayor especificidad sobre los algoritmos concretos a utilizar."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "Los términos 'algoritmos de verificación' son relativamente precisos y no presentan ambigüedad. Se asume que se refiere a procesos automatizados de validación."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define la acción (validar elementos) y el resultado esperado (verificación mediante algoritmos), aunque falta especificar los criterios de éxito para la verificación."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito no hace referencia a ningún identificador formal. Se refiere al uso de 'algoritmos de verificación', lo que implica una dependencia general y no vincula directamente a un caso de uso o requerimiento específico."
+      }
+    },
+    "rag_context": "Verification methods should be documented. Documentation may include requirements verification and\ntraceability matrix or verification statements in a verification plan. A verification method defines how\n(including success criteria and closure approach), where and when each requirement's compliance can\n\nProvide the verification approaches and methods planned to qualify the system or system element.\nThe information elements for verification are recommended to be given in a parallel manner with the\ninformation elements in 9.5.5 to 9.5.17.\n9.5.19 Assumptions and dependencies\nList any assumptions and dependencies applicable to the system requirements that should be taken\n\njust the applicable parts of the reference to restrict verification work).\nAll assumptions made regarding a requirement shall be documented and validated in one of the\nrequirement's attributes in 5.2.8 (e.g., rationale) associated with a requirement or in an accompanying\ndocument. Include definitions as declarative statements, not requirements.\n5.2.8 Requirements attributes\n5.2.8.1 General",
+    "rag_feedback": "El sistema debe permitir la validación de elementos de metadatos, específicamente nombres, fechas y valores numéricos, utilizando algoritmos de verificación automatizados. La validación se realizará mediante expresiones regulares para validar formatos de fecha y rangos numéricos definidos en el documento de especificaciones.  Se considerará exitosa la validación cuando al menos el 95% de los elementos de metadatos sean válidos según los criterios establecidos, con un registro detallado de cualquier error detectado y su manejo (ej., notificación al usuario, bloqueo del proceso). Este requisito está vinculado al Caso de Uso UC-007: 'Validación de Datos de Metadatos'."
+  },
+  {
+    "id": 86,
+    "requirement": "Debe permitir manejar un mecanismo que asigne texto como título a carpetas y documentos.",
+    "true_tags": {
+      "VERIFIABILITY": 1,
+      "ATOMICITY": 1,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 2,
+        "explanation": "El requisito especifica claramente la acción del sistema (asignar título) y el resultado esperado (manejar un mecanismo)."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: permitir asignar títulos a carpetas y documentos."
+      },
+      "AMBIGUITY": {
+        "score": 2,
+        "explanation": "El requisito es claro y preciso. Define la acción de asignación de título sin términos vagos o ambiguos."
+      },
+      "COMPLETENESS": {
+        "score": 2,
+        "explanation": "El requisito define claramente la condición (manejar un mecanismo), la acción (asignar texto como título) y el resultado esperado (manejo del mecanismo)."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito no hace referencia a ningún identificador formal de caso de uso o documento. Se limita a describir una funcionalidad general."
+      }
+    },
+    "rag_context": "9.2.1 Identification\nInclude the following identification matter:\na) title; and\nb) revision notice.\nThe title and a revision notice uniquely identify the document. Revision information may include the\nproject name, version number of the document, date of release, approved signature, a list of sub-clauses\n\nprojects. This tool should have the capability to trace linkages between requirements to show\nrelationships. A requirements management tool is intended to facilitate and support the systematic\nmanaging of requirements throughout the project life cycle. This includes, but is not limited to,\nrequirements elicitation, requirements analysis, requirements change management, requirements\n\nthat will run the system. Also identify other documents relevant to the present or proposed system.\nA graphical overview of the system is strongly recommended. This can be in the form of a context\ndiagram, a top-level object diagram or some other type of diagram that depicts the system and its\nenvironment. Documents that might be cited include, but are not limited to: the project authorization,",
+    "rag_feedback": "El sistema debe permitir asignar un título textual a carpetas y documentos. El título no puede exceder los 255 caracteres y solo puede contener letras, números y espacios. La asignación de títulos se realizará a través de una interfaz de usuario que permita al usuario seleccionar el texto del título y guardarlo. Se debe generar un ID único para cada título asignado y registrarlo en la base de datos junto con la identificación de la carpeta o documento al que está asociado."
+  },
+  {
+    "id": 375,
+    "requirement": "The system will notify affected parties for routine communication purposes including but not limited to informing students of upcoming offered classes (timeline) and what their schedule will be/shall be.",
+    "true_tags": {
+      "VERIFIABILITY": 1,
+      "ATOMICITY": 2,
+      "AMBIGUITY": 1,
+      "COMPLETENESS": 1,
+      "TRACEABLE": 1
+    },
+    "rag_evaluation": {
+      "VERIFIABILITY": {
+        "score": 1,
+        "explanation": "El requisito describe acciones y resultados esperados, pero carece de métricas específicas para verificar la notificación."
+      },
+      "ATOMICITY": {
+        "score": 2,
+        "explanation": "El requisito expresa una única idea: notificar a las partes interesadas. No contiene conjunciones que unan ideas independientes."
+      },
+      "AMBIGUITY": {
+        "score": 1,
+        "explanation": "Aunque relativamente claro, el término 'rutina comunicación' es vago y podría interpretarse de diferentes maneras en cuanto al momento o frecuencia de las notificaciones."
+      },
+      "COMPLETENESS": {
+        "score": 0,
+        "explanation": "Falta especificar la condición de activación (ej. qué eventos desencadenan la notificación), el método de notificación (ej. correo electrónico, SMS) y el formato de la información que se envía."
+      },
+      "TRACEABLE": {
+        "score": 1,
+        "explanation": "El requisito menciona 'estudiantes' y 'clases', pero no hace referencia a ningún caso de uso o identificador formal. Se necesita un vínculo más explícito."
+      }
+    },
+    "rag_context": "and maintenance organizations. Also describe the temporary impacts on users, acquirers, suppliers\nand the operations and maintenance organizations during the period of time when the new system is\nbeing developed, installed or trained.\nThis information is provided in order to allow all affected organizations to prepare for the changes that\n\nwith the system. Different user classes may have distinct operational scenarios for their interactions\nwith the system. In this context, a user is anyone who will interact with the proposed system,\nincluding operational users, data entry personnel, system operators, operational support personnel,\n\nthe proposed system.\nA.2.6.6.4 Interactions among user classes\nDescribe interactions among the various user classes that may be involved with the proposed system. In\nparticular, interaction among user groups, operators and maintainers should be described. Interactions\nthat will occur among the users of the proposed system and between users and non-users, both within",
+    "rag_feedback": "El sistema notificará a los estudiantes sobre las clases ofrecidas semanalmente el lunes antes de que comience el curso. La notificación se enviará mediante correo electrónico y incluirá una tabla con la timeline del curso y su horario específico. Esta notificación se activará cuando un nuevo curso sea añadido al catálogo.  La verificación de esta funcionalidad se realizará midiendo el tiempo promedio de entrega de la notificación y el porcentaje de estudiantes que confirman recepción de la información. Este requisito está vinculado al caso de uso 'Gestión de Clases' (REQ-001)."
+  }
+]
