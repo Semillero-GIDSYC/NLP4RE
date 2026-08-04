@@ -1,49 +1,56 @@
 services:
   ia-service:
+    container_name: ia-service
     build: ./backend/ia-service
-    container_name: ia_service
     extra_hosts:
       - "host.docker.internal:host-gateway"
     env_file:
       - ./.env
     ports:
-      - "8001:8000"
+      - "${RAG_SERVICE_PORT}:8000"
     depends_on:
-      pgvector:
+      rag-db:
         condition: service_healthy
     volumes:
       - ./docs:/app/docs
       - ./backend/ia-service/ia_service:/app/ia_service
     environment:
-      - POSTGRES_HOST=pgvector
-      - DOCS_DIR=/app/docs
+      POSTGRES_HOST: rag-db
+      DOCS_DIR: /app/docs
     dns:
       - 8.8.8.8
       - 1.1.1.1
-    restart: unless-stopped
+    restart: no
 
-  java-backend:
+  users-service:
+    container_name: users-service
     build: ./backend/nlp4re
-    container_name: java_backend
-    env_file:
-      - ./.env
     ports:
-      - "8081:8080"
+      - "${USER_SERVICE_PORT}:8080"
     depends_on:
-      db:
+      users-db:
         condition: service_healthy
     environment:
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
-    restart: unless-stopped
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${DB_USERS_PORT}
+      POSTGRES_DB: ${DB_USERS}
+      POSTGRES_USER: ${DB_USERS_USER}
+      POSTGRES_PASSWORD: ${DB_USERS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+    restart: no
 
-  pgvector:
+  rag-db:
+    container_name: rag-db
     image: pgvector/pgvector:pg16
-    container_name: pgvector_db
-    env_file:
-      - ./.env
+    environment:
+      POSTGRES_USER: ${DB_RAG_USER}
+      POSTGRES_PORT: ${DB_RAG_PORT}
+      POSTGRES_PASSWORD: ${DB_RAG_PASSWORD}
+      POSTGRES_DB: ${DB_RAG}
+
     ports:
-      - "5435:5432"
+      - "${DB_RAG_PORT}:5432"
     volumes:
       - pgvector_data:/var/lib/postgresql/data
     healthcheck:
@@ -51,15 +58,19 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-    restart: unless-stopped
+    restart: no
   
-  db:
+  users-db:
+    container_name: users-db
     image: postgres:16-alpine
-    container_name: db_users
-    env_file:
-      - ./.env
+    environment:
+      POSTGRES_USER: ${DB_USERS_USER}
+      POSTGRES_PORT: ${DB_USERS_PORT}
+      POSTGRES_PASSWORD: ${DB_USERS_PASSWORD}
+      POSTGRES_DB: ${DB_USERS}
+      POSTGRES_HOST: ${POSTGRES_HOST}
     ports:
-      - "5436:5432"
+      - "${DB_USERS_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -67,7 +78,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-    restart: unless-stopped
+    restart: no
 
 volumes:
   pgvector_data:

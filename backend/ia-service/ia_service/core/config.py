@@ -16,10 +16,10 @@ class Settings(BaseSettings):
     DEBUG: bool = False
 
     POSTGRES_HOST: str = "localhost"
-    POSTGRES_PORT: int = 5432
-    POSTGRES_USER: str = "admin"
-    POSTGRES_PASSWORD: str = "secretpassword"
-    POSTGRES_DB: str = "requirements_db"
+    DB_RAG_PORT: int = 5432
+    DB_RAG_USER: str = "admin"
+    DB_USERS_PASSWORD: str = "secretpassword"
+    DB_RAG: str = "requirements_db"
 
     LLM_PROVIDER: str = "local" # For embeddings
     GENERATION_LLM_PROVIDER: str = "gemini" # For generation tasks
@@ -44,16 +44,16 @@ class Settings(BaseSettings):
     def database_url(self) -> str:
         """URL de conexión a PostgreSQL."""
         return (
-            f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
-            f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+            f"postgresql+psycopg2://{self.DB_RAG_USER}:{self.DB_USERS_PASSWORD}"
+            f"@{self.POSTGRES_HOST}:{self.DB_RAG_PORT}/{self.DB_RAG}"
         )
 
     @property
     def async_database_url(self) -> str:
         """URL de conexión async (para futuro uso)."""
         return (
-            f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
-            f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+            f"postgresql+asyncpg://{self.DB_RAG_USER}:{self.DB_USERS_PASSWORD}"
+            f"@{self.POSTGRES_HOST}:{self.DB_RAG_PORT}/{self.DB_RAG}"
         )
 
     model_config = SettingsConfigDict(
