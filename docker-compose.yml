@@ -25,13 +25,15 @@ services:
   users-service:
     container_name: users-service
     build: ./backend/nlp4re
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "${USER_SERVICE_PORT}:8080"
     depends_on:
       users-db:
         condition: service_healthy
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_HOST: host.docker.internal
       POSTGRES_PORT: ${DB_USERS_PORT}
       POSTGRES_DB: ${DB_USERS}
       POSTGRES_USER: ${DB_USERS_USER}
