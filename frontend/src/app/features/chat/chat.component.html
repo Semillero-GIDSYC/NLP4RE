@@ -1,0 +1,272 @@
+<div class="h-screen w-screen flex bg-slate-950 text-slate-100 overflow-hidden font-sans select-none">
+  <!-- Sidebar -->
+  <aside class="w-80 bg-slate-900 border-r border-slate-800/80 flex flex-col h-full z-20 flex-shrink-0 transition-transform duration-300">
+    <!-- Sidebar Header -->
+    <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center font-bold text-base shadow-md">N</div>
+        <span class="font-bold text-lg bg-gradient-to-r from-violet-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">NLP4RE</span>
+      </div>
+      
+      <button 
+        (click)="startNewConversation()" 
+        [disabled]="isAnalyzing()"
+        class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700/80 border border-slate-700/50 hover:border-slate-600 text-slate-300 cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-all active:scale-95"
+        title="Nueva Conversación"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Conversations List -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-2 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
+      @if (conversations().length === 0) {
+        <div class="text-center py-8 text-slate-500 text-sm">
+          No hay conversaciones previas.
+        </div>
+      } @else {
+        @for (conv of conversations(); track conv.id) {
+          <div 
+            (click)="selectConversation(conv)"
+            [class]="activeConversation()?.id === conv.id 
+              ? 'bg-slate-800 border-slate-700/80 text-white' 
+              : 'hover:bg-slate-800/40 border-transparent text-slate-400 hover:text-slate-200'"
+            class="group flex items-center justify-between p-3 rounded-xl border transition-all cursor-pointer select-none"
+          >
+            <div class="flex items-center gap-3 overflow-hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-slate-500 flex-shrink-0">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 2.053 1.518 3.82 3.528 3.82h3.94l3.483 3.483a.75.75 0 0 0 1.28-.53V16.5h.008a3.75 3.75 0 0 0 3.75-3.75V5.625a3.75 3.75 0 0 0-3.75-3.75H6.375A3.75 3.75 0 0 0 2.625 5.625v7.125Z" />
+              </svg>
+              <span class="text-sm font-medium truncate">{{ conv.title }}</span>
+            </div>
+            
+            <button 
+              (click)="deleteConversation($event, conv.id)"
+              [disabled]="isAnalyzing()"
+              class="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-slate-700 text-slate-500 hover:text-red-400 cursor-pointer transition-all disabled:opacity-0"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+              </svg>
+            </button>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- User Profile Badge & Logout -->
+    <div class="p-4 border-t border-slate-800/80 bg-slate-900/60 flex items-center justify-between">
+      <div class="flex items-center gap-3 overflow-hidden">
+        <div class="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-slate-300 flex-shrink-0">
+          {{ currentUser()?.username?.substring(0, 2)?.toUpperCase() }}
+        </div>
+        <div class="overflow-hidden">
+          <p class="text-sm font-semibold text-slate-200 truncate">{{ currentUser()?.username }}</p>
+          <p class="text-xs text-slate-500 truncate">{{ currentUser()?.email }}</p>
+        </div>
+      </div>
+      
+      <button 
+        (click)="logout()"
+        class="p-2 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-400 cursor-pointer transition-all active:scale-95"
+        title="Cerrar Sesión"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Chat Workspace -->
+  <main class="flex-1 flex flex-col h-full bg-slate-950 relative">
+    <!-- Active Chat Header -->
+    <div class="h-16 border-b border-slate-800/80 px-6 flex items-center justify-between bg-slate-950/60 backdrop-blur-md z-10 flex-shrink-0">
+      <h3 class="font-semibold text-slate-200 truncate">
+        {{ activeConversation() ? activeConversation()!.title : 'Nuevo Análisis de Requisitos' }}
+      </h3>
+    </div>
+
+    <!-- Message Stream -->
+    <div 
+      #scrollContainer
+      class="flex-1 overflow-y-auto px-6 py-8 space-y-6 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent"
+    >
+      @if (!activeConversation() && messages().length === 0 && !isAnalyzing()) {
+        <!-- Welcome Hub -->
+        <div class="h-full flex flex-col items-center justify-center max-w-2xl mx-auto text-center space-y-6">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center font-bold text-3xl shadow-xl shadow-violet-500/10">N</div>
+          <div>
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-violet-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
+              Analizador de Requisitos NLP4RE
+            </h1>
+            <p class="text-slate-400 text-sm mt-3 max-w-md mx-auto">
+              Escribe un requisito de software y evaluaremos en tiempo real su atomicidad, ambigüedad, verificabilidad, completitud y trazabilidad según la norma ISO 29148.
+            </p>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-4 w-full pt-4">
+            <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 text-left hover:border-slate-700/50 transition-all select-none">
+              <span class="text-xs font-semibold text-violet-400 uppercase tracking-wide">Evaluación ISO 29148</span>
+              <p class="text-slate-300 text-sm mt-1">Calificaciones y explicaciones para cada dimensión crítica.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 text-left hover:border-slate-700/50 transition-all select-none">
+              <span class="text-xs font-semibold text-cyan-400 uppercase tracking-wide">Propuesta Optimizada</span>
+              <p class="text-slate-300 text-sm mt-1">Recibe una versión mejorada y libre de ambigüedades.</p>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Render Message List -->
+      @for (msg of messages(); track msg.id) {
+        <div [class]="msg.sender === 'USER' ? 'justify-end' : 'justify-start'" class="flex w-full">
+          <div 
+            [class]="msg.sender === 'USER' 
+              ? 'max-w-xl bg-violet-600 text-white rounded-2xl rounded-tr-sm px-4 py-3 shadow-md font-medium text-sm' 
+              : 'w-full max-w-4xl space-y-4'"
+          >
+            @if (msg.sender === 'USER') {
+              <p class="whitespace-pre-wrap leading-relaxed">{{ msg.content }}</p>
+            } @else {
+              <!-- AI JSON Parsed Content -->
+              @if (parseJSONContent(msg.content); as aiData) {
+                <div class="space-y-5">
+                  <!-- Evaluation Dimension Scores -->
+                  <div class="grid grid-cols-1 md:grid-cols-5 gap-3.5">
+                    @for (dim of ['VERIFIABILITY', 'ATOMICITY', 'AMBIGUITY', 'COMPLETENESS', 'TRACEABLE']; track dim) {
+                      @if (aiData.evaluation[dim]; as metric) {
+                        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between shadow-sm">
+                          <div>
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ dim === 'TRACEABLE' ? 'TRAZABILIDAD' : dim }}</span>
+                            <div class="flex items-baseline gap-1 mt-1">
+                              <span class="text-2xl font-extrabold text-slate-100">{{ metric.score }}</span>
+                              <span class="text-xs text-slate-500">/5</span>
+                            </div>
+                          </div>
+                          <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">{{ metric.explanation }}</p>
+                        </div>
+                      }
+                    }
+                  </div>
+
+                  <!-- Feedback: Suggestions and Improved Requirement -->
+                  <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 shadow-sm">
+                    <div>
+                      <h4 class="text-sm font-bold text-violet-400 uppercase tracking-wider mb-2.5">Sugerencias de Mejora</h4>
+                      <ul class="list-disc pl-5 text-sm text-slate-300 space-y-2 leading-relaxed">
+                        @for (sug of aiData.feedback.suggestions; track sug) {
+                          <li>{{ sug }}</li>
+                        }
+                      </ul>
+                    </div>
+
+                    <div class="border-t border-slate-800/80 pt-4">
+                      <h4 class="text-sm font-bold text-cyan-400 uppercase tracking-wider mb-2.5">Requisito Optimizado Recomendado</h4>
+                      <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 font-mono text-xs text-emerald-400 leading-relaxed whitespace-pre-wrap select-text">
+                        {{ aiData.feedback.improved_requirement }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              } @else {
+                <!-- Plain Text Fallback -->
+                <div class="max-w-2xl p-4 rounded-2xl rounded-tl-sm bg-slate-900 border border-slate-800 text-sm leading-relaxed text-slate-300">
+                  <p class="whitespace-pre-wrap">{{ msg.content }}</p>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Live Stream preview container (runs when websocket is streaming) -->
+      @if (isAnalyzing()) {
+        <div class="flex w-full justify-start animate-fade-in">
+          <div class="w-full max-w-4xl space-y-4">
+            
+            <!-- Status indicator -->
+            <div class="flex items-center gap-3 text-slate-400 text-sm bg-slate-900/40 border border-slate-800/40 w-fit px-4 py-2.5 rounded-full">
+              <svg class="animate-spin h-4 w-4 text-violet-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="font-medium">{{ currentStatus() }}</span>
+            </div>
+
+            <!-- Streaming Scores Preview -->
+            @if (streamingEvaluation()) {
+              <div class="grid grid-cols-1 md:grid-cols-5 gap-3.5 animate-pulse-slow">
+                @for (dim of ['VERIFIABILITY', 'ATOMICITY', 'AMBIGUITY', 'COMPLETENESS', 'TRACEABLE']; track dim) {
+                  @if (streamingEvaluation()[dim]; as metric) {
+                    <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800/60 flex flex-col justify-between">
+                      <div>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ dim === 'TRACEABLE' ? 'TRAZABILIDAD' : dim }}</span>
+                        <div class="flex items-baseline gap-1 mt-1">
+                          <span class="text-2xl font-extrabold text-slate-300">{{ metric.score }}</span>
+                          <span class="text-xs text-slate-600">/5</span>
+                        </div>
+                      </div>
+                      <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">{{ metric.explanation }}</p>
+                    </div>
+                  }
+                }
+              </div>
+            }
+
+            <!-- Streaming Suggestions Preview -->
+            @if (streamingFeedback()) {
+              <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800/60 space-y-4 animate-pulse-slow">
+                <div>
+                  <h4 class="text-sm font-bold text-violet-500/80 uppercase tracking-wider mb-2.5">Sugerencias de Mejora (Generando...)</h4>
+                  <ul class="list-disc pl-5 text-sm text-slate-400 space-y-2 leading-relaxed">
+                    @for (sug of streamingFeedback().suggestions; track sug) {
+                      <li>{{ sug }}</li>
+                    }
+                  </ul>
+                </div>
+
+                @if (streamingFeedback().improved_requirement) {
+                  <div class="border-t border-slate-800/60 pt-4">
+                    <h4 class="text-sm font-bold text-cyan-500/80 uppercase tracking-wider mb-2.5">Requisito Optimizado Recomendado</h4>
+                    <div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800/60 font-mono text-xs text-emerald-400/80 leading-relaxed whitespace-pre-wrap">
+                      {{ streamingFeedback().improved_requirement }}
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Message Composer -->
+    <div class="p-6 border-t border-slate-800/80 bg-slate-950 flex-shrink-0">
+      <form (ngSubmit)="onSend()" class="max-w-4xl mx-auto relative flex items-center">
+        <input 
+          type="text" 
+          [(ngModel)]="inputValue"
+          name="inputValue"
+          [disabled]="isAnalyzing()"
+          placeholder="Escribe un requisito (ej: El sistema debe permitir registrarse con correo y contraseña)..."
+          class="w-full pl-5 pr-14 py-4 rounded-2xl bg-slate-900/70 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-violet-500 transition-all text-sm font-medium shadow-inner disabled:opacity-40 disabled:pointer-events-none"
+        />
+        
+        <button 
+          type="submit" 
+          [disabled]="!inputValue().trim() || isAnalyzing()"
+          class="absolute right-3.5 p-2 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white cursor-pointer transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none shadow-md shadow-violet-500/10"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+          </svg>
+        </button>
+      </form>
+      <p class="text-center text-[10px] text-slate-600 font-medium mt-3 select-none">NLP4RE evalúa basándose en la norma internacional de ingeniería de requisitos ISO 29148.</p>
+    </div>
+  </main>
+</div>

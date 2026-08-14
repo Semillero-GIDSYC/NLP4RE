@@ -1,0 +1,77 @@
+<div class="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden select-none">
+  <!-- Aesthetic background glow elements -->
+  <div class="absolute w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[120px] -top-40 -left-40 animate-pulse"></div>
+  <div class="absolute w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-[100px] -bottom-20 -right-20 animate-pulse-slow"></div>
+
+  <!-- Card container with hover and shadow -->
+  <div class="w-full max-w-md bg-slate-900/60 backdrop-blur-2xl border border-slate-800/80 rounded-2xl p-8 shadow-2xl relative z-10 transition-all duration-300 hover:border-slate-700/50">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-violet-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
+        NLP4RE
+      </h2>
+      <p class="text-slate-400 text-sm mt-2 font-medium">Analizador de Requisitos de Software mediante IA</p>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="mb-5 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2 animate-shake">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 flex-shrink-0">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+        </svg>
+        <span>{{ errorMessage() }}</span>
+      </div>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
+      <div>
+        <label for="username" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Nombre de Usuario</label>
+        <input 
+          type="text" 
+          id="username" 
+          formControlName="username"
+          placeholder="Tu nombre de usuario"
+          class="w-full px-4 py-3 rounded-xl bg-slate-950/60 border border-slate-800 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-sm"
+          [class.border-red-500]="loginForm.get('username')?.touched && loginForm.get('username')?.invalid"
+        />
+        @if (loginForm.get('username')?.touched && loginForm.get('username')?.errors?.['required']) {
+          <p class="text-red-400 text-xs mt-1.5 font-medium">Este campo es requerido.</p>
+        }
+      </div>
+
+      <div>
+        <label for="password" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Contraseña</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password"
+          placeholder="••••••••"
+          class="w-full px-4 py-3 rounded-xl bg-slate-950/60 border border-slate-800 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-sm"
+          [class.border-red-500]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+        />
+        @if (loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']) {
+          <p class="text-red-400 text-xs mt-1.5 font-medium">Este campo es requerido.</p>
+        }
+      </div>
+
+      <button 
+        type="submit" 
+        [disabled]="loginForm.invalid || isLoading()"
+        class="w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg active:scale-95 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white disabled:opacity-40 disabled:pointer-events-none"
+      >
+        @if (isLoading()) {
+          <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>Autenticando...</span>
+        } @else {
+          <span>Iniciar Sesión</span>
+        }
+      </button>
+    </form>
+
+    <div class="mt-6 text-center text-sm text-slate-500">
+      <span>¿No tienes una cuenta? </span>
+      <a routerLink="/register" class="text-violet-400 hover:text-violet-300 font-semibold transition-all">Crear Cuenta</a>
+    </div>
+  </div>
+</div>
