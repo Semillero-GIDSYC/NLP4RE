@@ -7,7 +7,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - "${RAG_SERVICE_PORT}:8000"
+      - "8001:8000"
     depends_on:
       rag-db:
         condition: service_healthy
@@ -28,13 +28,13 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
-      - "${USER_SERVICE_PORT}:8080"
+      - "8081:8080"
     depends_on:
       users-db:
         condition: service_healthy
     environment:
       POSTGRES_HOST: host.docker.internal
-      POSTGRES_PORT: ${DB_USERS_PORT}
+      POSTGRES_PORT: 5436
       POSTGRES_DB: ${DB_USERS}
       POSTGRES_USER: ${DB_USERS_USER}
       POSTGRES_PASSWORD: ${DB_USERS_PASSWORD}
@@ -47,12 +47,11 @@ services:
     image: pgvector/pgvector:pg16
     environment:
       POSTGRES_USER: ${DB_RAG_USER}
-      POSTGRES_PORT: ${DB_RAG_PORT}
+      POSTGRES_PORT: 5432
       POSTGRES_PASSWORD: ${DB_RAG_PASSWORD}
       POSTGRES_DB: ${DB_RAG}
-
     ports:
-      - "${DB_RAG_PORT}:5432"
+      - "5435:5432"
     volumes:
       - pgvector_data:/var/lib/postgresql/data
     healthcheck:
@@ -67,12 +66,12 @@ services:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: ${DB_USERS_USER}
-      POSTGRES_PORT: ${DB_USERS_PORT}
+      POSTGRES_PORT: 5432
       POSTGRES_PASSWORD: ${DB_USERS_PASSWORD}
       POSTGRES_DB: ${DB_USERS}
-      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_HOST: host.docker.internal
     ports:
-      - "${DB_USERS_PORT}:5432"
+      - "5436:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
