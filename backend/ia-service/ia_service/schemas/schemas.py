@@ -86,10 +86,24 @@ class FeedbackResult(BaseModel):
     improved_requirement: str = Field(..., description="Versión mejorada del requisito")
 
 
+class ModelInfo(BaseModel):
+    """Información de un modelo de LLM disponible."""
+    id: str
+    name: str
+    provider: str # gemini, openai, anthropic, local
+    description: Optional[str] = None
+    is_local: bool = False
+    requires_key: bool = True
+
+
 class AnalyzeRequest(BaseModel):
     """Input para analizar un requisito."""
 
     text: str = Field(..., min_length=5, description="Texto del requisito a analizar")
+    provider: Optional[str] = Field(default=None, description="Proveedor: gemini, openai, anthropic, local")
+    model: Optional[str] = Field(default=None, description="Nombre específico del modelo")
+    api_key: Optional[str] = Field(default=None, description="API Key personalizada opcional")
+    base_url: Optional[str] = Field(default=None, description="URL base para servidor local (ej. LM Studio)")
 
 
 class AnalyzeResponse(BaseModel):

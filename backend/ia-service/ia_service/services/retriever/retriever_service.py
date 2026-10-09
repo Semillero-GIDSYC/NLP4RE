@@ -10,59 +10,83 @@ from ia_service.db.session import SessionLocal
 from ia_service.db.models import Document as DBDocument
 from ia_service.db.models import Requirement as DBRequirement
 
-def get_embeddings():
+
+def get_embeddings(
+    provider: Optional[str] = None,
+    api_key: Optional[str] = None,
+    base_url: Optional[str] = None,
+):
     """
-    Retorna el modelo de embeddings según el proveedor configurado.
+    Retorna el modelo de embeddings según el proveedor configurado o solicitado.
     """
     settings = get_settings()
+    p = (provider or settings.LLM_PROVIDER or "gemini").lower().strip()
 
-    if settings.LLM_PROVIDER == "openai":
+    if p == "openai":
         from langchain_openai import OpenAIEmbeddings
 
         return OpenAIEmbeddings(
             model=settings.OPENAI_EMBEDDING_MODEL,
-            api_key=settings.OPENAI_API_KEY,
+            api_key=api_key or settings.OPENAI_API_KEY,
         )
-    elif settings.LLM_PROVIDER == "local":
+    elif p == "local":
         from langchain_openai import OpenAIEmbeddings
 
+        url = base_url or settings.LOCAL_MODELS_API or "http://host.docker.internal:1234/v1"
+        if not url.endswith("/v1") and not url.endswith("/v1/"):
+            url = f"{url.rstrip('/')}/v1"
         return OpenAIEmbeddings(
             model=settings.LOCAL_EMBEDDER_MODEL,
-            openai_api_base=settings.LOCAL_MODELS_API,
-            openai_api_key="lm-studio",
-            check_embedding_ctx_length=False
+            openai_api_base=url,
+            openai_api_key=api_key or "lm-studio",
+            check_embedding_ctx_length=False,
         )
     else:
+        # Default: Google Gemini embeddings
+        key = api_key or settings.GOOGLE_API_KEY
         return GoogleGenerativeAIEmbeddings(
             model=settings.GEMINI_EMBEDDING_MODEL,
-            google_api_key=settings.GOOGLE_API_KEY,
+            google_api_key=key,
             output_dimensionality=768,
         )
 
 
-def retrieve_context(query: str, k: Optional[int] = None) -> list[Document]:
+def retrieve_context(
+    query: str,
+    k: Optional[int] = None,
+    provider: Optional[str] = None,
+    api_key: Optional[str] = None,
+    base_url: Optional[str] = None,
+) -> list[Document]:
     """
     Recupera los chunks más relevantes de la tabla 'documents' como contexto
-    usando similitud del coseno.
+    usando similitud del coseno. Robusto ante fallos de conexión.
     """
     settings = get_settings()
     k = k or settings.RETRIEVER_K
 
-    embeddings_model = get_embeddings()
-    query_embedding = embeddings_model.embed_query(query)
-    
+    try:
+        embeddings_model = get_embeddings(provider=provider, api_key=api_key, base_url=base_url)
+        query_embedding = embeddings_model.embed_query(query)
+    except Exception:
+        if settings.GOOGLE_API_KEY and provider != "gemini":
+            try:
+                embeddings_model = get_embeddings(provider="gemini", api_key=settings.GOOGLE_API_KEY)
+                query_embedding = embeddings_model.embed_query(query)
+            except Exception:
+                return []
+        else:
+            return []
+
     db = SessionLocal()
     try:
-        # Usando distancia coseno de pgvector:
         results = (
             db.query(DBDocument)
             .order_by(DBDocument.embedding.cosine_distance(query_embedding))
             .limit(k)
             .all()
         )
-        
-        # Convertir a LangChain Document
-        docs = [
+        return [
             Document(
                 page_content=doc.content,
                 metadata={
@@ -70,59 +94,60 @@ def retrieve_context(query: str, k: Optional[int] = None) -> list[Document]:
                     "id": str(doc.id),
                     "source": doc.source,
                     "page": doc.page,
-                    "chunk_index": doc.chunk_index
-                }
+                    "chunk_index": doc.chunk_index,
+                },
             )
             for doc in results
         ]
-        return docs
+    except Exception:
+        return []
     finally:
         db.close()
 
 
-def retrieve_examples(query: str, k: int = 15) -> list[dict]:
+def retrieve_examples(
+    query: str,
+    k: int = 4,
+    provider: Optional[str] = None,
+    api_key: Optional[str] = None,
+    base_url: Optional[str] = None,
+) -> list[dict]:
     """
-    Recupera los requerimientos de ejemplo más similares de la tabla 'requirements'
-    usando similitud del coseno sobre sus embeddings.
+    Recupera los requerimientos de ejemplo más similares de la tabla 'requirements'.
+    Robusto ante fallos de conexión.
     """
-    embeddings_model = get_embeddings()
-    query_embedding = embeddings_model.embed_query(query)
-    
+    settings = get_settings()
+    try:
+        embeddings_model = get_embeddings(provider=provider, api_key=api_key, base_url=base_url)
+        query_embedding = embeddings_model.embed_query(query)
+    except Exception:
+        if settings.GOOGLE_API_KEY and provider != "gemini":
+            try:
+                embeddings_model = get_embeddings(provider="gemini", api_key=settings.GOOGLE_API_KEY)
+                query_embedding = embeddings_model.embed_query(query)
+            except Exception:
+                return []
+        else:
+            return []
+
     db = SessionLocal()
     try:
-        # Buscar en base a similitud del coseno en pgvector
         results = (
             db.query(DBRequirement)
             .order_by(DBRequirement.embedding.cosine_distance(query_embedding))
             .limit(k)
             .all()
         )
-        
         examples = []
         for r in results:
-            # Evitar usar el mismo requerimiento de entrada como ejemplo si coincide exactamente
             if r.text.strip().lower() == query.strip().lower():
                 continue
             examples.append({
                 "text": r.text,
-                "metadata": r.metadata_ or {}
+                "metadata": r.metadata_ or {},
             })
-            
-        # Si excluimos el actual y nos quedamos con menos de k, podemos tomar un elemento extra
-        if len(examples) < k:
-            extra_results = (
-                db.query(DBRequirement)
-                .order_by(DBRequirement.embedding.cosine_distance(query_embedding))
-                .offset(len(results))
-                .limit(k - len(examples))
-                .all()
-            )
-            for r in extra_results:
-                examples.append({
-                    "text": r.text,
-                    "metadata": r.metadata_ or {}
-                })
-                
         return examples[:k]
+    except Exception:
+        return []
     finally:
         db.close()

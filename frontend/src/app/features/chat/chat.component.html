@@ -1,5 +1,5 @@
 <div class="h-screen w-screen flex bg-slate-50 text-slate-900 overflow-hidden font-sans select-none">
-  <!-- Sidebar (Dark Blue / Slate Theme for professional contrast) -->
+  <!-- Sidebar (Dark Slate Theme for professional contrast) -->
   <aside class="w-80 bg-slate-900 border-r border-slate-800 flex flex-col h-full z-20 flex-shrink-0">
     <!-- Sidebar Header -->
     <div class="p-5 border-b border-slate-800 flex items-center justify-between">
@@ -82,11 +82,47 @@
 
   <!-- Main Chat Workspace (Clean Light Theme) -->
   <main class="flex-1 flex flex-col h-full bg-slate-50 relative">
-    <!-- Active Chat Header -->
+    <!-- Active Chat Header with Model Selector and API Key Settings -->
     <div class="h-16 border-b border-slate-200 px-6 flex items-center justify-between bg-white z-10 flex-shrink-0">
-      <h3 class="font-bold text-slate-800 truncate">
-        {{ activeConversation() ? activeConversation()!.title : 'Nuevo Análisis de Requisitos' }}
-      </h3>
+      <div class="flex items-center gap-3 overflow-hidden">
+        <h3 class="font-bold text-slate-800 truncate text-sm md:text-base">
+          {{ activeConversation() ? activeConversation()!.title : 'Nuevo Análisis de Requisitos' }}
+        </h3>
+      </div>
+
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <!-- Model Selector Dropdown -->
+        <div class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 shadow-sm hover:border-slate-300 transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-blue-900">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+          </svg>
+          <select 
+            [disabled]="isAnalyzing()"
+            [value]="modelService.selectedModel().id"
+            (change)="onModelSelectChange($event)"
+            class="bg-transparent text-xs font-semibold text-slate-800 outline-none cursor-pointer pr-1"
+            title="Seleccionar Modelo de Lenguaje"
+          >
+            @for (m of modelService.models(); track m.id) {
+              <option [value]="m.id">
+                {{ m.is_local ? '💻 ' : '🌐 ' }}{{ m.name }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <!-- API Keys Config Trigger Button -->
+        <button 
+          (click)="openConfigModal()"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium cursor-pointer transition-all shadow-sm active:scale-95"
+          title="Configurar Claves API y Servidor Local"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-blue-900">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
+          </svg>
+          <span class="hidden sm:inline">Claves API</span>
+        </button>
+      </div>
     </div>
 
     <!-- Message Stream -->
@@ -182,60 +218,64 @@
         </div>
       }
 
-      <!-- Live Stream preview container (runs when websocket is streaming) -->
+      <!-- LIVE STREAMING AI MESSAGE CONTAINER -->
       @if (isAnalyzing()) {
-        <div class="flex w-full justify-start">
+        <div class="flex w-full justify-start animate-fade-in">
           <div class="w-full max-w-4xl space-y-4">
             
-            <!-- Status indicator -->
-            <div class="flex items-center gap-3 text-slate-600 text-sm bg-white border border-slate-200 w-fit px-4 py-2 rounded-full shadow-sm">
-              <svg class="animate-spin h-4 w-4 text-blue-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              <span class="font-medium text-xs">{{ currentStatus() }}</span>
+            <!-- Live Status Badge -->
+            <div class="flex items-center gap-3 text-slate-700 text-xs bg-white border border-slate-200 w-fit px-4 py-2 rounded-full shadow-sm">
+              <span class="relative flex h-2.5 w-2.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-700"></span>
+              </span>
+              <span class="font-semibold">{{ currentStatus() }}</span>
+              <span class="text-slate-300">|</span>
+              <span class="text-slate-500 text-[11px]">{{ modelService.selectedModel().name }}</span>
             </div>
 
-            <!-- Streaming Scores Preview -->
+            <!-- Streaming Dimension Scores (Populate live as tokens arrive) -->
             @if (streamingEvaluation()) {
               <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
                 @for (dim of ['VERIFIABILITY', 'ATOMICITY', 'AMBIGUITY', 'COMPLETENESS', 'TRACEABLE']; track dim) {
                   @if (streamingEvaluation()[dim]; as metric) {
-                    <div class="p-4 rounded-lg bg-white/70 border border-slate-200 flex flex-col justify-between shadow-sm">
+                    <div class="p-4 rounded-lg bg-white border border-blue-100 flex flex-col justify-between shadow-sm animate-fade-in">
                       <div>
                         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ dim === 'TRACEABLE' ? 'TRAZABILIDAD' : dim }}</span>
                         <div class="flex items-baseline gap-1 mt-1">
-                          <span class="text-2xl font-bold text-blue-900/60">{{ metric.score }}</span>
+                          <span class="text-2xl font-bold text-blue-900">{{ metric.score }}</span>
                           <span class="text-xs text-slate-400">/2</span>
                         </div>
                       </div>
-                      <p class="text-xs text-slate-500 mt-2.5 leading-relaxed">{{ metric.explanation }}</p>
+                      <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">{{ metric.explanation }}</p>
                     </div>
                   }
                 }
               </div>
             }
 
-            <!-- Streaming Suggestions Preview -->
-            @if (streamingFeedback()) {
-              <div class="p-5 rounded-lg bg-white/70 border border-slate-200 space-y-4 shadow-sm">
-                <div>
-                  <h4 class="text-xs font-bold text-blue-900/70 uppercase tracking-wider mb-2.5">Sugerencias de Mejora (Generando...)</h4>
-                  <ul class="list-disc pl-5 text-sm text-slate-600 space-y-2 leading-relaxed">
-                    @for (sug of streamingFeedback().suggestions; track sug) {
-                      <li>{{ sug }}</li>
-                    }
-                  </ul>
-                </div>
+            <!-- Streaming Suggestions List -->
+            @if (streamingSuggestions().length > 0) {
+              <div class="p-5 rounded-lg bg-white border border-slate-200 space-y-3 shadow-sm animate-fade-in">
+                <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wider">Sugerencias de Mejora (En progreso...)</h4>
+                <ul class="list-disc pl-5 text-sm text-slate-700 space-y-2 leading-relaxed">
+                  @for (sug of streamingSuggestions(); track sug) {
+                    <li>{{ sug }}</li>
+                  }
+                </ul>
+              </div>
+            }
 
-                @if (streamingFeedback().improved_requirement) {
-                  <div class="border-t border-slate-200 pt-4">
-                    <h4 class="text-xs font-bold text-blue-900/70 uppercase tracking-wider mb-2.5">Requisito Optimizado Recomendado</h4>
-                    <div class="p-4 rounded-lg bg-slate-50/70 border border-slate-200 font-mono text-xs text-slate-700 leading-relaxed whitespace-pre-wrap">
-                      {{ streamingFeedback().improved_requirement }}
-                    </div>
-                  </div>
-                }
+            <!-- Real-Time Token-by-Token Streaming Improved Requirement -->
+            @if (streamingImprovedReq()) {
+              <div class="p-5 rounded-lg bg-white border border-blue-200 space-y-2.5 shadow-sm animate-fade-in">
+                <div class="flex items-center gap-2 text-xs font-bold text-blue-900 uppercase tracking-wider">
+                  <span class="inline-block w-2 h-2 rounded-full bg-blue-700 animate-pulse"></span>
+                  <span>Requisito Optimizado Recomendado (Generando en vivo)</span>
+                </div>
+                <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed whitespace-pre-wrap select-text">
+                  <span>{{ streamingImprovedReq() }}</span><span class="inline-block w-2 h-4 bg-blue-900 ml-1 animate-pulse align-middle"></span>
+                </div>
               </div>
             }
 
@@ -252,7 +292,7 @@
           [(ngModel)]="inputValue"
           name="inputValue"
           [disabled]="isAnalyzing()"
-          placeholder="Escribe un requisito (ej: El sistema debe permitir registrarse)..."
+          placeholder="Escribe un requisito (ej: El sistema debe permitir registrarse con correo y contraseña)..."
           class="w-full pl-5 pr-14 py-4 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-900 focus:bg-white transition-all text-sm font-medium disabled:opacity-40 disabled:pointer-events-none"
         />
         
@@ -268,5 +308,106 @@
       </form>
       <p class="text-center text-[10px] text-slate-500 font-medium mt-3 select-none">NLP4RE evalúa basándose en la norma internacional de ingeniería de requisitos ISO 29148.</p>
     </div>
+
+    <!-- API Key & Provider Configuration Modal -->
+    @if (isConfigModalOpen()) {
+      <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4 animate-fade-in">
+        <div class="bg-white rounded-xl border border-slate-200 shadow-2xl max-w-lg w-full p-6 space-y-5">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-900 flex items-center justify-center font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-800 text-sm">Configuración de Modelos y Claves API</h3>
+                <p class="text-[11px] text-slate-500">Usa tus propias claves para consumir tus tokens y cuotas.</p>
+              </div>
+            </div>
+            <button 
+              (click)="closeConfigModal()" 
+              class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="space-y-4 text-xs font-medium text-slate-700">
+            <!-- Google Gemini API Key -->
+            <div>
+              <label class="block mb-1 text-slate-800 font-semibold">Google Gemini API Key</label>
+              <input 
+                type="password"
+                [(ngModel)]="configGeminiKey"
+                placeholder="AIzaSy... (Opcional, usa .env si está vacío)"
+                class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-900 outline-none text-xs font-mono"
+              />
+              <span class="text-[10px] text-slate-400 mt-0.5 block">Para modelos Gemini (Flash, Pro).</span>
+            </div>
+
+            <!-- OpenAI API Key -->
+            <div>
+              <label class="block mb-1 text-slate-800 font-semibold">OpenAI API Key</label>
+              <input 
+                type="password"
+                [(ngModel)]="configOpenAIKey"
+                placeholder="sk-..."
+                class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-900 outline-none text-xs font-mono"
+              />
+              <span class="text-[10px] text-slate-400 mt-0.5 block">Para GPT-4o Mini, GPT-4o, GPT-3.5 Turbo.</span>
+            </div>
+
+            <!-- Anthropic API Key -->
+            <div>
+              <label class="block mb-1 text-slate-800 font-semibold">Anthropic API Key</label>
+              <input 
+                type="password"
+                [(ngModel)]="configAnthropicKey"
+                placeholder="sk-ant-..."
+                class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-900 outline-none text-xs font-mono"
+              />
+              <span class="text-[10px] text-slate-400 mt-0.5 block">Para Claude 3.5 Sonnet, Claude 3.5 Haiku.</span>
+            </div>
+
+            <!-- Local Model URL -->
+            <div>
+              <label class="block mb-1 text-slate-800 font-semibold">Servidor Local (LM Studio / Ollama)</label>
+              <input 
+                type="text"
+                [(ngModel)]="configLocalUrl"
+                placeholder="http://localhost:1234/v1"
+                class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-900 outline-none text-xs font-mono"
+              />
+              <span class="text-[10px] text-slate-400 mt-0.5 block">Para ejecutar modelos locales sin internet.</span>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-lg bg-blue-50/70 border border-blue-100 text-[11px] text-blue-950 flex items-start gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-shrink-0 text-blue-800 mt-0.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+            </svg>
+            <span>Tus credenciales se guardan localmente en tu propio navegador (localStorage). Nunca se almacenan permanentemente en el servidor.</span>
+          </div>
+
+          <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+            <button 
+              (click)="closeConfigModal()" 
+              class="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-medium cursor-pointer transition-all"
+            >
+              Cancelar
+            </button>
+            <button 
+              (click)="saveConfig()" 
+              class="px-4 py-2 rounded-lg bg-blue-900 hover:bg-blue-950 text-white text-xs font-semibold cursor-pointer transition-all shadow-sm active:scale-95"
+            >
+              Guardar Configuración
+            </button>
+          </div>
+        </div>
+      </div>
+    }
   </main>
 </div>

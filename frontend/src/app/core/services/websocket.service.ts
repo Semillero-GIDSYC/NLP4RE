@@ -8,12 +8,21 @@ import { WebSocketMessage } from '../models/chat.model';
 export class WebSocketService {
   private readonly wsUrl = 'ws://localhost:8001/ws/analyze';
 
-  analyzeRequirement(text: string): Observable<WebSocketMessage> {
+  analyzeRequirement(
+    text: string, 
+    options?: { provider?: string; model?: string; apiKey?: string; localUrl?: string }
+  ): Observable<WebSocketMessage> {
     return new Observable<WebSocketMessage>(observer => {
       const socket = new WebSocket(this.wsUrl);
 
       socket.onopen = () => {
-        socket.send(JSON.stringify({ text }));
+        socket.send(JSON.stringify({
+          text,
+          provider: options?.provider,
+          model: options?.model,
+          apiKey: options?.apiKey,
+          localUrl: options?.localUrl
+        }));
       };
 
       socket.onmessage = (event) => {

@@ -7,12 +7,141 @@ from ia_service.schemas.schemas import (
     RequirementListResponse,
     DocumentResponse,
     DocumentListResponse,
+    ModelInfo,
 )
 from ia_service.services.retriever.retriever_service import retrieve_context
 from ia_service.services.evaluation.evaluation_service import evaluate_requirement
 from ia_service.services.feedback.feedback_service import generate_feedback
+from ia_service.core.llm import get_llm
+from ia_service.core.config import get_settings
 
 router = APIRouter(tags=["Análisis"])
+
+
+@router.get(
+    "/models",
+    response_model=list[ModelInfo],
+    summary="Listar modelos de LLM disponibles",
+    description="Retorna la lista de modelos de texto soportados (locales y nube: Gemini, OpenAI, Anthropic).",
+)
+async def list_available_models():
+    """Retorna los modelos disponibles agrupados por familias."""
+    settings = get_settings()
+    models = [
+        # Familia Google Gemini
+        ModelInfo(
+            id="gemini-2.5-flash",
+            name="Gemini 2.5 Flash",
+            provider="gemini",
+            description="Google - Rápido, preciso y multimodal (Recomendado)",
+            is_local=False,
+            requires_key=True,
+        ),
+        ModelInfo(
+            id="gemini-2.5-pro",
+            name="Gemini 2.5 Pro",
+            provider="gemini",
+            description="Google - Mayor profundidad analítica",
+            is_local=False,
+            requires_key=True,
+        ),
+        ModelInfo(
+            id="gemini-1.5-flash",
+            name="Gemini 1.5 Flash",
+            provider="gemini",
+            description="Google - Balance económico y veloz",
+            is_local=False,
+            requires_key=True,
+        ),
+        # Familia OpenAI
+        ModelInfo(
+            id="gpt-4o-mini",
+            name="GPT-4o Mini",
+            provider="openai",
+            description="OpenAI - Ligero, veloz y económico",
+            is_local=False,
+            requires_key=True,
+        ),
+        ModelInfo(
+            id="gpt-4o",
+            name="GPT-4o",
+            provider="openai",
+            description="OpenAI - Modelo insignia multimodal de alta gama",
+            is_local=False,
+            requires_key=True,
+        ),
+        ModelInfo(
+            id="gpt-3.5-turbo",
+            name="GPT-3.5 Turbo",
+            provider="openai",
+            description="OpenAI - Estándar clásico eficiente",
+            is_local=False,
+            requires_key=True,
+        ),
+        # Familia Anthropic
+        ModelInfo(
+            id="claude-3-5-sonnet-20241022",
+            name="Claude 3.5 Sonnet",
+            provider="anthropic",
+            description="Anthropic - Excelente razonamiento y calidad de código",
+            is_local=False,
+            requires_key=True,
+        ),
+        ModelInfo(
+            id="claude-3-5-haiku-20241022",
+            name="Claude 3.5 Haiku",
+            provider="anthropic",
+            description="Anthropic - Ultrarrápido y conciso",
+            is_local=False,
+            requires_key=True,
+        ),
+    ]
+
+    # Intentar descubrir modelos de servidor local (LM Studio u Ollama)
+    import httpx
+    local_urls = [
+        settings.LOCAL_MODELS_API,
+        "http://host.docker.internal:1234/v1",
+        "http://localhost:1234/v1",
+    ]
+    local_detected = False
+    for b_url in local_urls:
+        if not b_url:
+            continue
+        try:
+            url_clean = b_url if b_url.endswith("/v1") or b_url.endswith("/v1/") else f"{b_url.rstrip('/')}/v1"
+            async with httpx.AsyncClient(timeout=1.0) as client:
+                res = await client.get(f"{url_clean.rstrip('/')}/models")
+                if res.status_code == 200:
+                    data = res.json()
+                    for item in data.get("data", []):
+                        m_id = item.get("id")
+                        if m_id:
+                            models.insert(0, ModelInfo(
+                                id=m_id,
+                                name=f"Local: {m_id}",
+                                provider="local",
+                                description="Modelo local activo en LM Studio / Ollama (Sin Internet)",
+                                is_local=True,
+                                requires_key=False,
+                            ))
+                            local_detected = True
+                    if local_detected:
+                        break
+        except Exception:
+            pass
+
+    if not local_detected:
+        models.insert(0, ModelInfo(
+            id=settings.LOCAL_MODEL or "google/gemma-3-4b",
+            name=f"Local: {settings.LOCAL_MODEL or 'google/gemma-3-4b'}",
+            provider="local",
+            description="Modelo local (LM Studio / Ollama en puerto 1234)",
+            is_local=True,
+            requires_key=False,
+        ))
+
+    return models
 
 
 @router.post(
@@ -27,10 +156,7 @@ router = APIRouter(tags=["Análisis"])
 )
 async def analyze_requirement(request: AnalyzeRequest):
     """
-    Pipeline completo de análisis:
-    1. Recuperar contexto normativo (retriever/pgvector).
-    2. Evaluar requisito con LLM (5 dimensiones).
-    3. Generar feedback y versión mejorada con LLM.
+    Pipeline completo de análisis con soporte multi-modelo y clave API personalizada.
     """
     try:
         context_docs = retrieve_context(request.text, k=3)
@@ -39,11 +165,19 @@ async def analyze_requirement(request: AnalyzeRequest):
         evaluation = evaluate_requirement(
             requirement_text=request.text,
             context_docs=context_docs,
+            provider=request.provider,
+            model=request.model,
+            api_key=request.api_key,
+            base_url=request.base_url,
         )
 
         feedback = generate_feedback(
             requirement_text=request.text,
             evaluation=evaluation,
+            provider=request.provider,
+            model=request.model,
+            api_key=request.api_key,
+            base_url=request.base_url,
         )
 
         return AnalyzeResponse(
@@ -175,22 +309,30 @@ async def websocket_analyze(websocket: WebSocket):
     try:
         data = await websocket.receive_text()
         requirement_text = data.strip()
+        provider = None
+        model = None
+        api_key = None
+        base_url = None
         
         try:
             import json
             js = json.loads(data)
-            if isinstance(js, dict) and "text" in js:
-                requirement_text = js["text"].strip()
+            if isinstance(js, dict):
+                requirement_text = js.get("text", "").strip()
+                provider = js.get("provider")
+                model = js.get("model")
+                api_key = js.get("apiKey") or js.get("api_key")
+                base_url = js.get("localUrl") or js.get("base_url")
         except Exception:
             pass
 
         if not requirement_text:
-            await websocket.send_json({"type": "error", "content": "Requisito vacio"})
+            await websocket.send_json({"type": "error", "content": "Requisito vacío"})
             await websocket.close()
             return
 
         # 1. Retrieve Context
-        await websocket.send_json({"type": "status", "content": "Recuperando contexto normativo..."})
+        await websocket.send_json({"type": "status", "content": "Recuperando contexto normativo ISO 29148..."})
         context_docs = retrieve_context(requirement_text, k=3)
         context_texts = [doc.page_content for doc in context_docs]
         
@@ -201,7 +343,6 @@ async def websocket_analyze(websocket: WebSocket):
 
         # 2. Setup LLM and Evaluation Chain
         from ia_service.services.evaluation.evaluation_service import (
-            _get_llm,
             _build_evaluation_prompt,
             _format_context,
             _format_db_examples
@@ -209,12 +350,12 @@ async def websocket_analyze(websocket: WebSocket):
         from ia_service.services.retriever.retriever_service import retrieve_examples
         from langchain_core.output_parsers import StrOutputParser
 
-        await websocket.send_json({"type": "status", "content": "Generando evaluacion (en tiempo real)..."})
+        await websocket.send_json({"type": "status", "content": "Evaluando calidad del requisito (en tiempo real)..."})
         
         examples_list = retrieve_examples(requirement_text, k=4)
         examples_str = _format_db_examples(examples_list)
         
-        llm = _get_llm()
+        llm = get_llm(provider=provider, model=model, api_key=api_key, base_url=base_url)
         eval_prompt = _build_evaluation_prompt(examples_str)
         context_str = _format_context(context_docs)
         

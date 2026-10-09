@@ -4,39 +4,11 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 from ia_service.core.config import get_settings
+from ia_service.core.llm import get_llm
 
 
-def _get_llm():
-    """
-    Retorna el LLM según el proveedor configurado.
-    """
-    settings = get_settings()
-
-    if settings.GENERATION_LLM_PROVIDER == "openai":
-        from langchain_openai import ChatOpenAI
-
-        return ChatOpenAI(
-            model=settings.OPENAI_MODEL,
-            temperature=settings.LLM_TEMPERATURE,
-            openai_api_key=settings.OPENAI_API_KEY,
-        )
-    elif settings.GENERATION_LLM_PROVIDER == "local":
-        from langchain_openai import ChatOpenAI
-
-        return ChatOpenAI(
-            model=settings.LOCAL_MODEL,
-            temperature=settings.LLM_TEMPERATURE,
-            openai_api_base=settings.LOCAL_MODELS_API,
-            openai_api_key="lm-studio",  # LM Studio doesn't strictly need a real key but expects something
-        )
-    else:
-        from langchain_google_genai import ChatGoogleGenerativeAI
-
-        return ChatGoogleGenerativeAI(
-            model=settings.GEMINI_MODEL,
-            temperature=settings.LLM_TEMPERATURE,
-            google_api_key=settings.GOOGLE_API_KEY,
-        )
+def _get_llm(provider: str | None = None, model: str | None = None, api_key: str | None = None, base_url: str | None = None):
+    return get_llm(provider=provider, model=model, api_key=api_key, base_url=base_url)
 
 
 def _build_feedback_prompt() -> ChatPromptTemplate:
@@ -81,6 +53,10 @@ REGLAS:
 def generate_feedback(
     requirement_text: str,
     evaluation: dict,
+    provider: str | None = None,
+    model: str | None = None,
+    api_key: str | None = None,
+    base_url: str | None = None,
 ) -> dict:
     """
     Genera feedback de mejora para un requisito basándose en su evaluación.
@@ -88,12 +64,16 @@ def generate_feedback(
     Args:
         requirement_text: Texto original del requisito.
         evaluation: Resultado de la evaluación (dict con 5 dimensiones).
+        provider: Proveedor de LLM (gemini, openai, anthropic, local).
+        model: Nombre del modelo específico.
+        api_key: Clave API personalizada.
+        base_url: URL base personalizada (para modelos locales).
 
     Returns:
         Diccionario con 'suggestions' (list[str]) e 'improved_requirement' (str).
     """
 
-    llm = _get_llm()
+    llm = get_llm(provider=provider, model=model, api_key=api_key, base_url=base_url)
     prompt = _build_feedback_prompt()
 
     # Ejecutar cadena LLM
