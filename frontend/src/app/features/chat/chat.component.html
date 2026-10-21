@@ -58,7 +58,11 @@
 
     <!-- User Profile Badge & Logout -->
     <div class="p-4 border-t border-slate-800 bg-slate-900 flex items-center justify-between">
-      <div class="flex items-center gap-3 overflow-hidden">
+      <a
+        routerLink="/profile"
+        class="flex items-center gap-3 overflow-hidden -m-1.5 p-1.5 rounded-lg hover:bg-slate-800/60 cursor-pointer transition-all"
+        title="Ver Perfil"
+      >
         <div class="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-slate-300 flex-shrink-0">
           {{ currentUser()?.username?.substring(0, 2)?.toUpperCase() }}
         </div>
@@ -66,7 +70,7 @@
           <p class="text-sm font-semibold text-slate-200 truncate">{{ currentUser()?.username }}</p>
           <p class="text-xs text-slate-500 truncate">{{ currentUser()?.email }}</p>
         </div>
-      </div>
+      </a>
       
       <button 
         (click)="logout()"

@@ -1,0 +1,23 @@
+.animate-fade-in {
+  animation: fadeIn 0.15s ease-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-pop-in {
+  animation: popIn 0.15s ease-out forwards;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-pop-in {
+  animation: popIn 0.15s ease-out forwards;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { ChatService } from '../../core/services/chat.service';
 import { WebSocketService } from '../../core/services/websocket.service';
@@ -9,7 +10,7 @@ import { ConversationResponse, MessageResponse, WebSocketMessage } from '../../c
 
 @Component({
   selector: 'app-chat',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })

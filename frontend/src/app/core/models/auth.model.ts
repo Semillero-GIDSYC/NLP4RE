@@ -23,3 +23,8 @@ export interface UserResponse {
   roles: string[];
   createdAt: string;
 }
+
+export interface UpdateProfileRequest {
+  username: string;
+  email: string;
+}
