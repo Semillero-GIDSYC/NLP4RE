@@ -6,6 +6,10 @@ import com.gidsyc.nlp4re.models.User;
 import com.gidsyc.nlp4re.repositories.RoleRepository;
 import com.gidsyc.nlp4re.repositories.UserRepository;
 import com.gidsyc.nlp4re.services.UserService;
+import com.gidsyc.nlp4re.dto.user.UpdateProfileRequest;
+import com.gidsyc.nlp4re.exceptions.BadRequestException;
+import com.gidsyc.nlp4re.exceptions.ResourceNotFoundException;
+
 
 import java.util.Collections;
 import java.util.List;
@@ -60,6 +64,40 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + username));
         return mapToUserResponse(user);
+    }
+
+    @Override
+    public UserResponse updateProfile(String currentUsername, UpdateProfileRequest request) {
+        User user = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        String newUsername = request.username() == null ? "" : request.username().trim();
+        String newEmail = request.email() == null ? "" : request.email().trim();
+
+        if (newUsername.length() < 3 || newUsername.length() > 50) {
+            throw new BadRequestException("El nombre de usuario debe tener entre 3 y 50 caracteres.");
+        }
+        if (newEmail.length() > 100 || !newEmail.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            throw new BadRequestException("El correo electronico no es valido.");
+        }
+        if (!newUsername.equals(user.getUsername()) && userRepository.existsByUsername(newUsername)) {
+            throw new BadRequestException("El nombre de usuario ya existe.");
+        }
+        if (!newEmail.equals(user.getEmail()) && userRepository.existsByEmail(newEmail)) {
+            throw new BadRequestException("El correo electronico ya existe.");
+        }
+
+        user.setUsername(newUsername);
+        user.setEmail(newEmail);
+        return mapToUserResponse(userRepository.save(user));
+    }
+
+    @Override
+    public void deactivateAccount(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+        user.setActive(false);
+        userRepository.save(user);
     }
 
     private UserResponse mapToUserResponse(User user) {

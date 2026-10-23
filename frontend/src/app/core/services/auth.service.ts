@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth.model';
+import { LoginRequest, RegisterRequest, AuthResponse, UserResponse, UpdateProfileRequest } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly apiUrl = 'http://localhost:8081/api/v1/auth';
+  private readonly profileUrl = 'http://localhost:8081/api/v1/users/me';
 
   readonly currentUser = signal<AuthResponse | null>(null);
 
@@ -35,10 +36,7 @@ export class AuthService {
 
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request).pipe(
-      tap(response => {
-        this.currentUser.set(response);
-        localStorage.setItem('auth_data', JSON.stringify(response));
-      })
+      tap(response => this.saveSession(response))
     );
   }
 
@@ -50,5 +48,26 @@ export class AuthService {
     this.currentUser.set(null);
     localStorage.removeItem('auth_data');
     this.router.navigate(['/login']);
+  }
+
+  getProfile(): Observable<UserResponse> {
+    return this.http.get<UserResponse>(this.profileUrl);
+  }
+
+  updateProfile(request: UpdateProfileRequest): Observable<AuthResponse> {
+    return this.http.put<AuthResponse>(this.profileUrl, request).pipe(
+      tap(response => this.saveSession(response))
+    );
+  }
+
+  deactivateAccount(): Observable<void> {
+    return this.http.delete<void>(this.profileUrl).pipe(
+      tap(() => this.logout())
+    );
+  }
+
+  private saveSession(response: AuthResponse): void {
+    this.currentUser.set(response);
+    localStorage.setItem('auth_data', JSON.stringify(response));
   }
 }
