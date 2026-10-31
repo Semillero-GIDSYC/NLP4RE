@@ -6,11 +6,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { ChatService } from '../../core/services/chat.service';
 import { WebSocketService } from '../../core/services/websocket.service';
 import { ModelService } from '../../core/services/model.service';
+import { TypewriterComponent } from '../../shared/typewriter/typewriter.component';
 import { ConversationResponse, MessageResponse, WebSocketMessage } from '../../core/models/chat.model';
 
 @Component({
   selector: 'app-chat',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TypewriterComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
@@ -26,6 +27,15 @@ export class ChatComponent implements OnInit {
   readonly conversations = signal<ConversationResponse[]>([]);
   readonly activeConversation = signal<ConversationResponse | null>(null);
   readonly messages = signal<MessageResponse[]>([]);
+
+  readonly typingMessageId = signal<string | null>(null);
+  readonly typingElapsed = signal(0);
+  readonly typingSpeed = 10;
+  private typingTimer?: ReturnType<typeof setInterval>;
+  private followTyping = true;
+  private lastScrollTop = 0;
+  private readonly dimensions = ['VERIFIABILITY', 'ATOMICITY', 'AMBIGUITY', 'COMPLETENESS', 'TRACEABLE'];
+
   
   readonly inputValue = signal('');
   readonly isAnalyzing = signal(false);
@@ -62,7 +72,8 @@ export class ChatComponent implements OnInit {
     if (this.isAnalyzing()) return;
     this.activeConversation.set(conv);
     this.resetStreaming();
-    
+    this.stopTyping();
+
     this.chatService.getMessages(conv.id).subscribe({
       next: (data) => {
         this.messages.set(data);
@@ -78,6 +89,7 @@ export class ChatComponent implements OnInit {
     this.messages.set([]);
     this.resetStreaming();
     this.inputValue.set('');
+    this.stopTyping();
   }
 
   deleteConversation(event: Event, convId: string): void {
@@ -94,6 +106,56 @@ export class ChatComponent implements OnInit {
       error: (err) => console.error('Error al borrar conversacion', err)
     });
   }
+
+  typingDelay(aiData: any, kind: 'dim' | 'sug', index: number): number {
+    const texts: string[] = [
+      ...this.dimensions.map(d => aiData.evaluation[d]?.explanation ?? ''),
+      ...aiData.feedback.suggestions
+    ];
+    const position = kind === 'dim' ? index : this.dimensions.length + index;
+    const charsBefore = texts.slice(0, position).reduce((sum, t) => sum + t.length, 0);
+    return charsBefore * this.typingSpeed;
+  }
+
+  // Una tarjeta o sugerencia del mensaje que se está escribiendo solo aparece cuando le toca
+  isTypingVisible(msgId: string, aiData: any, kind: 'dim' | 'sug', index: number): boolean {
+    if (msgId !== this.typingMessageId()) return true;
+    return this.typingElapsed() >= this.typingDelay(aiData, kind, index);
+  }
+
+  private startTyping(msg: MessageResponse): void {
+    const aiData = this.parseJSONContent(msg.content);
+    if (!aiData?.evaluation || !aiData?.feedback) return;
+
+    this.stopTyping();
+    const total = this.typingDelay(aiData, 'sug', aiData.feedback.suggestions.length);
+    this.followTyping = true;
+    const start = Date.now();
+    this.typingMessageId.set(msg.id);
+    this.typingElapsed.set(0);
+    this.typingTimer = setInterval(() => {
+      const elapsed = Date.now() - start;
+      this.typingElapsed.set(elapsed);
+      // Solo baja si el usuario no subió a leer algo
+      if (this.followTyping) {
+        requestAnimationFrame(() => {
+          const el = this.scrollContainer.nativeElement;
+          el.scrollTop = el.scrollHeight;
+          this.lastScrollTop = el.scrollTop;
+        });
+      }
+      // Margen para que el último texto termine antes de pasar a mostrarlo estático
+      if (elapsed > total + 300) {
+        this.stopTyping();
+      }
+    }, 30);
+  }
+
+  private stopTyping(): void {
+    clearInterval(this.typingTimer);
+    this.typingMessageId.set(null);
+  }
+
 
   openConfigModal(): void {
     const keys = this.modelService.apiKeys();
@@ -251,6 +313,7 @@ export class ChatComponent implements OnInit {
                 this.messages.update(list => [...list, aiMsg]);
                 this.resetStreaming();
                 this.scrollToBottom();
+                this.startTyping(aiMsg);
               },
               error: (err) => console.error('Error al guardar respuesta IA', err)
             });
@@ -271,6 +334,17 @@ export class ChatComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  // Si el usuario sube, se deja de seguir el texto; si vuelve al final, se retoma
+  onChatScroll(): void {
+    const el = this.scrollContainer.nativeElement;
+    if (el.scrollTop < this.lastScrollTop) {
+      this.followTyping = false;
+    } else if (el.scrollHeight - el.scrollTop - el.clientHeight < 20) {
+      this.followTyping = true;
+    }
+    this.lastScrollTop = el.scrollTop;
   }
 
   private scrollToBottom(): void {
