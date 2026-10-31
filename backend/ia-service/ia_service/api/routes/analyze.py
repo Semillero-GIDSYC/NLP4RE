@@ -30,8 +30,8 @@ async def list_available_models():
     models = [
         # Familia Google Gemini
         ModelInfo(
-            id="gemini-2.5-flash",
-            name="Gemini 2.5 Flash",
+            id="gemini-3.5-flash-lite",
+            name="Gemini 3.5 Flash Lite",
             provider="gemini",
             description="Google - Rápido, preciso y multimodal (Recomendado)",
             is_local=False,
