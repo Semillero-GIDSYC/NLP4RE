@@ -12,6 +12,7 @@ from ia_service.schemas.schemas import (
 from ia_service.services.retriever.retriever_service import retrieve_context
 from ia_service.services.evaluation.evaluation_service import evaluate_requirement
 from ia_service.services.feedback.feedback_service import generate_feedback
+from ia_service.services.classifier.classifier_service import classify_message
 from ia_service.core.llm import get_llm
 from ia_service.core.config import get_settings
 
@@ -331,6 +332,16 @@ async def websocket_analyze(websocket: WebSocket):
             await websocket.close()
             return
 
+        # 0. Clasificar: ¿es un requisito o una conversación casual?
+        await websocket.send_json({"type": "status", "content": "Interpretando tu mensaje..."})
+        classification = await classify_message(
+            requirement_text, provider=provider, model=model, api_key=api_key, base_url=base_url
+        )
+        if not classification["is_requirement"]:
+            await websocket.send_json({"type": "chat_reply", "content": classification["reply"]})
+            await websocket.send_json({"type": "done"})
+            return
+
         # 1. Retrieve Context
         await websocket.send_json({"type": "status", "content": "Recuperando contexto normativo ISO 29148..."})
         context_docs = retrieve_context(requirement_text, k=3)
@@ -390,6 +401,17 @@ async def websocket_analyze(websocket: WebSocket):
         if not required_keys.issubset(evaluation.keys()):
             for key in (required_keys - evaluation.keys()):
                 evaluation[key] = {"score": 0, "explanation": "No evaluado."}
+
+        # 0. Clasificar: ¿es un requisito o una conversación casual?
+        await websocket.send_json({"type": "status", "content": "Interpretando tu mensaje..."})
+        classification = await classify_message(
+            requirement_text, provider=provider, model=model, api_key=api_key, base_url=base_url
+        )
+        if not classification["is_requirement"]:
+            await websocket.send_json({"type": "chat_reply", "content": classification["reply"]})
+            await websocket.send_json({"type": "done"})
+            return
+
 
         await websocket.send_json({"type": "evaluation_result", "content": evaluation})
 
