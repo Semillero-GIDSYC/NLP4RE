@@ -132,6 +132,7 @@
     <!-- Message Stream -->
     <div 
       #scrollContainer
+      (scroll)="onChatScroll()"
       class="flex-1 overflow-y-auto px-6 py-8 space-y-6"
     >
       @if (!activeConversation() && messages().length === 0 && !isAnalyzing()) {
@@ -178,31 +179,49 @@
                   <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
                     @for (dim of ['VERIFIABILITY', 'ATOMICITY', 'AMBIGUITY', 'COMPLETENESS', 'TRACEABLE']; track dim) {
                       @if (aiData.evaluation[dim]; as metric) {
-                        <div class="p-4 rounded-lg bg-white border border-slate-200 flex flex-col justify-between shadow-sm">
-                          <div>
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ dim === 'TRACEABLE' ? 'TRAZABILIDAD' : dim }}</span>
-                            <div class="flex items-baseline gap-1 mt-1">
-                              <span class="text-2xl font-bold text-blue-900">{{ metric.score }}</span>
-                              <span class="text-xs text-slate-400">/2</span>
+                        @if (isTypingVisible(msg.id, aiData, 'dim', $index)) {
+                          <div class="p-4 rounded-lg bg-white border border-slate-200 flex flex-col shadow-sm animate-fade-in">
+                            <div>
+                              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ dim === 'TRACEABLE' ? 'TRAZABILIDAD' : dim }}</span>
+                              <div class="flex items-baseline gap-1 mt-1">
+                                <span class="text-2xl font-bold text-blue-900">{{ metric.score }}</span>
+                                <span class="text-xs text-slate-400">/2</span>
+                              </div>
                             </div>
+                            <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
+                              @if (msg.id === typingMessageId()) {
+                                <app-typewriter [text]="metric.explanation" [speed]="typingSpeed" />
+                              } @else {
+                                {{ metric.explanation }}
+                              }
+                            </p>
                           </div>
-                          <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">{{ metric.explanation }}</p>
-                        </div>
+                        }
                       }
                     }
                   </div>
 
                   <!-- Feedback: Suggestions -->
-                  <div class="p-5 rounded-lg bg-white border border-slate-200 space-y-4 shadow-sm">
-                    <div>
-                      <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wider mb-2.5">Sugerencias de Mejora</h4>
-                      <ul class="list-disc pl-5 text-sm text-slate-700 space-y-2 leading-relaxed">
-                        @for (sug of aiData.feedback.suggestions; track sug) {
-                          <li>{{ sug }}</li>
-                        }
-                      </ul>
+                  @if (isTypingVisible(msg.id, aiData, 'sug', 0)) {
+                    <div class="p-5 rounded-lg bg-white border border-slate-200 space-y-4 shadow-sm animate-fade-in">
+                      <div>
+                        <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wider mb-2.5">Sugerencias de Mejora</h4>
+                        <ul class="list-disc pl-5 text-sm text-slate-700 space-y-2 leading-relaxed">
+                          @for (sug of aiData.feedback.suggestions; track sug) {
+                            @if (isTypingVisible(msg.id, aiData, 'sug', $index)) {
+                              <li>
+                                @if (msg.id === typingMessageId()) {
+                                  <app-typewriter [text]="sug" [speed]="typingSpeed" />
+                                } @else {
+                                  {{ sug }}
+                                }
+                              </li>
+                            }
+                          }
+                        </ul>
+                      </div>
                     </div>
-                  </div>
+                  }
                 </div>
               } @else {
                 <!-- Plain Text Fallback -->
@@ -230,38 +249,6 @@
               <span class="text-slate-300">|</span>
               <span class="text-slate-500 text-[11px]">{{ modelService.selectedModel().name }}</span>
             </div>
-
-            <!-- Streaming Dimension Scores (Populate live as tokens arrive) -->
-            @if (streamingEvaluation()) {
-              <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
-                @for (dim of ['VERIFIABILITY', 'ATOMICITY', 'AMBIGUITY', 'COMPLETENESS', 'TRACEABLE']; track dim) {
-                  @if (streamingEvaluation()[dim]; as metric) {
-                    <div class="p-4 rounded-lg bg-white border border-blue-100 flex flex-col justify-between shadow-sm animate-fade-in">
-                      <div>
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ dim === 'TRACEABLE' ? 'TRAZABILIDAD' : dim }}</span>
-                        <div class="flex items-baseline gap-1 mt-1">
-                          <span class="text-2xl font-bold text-blue-900">{{ metric.score }}</span>
-                          <span class="text-xs text-slate-400">/2</span>
-                        </div>
-                      </div>
-                      <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">{{ metric.explanation }}</p>
-                    </div>
-                  }
-                }
-              </div>
-            }
-
-            <!-- Streaming Suggestions List -->
-            @if (streamingSuggestions().length > 0) {
-              <div class="p-5 rounded-lg bg-white border border-slate-200 space-y-3 shadow-sm animate-fade-in">
-                <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wider">Sugerencias de Mejora (En progreso...)</h4>
-                <ul class="list-disc pl-5 text-sm text-slate-700 space-y-2 leading-relaxed">
-                  @for (sug of streamingSuggestions(); track sug) {
-                    <li>{{ sug }}</li>
-                  }
-                </ul>
-              </div>
-            }
 
           </div>
         </div>
