@@ -420,14 +420,11 @@ async def websocket_analyze(websocket: WebSocket):
             feedback = json.loads(cleaned_feedback)
         except Exception:
             feedback = {
-                "suggestions": ["Error de parseo del feedback en streaming."],
-                "improved_requirement": requirement_text
+                "suggestions": ["Error de parseo del feedback en streaming."]
             }
 
         if "suggestions" not in feedback:
             feedback["suggestions"] = ["Sugerencias no disponibles."]
-        if "improved_requirement" not in feedback:
-            feedback["improved_requirement"] = requirement_text
 
         await websocket.send_json({"type": "feedback_result", "content": feedback})
         await websocket.send_json({"type": "done"})

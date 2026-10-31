@@ -154,7 +154,7 @@
             </div>
             <div class="p-5 rounded-lg bg-white border border-slate-200 text-left hover:border-slate-300 transition-all shadow-sm">
               <span class="text-xs font-bold text-blue-900 uppercase tracking-wide">Propuesta Formal</span>
-              <p class="text-slate-600 text-sm mt-1">Sugerencias estructuradas y versiones mejoradas optimizadas.</p>
+              <p class="text-slate-600 text-sm mt-1">Sugerencias para que mejores tu requisito.</p>
             </div>
           </div>
         </div>
@@ -192,7 +192,7 @@
                     }
                   </div>
 
-                  <!-- Feedback: Suggestions and Improved Requirement -->
+                  <!-- Feedback: Suggestions -->
                   <div class="p-5 rounded-lg bg-white border border-slate-200 space-y-4 shadow-sm">
                     <div>
                       <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wider mb-2.5">Sugerencias de Mejora</h4>
@@ -201,13 +201,6 @@
                           <li>{{ sug }}</li>
                         }
                       </ul>
-                    </div>
-
-                    <div class="border-t border-slate-200 pt-4">
-                      <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wider mb-2.5">Requisito Optimizado Recomendado</h4>
-                      <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed whitespace-pre-wrap select-text">
-                        {{ aiData.feedback.improved_requirement }}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -267,19 +260,6 @@
                     <li>{{ sug }}</li>
                   }
                 </ul>
-              </div>
-            }
-
-            <!-- Real-Time Token-by-Token Streaming Improved Requirement -->
-            @if (streamingImprovedReq()) {
-              <div class="p-5 rounded-lg bg-white border border-blue-200 space-y-2.5 shadow-sm animate-fade-in">
-                <div class="flex items-center gap-2 text-xs font-bold text-blue-900 uppercase tracking-wider">
-                  <span class="inline-block w-2 h-2 rounded-full bg-blue-700 animate-pulse"></span>
-                  <span>Requisito Optimizado Recomendado (Generando en vivo)</span>
-                </div>
-                <div class="p-4 rounded-lg bg-slate-50 border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed whitespace-pre-wrap select-text">
-                  <span>{{ streamingImprovedReq() }}</span><span class="inline-block w-2 h-4 bg-blue-900 ml-1 animate-pulse align-middle"></span>
-                </div>
               </div>
             }
 
