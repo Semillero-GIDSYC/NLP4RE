@@ -83,7 +83,6 @@ class FeedbackResult(BaseModel):
     """Resultado del feedback / sugerencias de mejora."""
 
     suggestions: list[str] = Field(..., description="Lista de sugerencias concretas")
-    improved_requirement: str = Field(..., description="Versión mejorada del requisito")
 
 
 class ModelInfo(BaseModel):

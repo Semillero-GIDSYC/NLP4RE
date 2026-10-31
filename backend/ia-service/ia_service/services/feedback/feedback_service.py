@@ -27,7 +27,6 @@ Evaluación previa (JSON):
 INSTRUCCIONES:
 1. Analiza cada dimensión evaluada y las puntuaciones.
 2. Genera sugerencias específicas y concretas para mejorar el requisito.
-3. Escribe una versión mejorada y optimizada del requisito.
 
 Responde EXACTAMENTE con un JSON válido con esta estructura:
 {{
@@ -35,14 +34,13 @@ Responde EXACTAMENTE con un JSON válido con esta estructura:
     "<sugerencia específica 1>",
     "<sugerencia específica 2>",
     "<sugerencia específica 3>"
-  ],
-  "improved_requirement": "<versión reescrita y mejorada del requisito>"
+  ]
 }}
 
 REGLAS:
 - Las sugerencias deben ser concretas y accionables (no genéricas).
 - Para cada dimensión con score < 2, incluye al menos una sugerencia.
-- El requisito mejorado debe intentar lograr score 2 en todas las dimensiones.
+- NO reescribas el requisito ni entregues una versión corregida completa. Las sugerencias deben guiar al estudiante para que él mismo lo reescriba.
 - Si el requisito original tiene todos los scores en 2, sugiere mejoras menores o confirma su calidad.
 - Responde SOLO con el JSON, sin texto adicional, sin markdown, sin bloques de código.
 - Escribe en español."""
@@ -70,7 +68,7 @@ def generate_feedback(
         base_url: URL base personalizada (para modelos locales).
 
     Returns:
-        Diccionario con 'suggestions' (list[str]) e 'improved_requirement' (str).
+        Diccionario con 'suggestions' (list[str])
     """
 
     llm = get_llm(provider=provider, model=model, api_key=api_key, base_url=base_url)
@@ -98,9 +96,6 @@ def generate_feedback(
         if "suggestions" not in feedback:
             feedback["suggestions"] = ["No se generaron sugerencias específicas."]
 
-        if "improved_requirement" not in feedback:
-            feedback["improved_requirement"] = requirement_text
-
         # Asegurar que suggestions es una lista
         if isinstance(feedback["suggestions"], str):
             feedback["suggestions"] = [feedback["suggestions"]]
@@ -114,6 +109,5 @@ def generate_feedback(
             "suggestions": [
                 "Error generando feedback estructurado. Respuesta del LLM:",
                 raw_response[:500],
-            ],
-            "improved_requirement": requirement_text,
+            ]
         }

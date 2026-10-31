@@ -34,7 +34,6 @@ export class ChatComponent implements OnInit {
   // Real-time Token Streaming Signals
   readonly streamingEvaluation = signal<any>(null);
   readonly streamingFeedback = signal<any>(null);
-  readonly streamingImprovedReq = signal('');
   readonly streamingSuggestions = signal<string[]>([]);
 
   private accumulatedEval = '';
@@ -129,7 +128,6 @@ export class ChatComponent implements OnInit {
   private resetStreaming(): void {
     this.streamingEvaluation.set(null);
     this.streamingFeedback.set(null);
-    this.streamingImprovedReq.set('');
     this.streamingSuggestions.set([]);
     this.accumulatedEval = '';
     this.accumulatedFeedback = '';
@@ -200,14 +198,8 @@ export class ChatComponent implements OnInit {
               this.streamingEvaluation.set(msg.content);
               this.scrollToBottom();
             } else if (msg.type === 'feedback_chunk') {
-              // Parse token by token streaming for improved requirement and suggestions
+              // Parse token by token streaming for suggestions
               this.accumulatedFeedback += msg.content;
-              
-              // Extract improved requirement in real time (token by token!)
-              const impMatch = this.accumulatedFeedback.match(/"improved_requirement"\s*:\s*"([^"\\]*(?:\\.[^"\\]*)*)/);
-              if (impMatch) {
-                this.streamingImprovedReq.set(impMatch[1].replace(/\\"/g, '"').replace(/\\n/g, '\n'));
-              }
 
               // Extract suggestions in real time
               const suggMatch = this.accumulatedFeedback.match(/"suggestions"\s*:\s*\[([\s\S]*?)(\]|$)/);
@@ -224,9 +216,6 @@ export class ChatComponent implements OnInit {
               this.scrollToBottom();
             } else if (msg.type === 'feedback_result') {
               this.streamingFeedback.set(msg.content);
-              if (msg.content.improved_requirement) {
-                this.streamingImprovedReq.set(msg.content.improved_requirement);
-              }
               if (msg.content.suggestions) {
                 this.streamingSuggestions.set(msg.content.suggestions);
               }
@@ -244,8 +233,7 @@ export class ChatComponent implements OnInit {
 
             const evalObj = this.streamingEvaluation();
             const feedObj = this.streamingFeedback() || {
-              suggestions: this.streamingSuggestions().length > 0 ? this.streamingSuggestions() : ['Evaluación completada.'],
-              improved_requirement: this.streamingImprovedReq() || text
+              suggestions: this.streamingSuggestions().length > 0 ? this.streamingSuggestions() : ['Evaluación completada.']
             };
 
             let finalAIContent = '';
