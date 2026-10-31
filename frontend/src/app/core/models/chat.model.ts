@@ -28,6 +28,6 @@ export interface ApiKeysConfig {
 }
 
 export interface WebSocketMessage {
-  type: 'status' | 'context' | 'evaluation_chunk' | 'evaluation_result' | 'feedback_chunk' | 'feedback_result' | 'done' | 'error';
+  type: 'status' | 'context' | 'evaluation_chunk' | 'evaluation_result' | 'feedback_chunk' | 'feedback_result' | 'done' | 'error' | 'chat_reply';
   content: any;
 }

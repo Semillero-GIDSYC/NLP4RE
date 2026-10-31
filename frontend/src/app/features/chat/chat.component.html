@@ -226,7 +226,7 @@
               } @else {
                 <!-- Plain Text Fallback -->
                 <div class="max-w-2xl p-4 rounded-lg bg-white border border-slate-200 text-sm leading-relaxed text-slate-700 shadow-sm">
-                  <p class="whitespace-pre-wrap">{{ msg.content }}</p>
+                  <p class="whitespace-pre-wrap">@if (msg.id === typingMessageId()) {<app-typewriter [text]="msg.content" [speed]="typingSpeed" />} @else {{{ msg.content }}}</p>
                 </div>
               }
             }

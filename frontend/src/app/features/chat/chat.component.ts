@@ -45,6 +45,7 @@ export class ChatComponent implements OnInit {
   readonly streamingEvaluation = signal<any>(null);
   readonly streamingFeedback = signal<any>(null);
   readonly streamingSuggestions = signal<string[]>([]);
+  readonly chatReply = signal('');
 
   private accumulatedEval = '';
   private accumulatedFeedback = '';
@@ -125,10 +126,13 @@ export class ChatComponent implements OnInit {
 
   private startTyping(msg: MessageResponse): void {
     const aiData = this.parseJSONContent(msg.content);
-    if (!aiData?.evaluation || !aiData?.feedback) return;
+    const isEvaluation = aiData?.evaluation && aiData?.feedback;
 
     this.stopTyping();
-    const total = this.typingDelay(aiData, 'sug', aiData.feedback.suggestions.length);
+    // Una evaluación escribe tarjeta por tarjeta; una respuesta de texto plano se escribe completa
+    const total = isEvaluation
+      ? this.typingDelay(aiData, 'sug', aiData.feedback.suggestions.length)
+      : msg.content.length * this.typingSpeed;
     this.followTyping = true;
     const start = Date.now();
     this.typingMessageId.set(msg.id);
@@ -193,6 +197,7 @@ export class ChatComponent implements OnInit {
     this.streamingSuggestions.set([]);
     this.accumulatedEval = '';
     this.accumulatedFeedback = '';
+    this.chatReply.set('');
   }
 
   onSend(): void {
@@ -282,6 +287,8 @@ export class ChatComponent implements OnInit {
                 this.streamingSuggestions.set(msg.content.suggestions);
               }
               this.scrollToBottom();
+            } else if (msg.type === 'chat_reply') {
+              this.chatReply.set(msg.content);
             }
           },
           error: (err) => {
@@ -299,7 +306,9 @@ export class ChatComponent implements OnInit {
             };
 
             let finalAIContent = '';
-            if (evalObj && feedObj) {
+            if (this.chatReply()) {
+              finalAIContent = this.chatReply();
+            } else if (evalObj && feedObj) {
               finalAIContent = JSON.stringify({
                 evaluation: evalObj,
                 feedback: feedObj
