@@ -1,3 +1,6 @@
+import asyncio
+import json
+
 from fastapi import APIRouter, HTTPException, Query, WebSocket, WebSocketDisconnect
 
 from ia_service.schemas.schemas import (
@@ -13,6 +16,7 @@ from ia_service.services.retriever.retriever_service import retrieve_context
 from ia_service.services.evaluation.evaluation_service import evaluate_requirement
 from ia_service.services.feedback.feedback_service import generate_feedback
 from ia_service.services.classifier.classifier_service import classify_message
+from ia_service.services.cache.cache_service import build_cache_key, get_cached, save_cached, in_flight
 from ia_service.core.llm import get_llm
 from ia_service.core.config import get_settings
 
@@ -304,6 +308,140 @@ async def list_documents(
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
 
+async def _run_pipeline(
+    websocket: WebSocket,
+    requirement_text: str,
+    provider: str | None,
+    model: str | None,
+    api_key: str | None,
+    base_url: str | None,
+) -> tuple[dict, bool]:
+    """
+    Ejecuta el análisis completo: clasificar → contexto → evaluación → feedback.
+    Envía al cliente los mensajes de estado y los chunks del streaming, pero no el resultado final.
+
+    Returns:
+        (resultado, se_puede_cachear). No se cachea si hubo un error de parseo.
+    """
+    from ia_service.services.evaluation.evaluation_service import (
+        _build_evaluation_prompt,
+        _format_context,
+        _format_db_examples
+    )
+    from ia_service.services.retriever.retriever_service import retrieve_examples
+    from ia_service.services.feedback.feedback_service import _build_feedback_prompt
+    from langchain_core.output_parsers import StrOutputParser
+
+    parse_ok = True
+
+    # 0. Clasificar: ¿es un requisito o una conversación casual?
+    await websocket.send_json({"type": "status", "content": "Interpretando tu mensaje..."})
+    classification = await classify_message(
+        requirement_text, provider=provider, model=model, api_key=api_key, base_url=base_url
+    )
+    if not classification["is_requirement"]:
+        return {"type": "chat_reply", "reply": classification["reply"]}, True
+
+    # 1. Retrieve Context
+    await websocket.send_json({"type": "status", "content": "Recuperando contexto normativo ISO 29148..."})
+    context_docs = retrieve_context(requirement_text, k=3)
+    context_texts = [doc.page_content for doc in context_docs]
+
+    await websocket.send_json({
+        "type": "context",
+        "content": context_texts
+    })
+
+    # 2. Setup LLM and Evaluation Chain
+    await websocket.send_json({"type": "status", "content": "Evaluando calidad del requisito (en tiempo real)..."})
+
+    examples_list = retrieve_examples(requirement_text, k=4)
+    examples_str = _format_db_examples(examples_list)
+
+    llm = get_llm(provider=provider, model=model, api_key=api_key, base_url=base_url)
+    eval_prompt = _build_evaluation_prompt(examples_str)
+    context_str = _format_context(context_docs)
+
+    eval_chain = eval_prompt | llm | StrOutputParser()
+
+    raw_eval_response = ""
+    async for chunk in eval_chain.astream({
+        "context": context_str,
+        "requirement": requirement_text
+    }):
+        raw_eval_response += chunk
+        await websocket.send_json({"type": "evaluation_chunk", "content": chunk})
+
+    # Parse evaluation JSON
+    cleaned_eval = raw_eval_response.strip()
+    if cleaned_eval.startswith("```"):
+        cleaned_eval = cleaned_eval.split("\n", 1)[1] if "\n" in cleaned_eval else cleaned_eval
+        if cleaned_eval.endswith("```"):
+            cleaned_eval = cleaned_eval[:-3]
+        cleaned_eval = cleaned_eval.strip()
+
+    try:
+        evaluation = json.loads(cleaned_eval)
+    except Exception:
+        parse_ok = False
+        evaluation = {
+            dim: {"score": 0, "explanation": "Error de parseo de JSON en streaming. Usando fallback."}
+            for dim in ["VERIFIABILITY", "ATOMICITY", "AMBIGUITY", "COMPLETENESS", "TRACEABLE"]
+        }
+
+    required_keys = {"VERIFIABILITY", "ATOMICITY", "AMBIGUITY", "COMPLETENESS", "TRACEABLE"}
+    if not required_keys.issubset(evaluation.keys()):
+        parse_ok = False
+        for key in (required_keys - evaluation.keys()):
+            evaluation[key] = {"score": 0, "explanation": "No evaluado."}
+
+    # 3. Setup Feedback Chain
+    await websocket.send_json({"type": "status", "content": "Generando sugerencias..."})
+
+    feedback_prompt = _build_feedback_prompt()
+    feedback_chain = feedback_prompt | llm | StrOutputParser()
+
+    raw_feedback_response = ""
+    async for chunk in feedback_chain.astream({
+        "requirement": requirement_text,
+        "evaluation": json.dumps(evaluation, ensure_ascii=False, indent=2)
+    }):
+        raw_feedback_response += chunk
+        await websocket.send_json({"type": "feedback_chunk", "content": chunk})
+
+    # Parse feedback JSON
+    cleaned_feedback = raw_feedback_response.strip()
+    if cleaned_feedback.startswith("```"):
+        cleaned_feedback = cleaned_feedback.split("\n", 1)[1] if "\n" in cleaned_feedback else cleaned_feedback
+        if cleaned_feedback.endswith("```"):
+            cleaned_feedback = cleaned_feedback[:-3]
+        cleaned_feedback = cleaned_feedback.strip()
+
+    try:
+        feedback = json.loads(cleaned_feedback)
+    except Exception:
+        parse_ok = False
+        feedback = {
+            "suggestions": ["Error de parseo del feedback en streaming."]
+        }
+
+    if "suggestions" not in feedback:
+        parse_ok = False
+        feedback["suggestions"] = ["Sugerencias no disponibles."]
+
+    return {"type": "evaluation", "evaluation": evaluation, "feedback": feedback}, parse_ok
+
+
+async def _send_result(websocket: WebSocket, result: dict) -> None:
+    """Envía un resultado (nuevo, de la caché o de otro usuario) con los mismos mensajes de siempre."""
+    if result["type"] == "chat_reply":
+        await websocket.send_json({"type": "chat_reply", "content": result["reply"]})
+    else:
+        await websocket.send_json({"type": "evaluation_result", "content": result["evaluation"]})
+        await websocket.send_json({"type": "feedback_result", "content": result["feedback"]})
+    await websocket.send_json({"type": "done"})
+
+
 @router.websocket("/ws/analyze")
 async def websocket_analyze(websocket: WebSocket):
     await websocket.accept()
@@ -314,9 +452,8 @@ async def websocket_analyze(websocket: WebSocket):
         model = None
         api_key = None
         base_url = None
-        
+
         try:
-            import json
             js = json.loads(data)
             if isinstance(js, dict):
                 requirement_text = js.get("text", "").strip()
@@ -332,124 +469,40 @@ async def websocket_analyze(websocket: WebSocket):
             await websocket.close()
             return
 
-        # 0. Clasificar: ¿es un requisito o una conversación casual?
-        await websocket.send_json({"type": "status", "content": "Interpretando tu mensaje..."})
-        classification = await classify_message(
-            requirement_text, provider=provider, model=model, api_key=api_key, base_url=base_url
-        )
-        if not classification["is_requirement"]:
-            await websocket.send_json({"type": "chat_reply", "content": classification["reply"]})
-            await websocket.send_json({"type": "done"})
+        key = build_cache_key(requirement_text, provider, model)
+
+        # 1. ¿Ya está en caché?
+        cached = await get_cached(key)
+        if cached:
+            await _send_result(websocket, cached)
             return
 
-        # 1. Retrieve Context
-        await websocket.send_json({"type": "status", "content": "Recuperando contexto normativo ISO 29148..."})
-        context_docs = retrieve_context(requirement_text, k=3)
-        context_texts = [doc.page_content for doc in context_docs]
-        
-        await websocket.send_json({
-            "type": "context",
-            "content": context_texts
-        })
+        # 2. ¿Otro usuario lo está analizando ahora mismo? Esperar su resultado
+        pending = in_flight.get(key)
+        if pending:
+            await websocket.send_json({"type": "status", "content": "Analizando tu requisito..."})
+            result = await asyncio.shield(pending)
+            if result:
+                await _send_result(websocket, result)
+                return
+            # Si el otro análisis falló, se hace uno propio
 
-        # 2. Setup LLM and Evaluation Chain
-        from ia_service.services.evaluation.evaluation_service import (
-            _build_evaluation_prompt,
-            _format_context,
-            _format_db_examples
-        )
-        from ia_service.services.retriever.retriever_service import retrieve_examples
-        from langchain_core.output_parsers import StrOutputParser
-
-        await websocket.send_json({"type": "status", "content": "Evaluando calidad del requisito (en tiempo real)..."})
-        
-        examples_list = retrieve_examples(requirement_text, k=4)
-        examples_str = _format_db_examples(examples_list)
-        
-        llm = get_llm(provider=provider, model=model, api_key=api_key, base_url=base_url)
-        eval_prompt = _build_evaluation_prompt(examples_str)
-        context_str = _format_context(context_docs)
-        
-        eval_chain = eval_prompt | llm | StrOutputParser()
-        
-        raw_eval_response = ""
-        async for chunk in eval_chain.astream({
-            "context": context_str,
-            "requirement": requirement_text
-        }):
-            raw_eval_response += chunk
-            await websocket.send_json({"type": "evaluation_chunk", "content": chunk})
-
-        # Parse evaluation JSON
-        import json
-        cleaned_eval = raw_eval_response.strip()
-        if cleaned_eval.startswith("```"):
-            cleaned_eval = cleaned_eval.split("\n", 1)[1] if "\n" in cleaned_eval else cleaned_eval
-            if cleaned_eval.endswith("```"):
-                cleaned_eval = cleaned_eval[:-3]
-            cleaned_eval = cleaned_eval.strip()
-
+        # 3. Analizar y avisar a los que esperan
+        future = asyncio.get_running_loop().create_future()
+        in_flight[key] = future
+        result = None
         try:
-            evaluation = json.loads(cleaned_eval)
-        except Exception:
-            evaluation = {
-                dim: {"score": 0, "explanation": "Error de parseo de JSON en streaming. Usando fallback."}
-                for dim in ["VERIFIABILITY", "ATOMICITY", "AMBIGUITY", "COMPLETENESS", "TRACEABLE"]
-            }
+            result, cacheable = await _run_pipeline(
+                websocket, requirement_text, provider, model, api_key, base_url
+            )
+            if cacheable:
+                await save_cached(key, result)
+        finally:
+            in_flight.pop(key, None)
+            if not future.done():
+                future.set_result(result)
 
-        required_keys = {"VERIFIABILITY", "ATOMICITY", "AMBIGUITY", "COMPLETENESS", "TRACEABLE"}
-        if not required_keys.issubset(evaluation.keys()):
-            for key in (required_keys - evaluation.keys()):
-                evaluation[key] = {"score": 0, "explanation": "No evaluado."}
-
-        # 0. Clasificar: ¿es un requisito o una conversación casual?
-        await websocket.send_json({"type": "status", "content": "Interpretando tu mensaje..."})
-        classification = await classify_message(
-            requirement_text, provider=provider, model=model, api_key=api_key, base_url=base_url
-        )
-        if not classification["is_requirement"]:
-            await websocket.send_json({"type": "chat_reply", "content": classification["reply"]})
-            await websocket.send_json({"type": "done"})
-            return
-
-
-        await websocket.send_json({"type": "evaluation_result", "content": evaluation})
-
-        # 3. Setup Feedback Chain
-        await websocket.send_json({"type": "status", "content": "Generando sugerencias y version mejorada..."})
-        
-        from ia_service.services.feedback.feedback_service import _build_feedback_prompt
-        feedback_prompt = _build_feedback_prompt()
-        feedback_chain = feedback_prompt | llm | StrOutputParser()
-        
-        raw_feedback_response = ""
-        async for chunk in feedback_chain.astream({
-            "requirement": requirement_text,
-            "evaluation": json.dumps(evaluation, ensure_ascii=False, indent=2)
-        }):
-            raw_feedback_response += chunk
-            await websocket.send_json({"type": "feedback_chunk", "content": chunk})
-
-        # Parse feedback JSON
-        cleaned_feedback = raw_feedback_response.strip()
-        if cleaned_feedback.startswith("```"):
-            cleaned_feedback = cleaned_feedback.split("\n", 1)[1] if "\n" in cleaned_feedback else cleaned_feedback
-            if cleaned_feedback.endswith("```"):
-                cleaned_feedback = cleaned_feedback[:-3]
-            cleaned_feedback = cleaned_feedback.strip()
-
-        try:
-            feedback = json.loads(cleaned_feedback)
-        except Exception:
-            feedback = {
-                "suggestions": ["Error de parseo del feedback en streaming."]
-            }
-
-        if "suggestions" not in feedback:
-            feedback["suggestions"] = ["Sugerencias no disponibles."]
-
-        await websocket.send_json({"type": "feedback_result", "content": feedback})
-        await websocket.send_json({"type": "done"})
+        await _send_result(websocket, result)
 
     except WebSocketDisconnect:
         pass
@@ -463,4 +516,3 @@ async def websocket_analyze(websocket: WebSocket):
             await websocket.close()
         except Exception:
             pass
-
