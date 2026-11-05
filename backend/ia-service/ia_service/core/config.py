@@ -37,6 +37,8 @@ class Settings(BaseSettings):
 
     LLM_TEMPERATURE: float = 0.1
     RETRIEVER_K: int = 5
+    REDIS_URL: str = "redis://redis:6379/0"
+    CACHE_TTL_SECONDS: int = 86400
 
     DOCS_DIR: str = Field(default="/app/docs")
 
