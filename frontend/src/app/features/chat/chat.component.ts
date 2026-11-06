@@ -46,6 +46,7 @@ export class ChatComponent implements OnInit {
   readonly streamingFeedback = signal<any>(null);
   readonly streamingSuggestions = signal<string[]>([]);
   readonly chatReply = signal('');
+  readonly analysisError = signal('');
 
   private accumulatedEval = '';
   private accumulatedFeedback = '';
@@ -198,6 +199,7 @@ export class ChatComponent implements OnInit {
     this.accumulatedEval = '';
     this.accumulatedFeedback = '';
     this.chatReply.set('');
+    this.analysisError.set('');
   }
 
   onSend(): void {
@@ -289,6 +291,8 @@ export class ChatComponent implements OnInit {
               this.scrollToBottom();
             } else if (msg.type === 'chat_reply') {
               this.chatReply.set(msg.content);
+            } else if (msg.type === 'error') {
+              this.analysisError.set(msg.content);
             }
           },
           error: (err) => {
@@ -314,7 +318,7 @@ export class ChatComponent implements OnInit {
                 feedback: feedObj
               });
             } else {
-              finalAIContent = 'No se pudo completar el análisis del requisito.';
+              finalAIContent = this.analysisError() || 'No se pudo completar el análisis del requisito.';
             }
 
             this.chatService.addMessage(convId, 'AI', finalAIContent).subscribe({

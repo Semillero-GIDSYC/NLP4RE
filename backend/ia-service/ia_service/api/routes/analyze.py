@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 
 from fastapi import APIRouter, HTTPException, Query, WebSocket, WebSocketDisconnect
 
@@ -21,6 +22,7 @@ from ia_service.core.llm import get_llm
 from ia_service.core.config import get_settings
 
 router = APIRouter(tags=["Análisis"])
+logger = logging.getLogger(__name__)
 
 
 @router.get(
@@ -43,18 +45,10 @@ async def list_available_models():
             requires_key=True,
         ),
         ModelInfo(
-            id="gemini-2.5-pro",
-            name="Gemini 2.5 Pro",
+            id="gemini-3.1-flash-lite",
+            name="Gemini 3.1 Flash Lite",
             provider="gemini",
-            description="Google - Mayor profundidad analítica",
-            is_local=False,
-            requires_key=True,
-        ),
-        ModelInfo(
-            id="gemini-1.5-flash",
-            name="Gemini 1.5 Flash",
-            provider="gemini",
-            description="Google - Balance económico y veloz",
+            description="Google - Alternativa rápida y económica",
             is_local=False,
             requires_key=True,
         ),
@@ -156,7 +150,7 @@ async def list_available_models():
     description=(
         "Evalúa un requisito de software en 5 dimensiones (ISO 29148): "
         "verificabilidad, atomicidad, ambigüedad, completitud y trazabilidad. "
-        "Genera sugerencias de mejora y una versión optimizada del requisito."
+        "Genera sugerencias de mejora para que el estudiante reescriba el requisito."
     ),
 )
 async def analyze_requirement(request: AnalyzeRequest):
@@ -432,6 +426,24 @@ async def _run_pipeline(
     return {"type": "evaluation", "evaluation": evaluation, "feedback": feedback}, parse_ok
 
 
+def _friendly_error(error: Exception) -> str:
+    """
+    Traduce errores conocidos a un mensaje para el usuario.
+    El detalle técnico no se envía porque puede incluir configuración interna (como la API key);
+    queda en los logs del contenedor.
+    """
+    text = str(error).lower()
+    if "api key" in text or "api_key" in text or "permission_denied" in text or "401" in text:
+        return "La clave API no está configurada o no es válida. Revisa la configuración de Claves API."
+    if "404" in text or "not found" in text:
+        return "El modelo seleccionado no está disponible. Elige otro modelo en el selector."
+    if "429" in text or "resource_exhausted" in text or "quota" in text:
+        return "Se superó el límite de peticiones del proveedor. Intenta de nuevo en un minuto."
+    if "503" in text or "unavailable" in text or "high demand" in text:
+        return "El modelo está saturado en este momento. Intenta de nuevo en unos segundos o elige otro modelo."
+    return "Ocurrió un error inesperado al analizar el requisito. Intenta de nuevo."
+
+
 async def _send_result(websocket: WebSocket, result: dict) -> None:
     """Envía un resultado (nuevo, de la caché o de otro usuario) con los mismos mensajes de siempre."""
     if result["type"] == "chat_reply":
@@ -507,8 +519,9 @@ async def websocket_analyze(websocket: WebSocket):
     except WebSocketDisconnect:
         pass
     except Exception as e:
+        logger.exception("Error en /ws/analyze")
         try:
-            await websocket.send_json({"type": "error", "content": f"Error en procesamiento: {str(e)}"})
+            await websocket.send_json({"type": "error", "content": _friendly_error(e)})
         except Exception:
             pass
     finally:
