@@ -1,6 +1,6 @@
 pandas
 ipykernel
-dotenv
+python-dotenv
 sqlalchemy
 matplotlib
 seaborn

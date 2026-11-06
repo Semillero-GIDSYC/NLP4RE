@@ -60,7 +60,7 @@ def get_llm(
         from langchain_google_genai import ChatGoogleGenerativeAI
 
         key = api_key or settings.GOOGLE_API_KEY or os.environ.get("GOOGLE_API_KEY", "")
-        m = model or settings.GEMINI_MODEL or "gemini-2.5-flash"
+        m = model or settings.GEMINI_MODEL or "gemini-3.5-flash-lite"
         # Limpiar prefijo 'models/' si está presente para compatibilidad con google-genai
         if m.startswith("models/"):
             m = m.replace("models/", "")
