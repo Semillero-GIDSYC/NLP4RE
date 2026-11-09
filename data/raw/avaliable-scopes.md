@@ -15,7 +15,6 @@
 - erp
 - iot
 - cybersecurity
-- banking
 - insurance
 - streaming
 - games

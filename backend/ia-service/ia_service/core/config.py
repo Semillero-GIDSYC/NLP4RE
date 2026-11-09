@@ -18,13 +18,13 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str = "localhost"
     DB_RAG_PORT: int = 5432
     DB_RAG_USER: str = "admin"
-    DB_USERS_PASSWORD: str = "secretpassword"
+    DB_RAG_PASSWORD: str = "secretpassword"
     DB_RAG: str = "requirements_db"
 
     LLM_PROVIDER: str = "local" # For embeddings
     GENERATION_LLM_PROVIDER: str = "gemini" # For generation tasks
     GOOGLE_API_KEY: str = ""
-    GEMINI_MODEL: str = "models/gemini-2.5-flash"
+    GEMINI_MODEL: str = "gemini-3.5-flash-lite"
     GEMINI_EMBEDDING_MODEL: str = "models/gemini-embedding-001"
 
     OPENAI_API_KEY: str = ""
@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     def database_url(self) -> str:
         """URL de conexión a PostgreSQL."""
         return (
-            f"postgresql+psycopg2://{self.DB_RAG_USER}:{self.DB_USERS_PASSWORD}"
+            f"postgresql+psycopg2://{self.DB_RAG_USER}:{self.DB_RAG_PASSWORD}"
             f"@{self.POSTGRES_HOST}:{self.DB_RAG_PORT}/{self.DB_RAG}"
         )
 
@@ -54,7 +54,7 @@ class Settings(BaseSettings):
     def async_database_url(self) -> str:
         """URL de conexión async (para futuro uso)."""
         return (
-            f"postgresql+asyncpg://{self.DB_RAG_USER}:{self.DB_USERS_PASSWORD}"
+            f"postgresql+asyncpg://{self.DB_RAG_USER}:{self.DB_RAG_PASSWORD}"
             f"@{self.POSTGRES_HOST}:{self.DB_RAG_PORT}/{self.DB_RAG}"
         )
 
